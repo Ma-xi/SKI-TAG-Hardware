@@ -191,7 +191,7 @@ p, ul, ol { margin: 0; }
 @media (max-width: 820px) {
   /* Handy: Titel zuerst, dann Schriftfeld, dann Zeichnung (wie auf der Startseite) */
   .kopf, .kap-titel { display: contents; }
-  .marke { order: -4; }
+  .leiste { order: -4; }
   .kap-titel > div { order: -3; margin-top: -20px; }
   .schriftfeld { order: -2; justify-self: start; margin-top: -20px; }
   .zeichnung { order: -1; margin-top: -20px; }
@@ -233,3 +233,9 @@ code { font-family: var(--mono); font-size: .88em; overflow-wrap: anywhere; }
 .rechnung { padding: 12px 16px 12px 2.4em; display: grid; gap: 6px; background: var(--karte); border: 1px solid var(--linie); border-left: 3px solid var(--signal); }
 .rechnung li { padding-left: 4px; }
 .rechnung li::marker { font-family: var(--mono); color: var(--signal-tinte); }
+
+/* Ansicht-Schalter */
+.leiste { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; }
+.thema { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--tinte-2); background: var(--karte); border: 1px solid var(--linie); border-radius: 2px; padding: 4px 10px; cursor: pointer; }
+.thema:hover { border-color: var(--tinte); color: var(--tinte); }
+.thema:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
