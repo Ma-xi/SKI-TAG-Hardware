@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kapitel 1 · Der Chip in einer Minute · SkiTag Werkstattbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="werkbank.css">
+
+<div class="blatt">
+
+  <div class="kopf">
+    <a class="marke mono" href="index.html">
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="5" fill="var(--signal)"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#fff" stroke-width="2"/></svg>
+      SkiTag · Hardware-Buch
+    </a>
+    <div class="schriftfeld" aria-label="Angaben zu diesem Blatt">
+      <div>Blatt</div><div>01 · Der Chip in einer Minute</div>
+      <div>Bereich</div><div>Grundlagen</div>
+      <div>Verfasser</div><div>Maximilian Joszt</div>
+      <div>Stand</div><div>02.11.2026</div>
+    </div>
+  </div>
+
+  <div class="kap-titel">
+    <div>
+      <p class="kap-nr">KAP. 01 · GRUNDLAGEN</p>
+      <h1>Der Chip in einer Minute</h1>
+      <p class="einstieg">Was der SkiTag-Chip kann, erzählt an einem Skitag mit vier Freunden. Technik kommt hier fast keine vor, die steht in den späteren Kapiteln.</p>
+      <p class="lesezeit mono">Eilig? Die Kurzfassung steht unten unter <a href="#ergebnis">„Das Ergebnis“</a>.</p>
+    </div>
+
+    <figure class="zeichnung">
+      <svg viewBox="0 0 460 400" role="img" aria-labelledby="zt zd">
+        <title id="zt">Explosionszeichnung des Chips, Knopf und LED hervorgehoben</title>
+        <desc id="zd">Die Schichten des Chips von oben nach unten. Orange sind der Knopf mit Kragen und die LED im Deckel, also die Teile, die man von außen bedient und sieht.</desc>
+        <line class="z-hilfe" x1="150" y1="18" x2="150" y2="372"/>
+
+        <rect class="z-weich" x="122" y="26" width="56" height="10" rx="5"/>
+        <rect class="z-signal" x="136" y="14" width="28" height="16" rx="4"/>
+        <path class="z-linie" d="M182 22 H 300"/>
+        <text class="z-nr aktiv" x="306" y="18">KAP. 11</text>
+        <text class="z-text" x="306" y="31">Knopf und Kragen</text>
+
+        <path class="z-flaeche" d="M48 66 H252 a10 10 0 0 1 10 10 V82 H38 V76 a10 10 0 0 1 10 -10 Z"/>
+        <rect class="z-flaeche" x="134" y="58" width="16" height="10" rx="2"/>
+        <circle cx="210" cy="74" r="5" fill="var(--signal)" stroke="var(--tinte)" stroke-width="1.2"/>
+        <path class="z-linie" d="M262 74 H 300"/>
+        <text class="z-nr aktiv" x="306" y="70">KAP. 12, 15</text>
+        <text class="z-text" x="306" y="83">Deckel mit LED</text>
+
+        <g class="z-blass">
+          <rect class="z-flaeche" x="56" y="118" width="188" height="8" rx="1"/>
+          <rect class="z-modul" x="66" y="104" width="54" height="14"/>
+          <rect class="z-modul" x="130" y="98" width="46" height="20"/>
+          <rect class="z-modul" x="186" y="108" width="22" height="10"/>
+          <rect class="z-modul" x="214" y="108" width="22" height="10"/>
+          <text class="z-klein" x="70" y="114">RAK</text>
+          <text class="z-klein" x="140" y="112">GPS</text>
+          <path class="z-linie" d="M244 116 H 300"/>
+          <text class="z-nr" x="306" y="112">KAP. 4–8</text>
+          <text class="z-text" x="306" y="125">Platine mit Modulen</text>
+
+          <rect class="z-modul" x="70" y="160" width="40" height="12"/>
+          <rect class="z-modul" x="196" y="158" width="38" height="14" rx="7"/>
+          <path class="z-linie" d="M234 165 H 300"/>
+          <text class="z-nr" x="306" y="161">KAP. 10, 12</text>
+          <text class="z-text" x="306" y="174">Lade-Modul, Motor</text>
+
+          <rect class="z-flaeche" x="62" y="204" width="176" height="18" rx="3"/>
+          <text class="z-klein" x="122" y="217">LiPo 1000 mAh</text>
+          <path class="z-linie" d="M238 213 H 300"/>
+          <text class="z-nr" x="306" y="209">KAP. 9</text>
+          <text class="z-text" x="306" y="222">Akku</text>
+
+          <rect class="z-flaeche" x="78" y="254" width="144" height="10" rx="2"/>
+          <ellipse cx="150" cy="259" rx="44" ry="3" fill="none" stroke="var(--tinte-3)" stroke-width="1.2"/>
+          <path class="z-linie" d="M222 259 H 300"/>
+          <text class="z-nr" x="306" y="255">KAP. 10</text>
+          <text class="z-text" x="306" y="268">Qi-Empfänger</text>
+
+          <path class="z-flaeche" d="M38 296 H262 V330 a12 12 0 0 1 -12 12 H50 a12 12 0 0 1 -12 -12 Z"/>
+          <path class="z-linie" d="M262 318 H 300"/>
+          <text class="z-nr" x="306" y="314">KAP. 15</text>
+          <text class="z-text" x="306" y="327">Unterteil und Hülle</text>
+        </g>
+
+        <path class="z-hilfe" d="M38 372 H262"/>
+        <path class="z-linie" d="M38 366 V378 M262 366 V378"/>
+        <text class="z-klein" x="118" y="392">120 mm mit Hülle</text>
+      </svg>
+      <figcaption><span>Orange: was du von außen bedienst und siehst</span><span>nicht maßstäblich</span></figcaption>
+    </figure>
+  </div>
+
+  <section class="abschnitt" aria-labelledby="h-szene">
+    <header>
+      <span class="mono">EINE SZENE AM HANG</span>
+      <h2 id="h-szene">Ein Skitag mit SkiTag</h2>
+    </header>
+    <div class="text">
+      <p>Mia, Ben, Lena und Jonas fahren einen Tag zusammen Ski. Jeder von ihnen hat einen SkiTag-Chip. So läuft der Tag ab, und das zeigt der Chip dabei.</p>
+    </div>
+    <ol class="szene">
+      <li>
+        <span class="zeit">08:45</span>
+        <div>
+          <h3>Chip abholen</h3>
+          <p>Beim Verleih bekommt jeder einen Chip. Wo man ihn trägt, entscheidet jeder selbst, zum Beispiel in der Skipass-Tasche am Ärmel. Vorher machen die vier aus: Wenn jemand die Gruppe ruft, treffen sich alle an der nächsten Liftstation.</p>
+          <dl class="chip-zeigt">
+            <dt>LED</dt><dd>alle 4 Sekunden kurz grün: alles in Ordnung</dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <span class="zeit">11:30</span>
+        <div>
+          <h3>Gruppe rufen</h3>
+          <p>Ben ist zu weit vorgefahren und sieht die anderen nicht mehr. Mia drückt einmal kurz auf den Knopf.</p>
+          <dl class="chip-zeigt">
+            <dt>BEI MIA</dt><dd>LED 3 Sekunden grün und ein kurzes Brummen: der Ruf ist unterwegs</dd>
+            <dt>BEI DEN ANDEREN</dt><dd>3-mal lang vibrieren, LED gelb</dd>
+          </dl>
+          <p>Bis der Ruf bei den anderen ankommt, kann es bis zu 20 Sekunden dauern. Warum, steht in Kapitel&nbsp;13. <span class="stempel s-entschieden">Entschieden</span></p>
+        </div>
+      </li>
+      <li>
+        <span class="zeit">12:45</span>
+        <div>
+          <h3>Zu weit weg</h3>
+          <p>Lena hat in der SkiTag-App den Reichweiten-Alarm eingeschaltet und einen Radius eingestellt: wie weit sich die anderen von ihr entfernen dürfen. Jonas fährt allein eine andere Abfahrt und ist auf einmal zu weit weg.</p>
+          <dl class="chip-zeigt">
+            <dt>BEI LENA</dt><dd>3-mal lang vibrieren, LED gelb, genau wie bei einem Gruppenruf</dd>
+            <dt>BEI DEN ANDEREN</dt><dd>nichts, weil nur Lena den Alarm eingeschaltet hat</dd>
+          </dl>
+          <p>Den Alarm bekommt nur, wer ihn selbst eingeschaltet hat. Typisch ist das für Familien: Der Vater schaltet ihn ein, und wenn das Kind zu weit wegfährt, vibriert sein Chip. Die Mutter bekommt den Alarm nur, wenn sie ihn auch eingeschaltet hat.</p>
+          <p>Der Reichweiten-Alarm soll nur aufmerksam machen. Lena kann dann zum Beispiel die Gruppe rufen. Wie man den Radius einstellt, steht im <a href="https://tobiass3.github.io/SKI-TAG/">Projekt-Buch von Tobias Strobl</a>.</p>
+        </div>
+      </li>
+      <li class="notruf">
+        <span class="zeit">14:10</span>
+        <div>
+          <h3>Notruf</h3>
+          <p>Jonas stürzt neben der Piste und kommt nicht mehr hoch. Das Handy ist leer. Jonas hält den Knopf gedrückt.</p>
+          <dl class="chip-zeigt">
+            <dt>0 BIS 3 S</dt><dd>jede Sekunde kurz brummen</dd>
+            <dt>3 BIS 8 S</dt><dd>LED blinkt rot und der Chip vibriert. Ein Druck auf den Knopf bricht jetzt ab, dann wird nichts gesendet.</dd>
+            <dt>DANACH</dt><dd>Der Notruf ist gesendet, mit der Position von Jonas. Die LED leuchtet rot.</dd>
+          </dl>
+          <p>Die 5 Sekunden zum Abbrechen gibt es, damit kein Notruf rausgeht, nur weil jemand im Lift aus Versehen auf den Knopf drückt. <span class="stempel s-entschieden">Entschieden</span></p>
+        </div>
+      </li>
+      <li class="notruf">
+        <span class="zeit">14:11</span>
+        <div>
+          <h3>Hilfe kommt</h3>
+          <p>Der Notruf geht mit der Position an den Mitarbeiter der Bergbahn, der Jonas am nächsten ist. Nimmt der nicht innerhalb von 60 Sekunden an, geht der Notruf an den nächsten. Wer ihn annimmt, fährt hin oder schickt die Pistenrettung los.</p>
+          <dl class="chip-zeigt">
+            <dt>BEI JONAS</dt><dd>LED blinkt rot, 2-mal lang vibrieren: Hilfe ist unterwegs</dd>
+          </dl>
+          <p>Kommt der Notruf nicht an, merkt Jonas das auch: Nach 90 Sekunden ohne Bestätigung blinkt die LED doppelt rot, und der Chip vibriert jede Minute 3-mal kurz. Dann heißt es selbst die Bergrettung rufen, Notruf <strong>140</strong>, zum Beispiel mit dem Handy eines anderen Skifahrers.</p>
+        </div>
+      </li>
+      <li>
+        <span class="zeit">16:30</span>
+        <div>
+          <h3>Chip zurückgeben</h3>
+          <p>Am Abend geben alle ihre Chips zurück. Zum Laden kommen sie in die Ladebox. Dort laden sie ohne Kabel und vibrieren nie.</p>
+          <dl class="chip-zeigt">
+            <dt>LED</dt><dd>grün blinkt langsam: lädt · grün: voll · rot: Fehler</dd>
+          </dl>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-knopf">
+    <header>
+      <span class="mono">BEDIENUNG</span>
+      <h2 id="h-knopf">Ein Knopf für alles</h2>
+    </header>
+    <div class="text">
+      <p>Der Chip hat keinen Bildschirm und kein Menü. Es gibt einen Knopf, eine LED und einen kleinen Motor, der vibriert. Mehr muss man sich nicht merken:</p>
+    </div>
+    <div class="bedienung">
+      <div class="bedien-karte">
+        <span class="wie">KURZ DRÜCKEN</span>
+        <h3>Gruppe rufen</h3>
+        <p>Die anderen Chips der Gruppe vibrieren 3-mal lang und leuchten gelb.</p>
+      </div>
+      <div class="bedien-karte notruf">
+        <span class="wie">3 SEKUNDEN HALTEN</span>
+        <h3>Notruf</h3>
+        <p>Danach bleiben 5 Sekunden zum Abbrechen. Ein gesendeter Notruf lässt sich am Chip nicht mehr zurücknehmen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-weg">
+    <header>
+      <span class="mono">OHNE HANDY</span>
+      <h2 id="h-weg">Wie der Notruf zur Bergbahn kommt</h2>
+    </header>
+    <figure class="weg">
+      <svg viewBox="0 0 640 150" role="img" aria-labelledby="wt wd">
+        <title id="wt">Weg eines Notrufs</title>
+        <desc id="wd">Der Chip funkt per LoRa zu einem Empfänger am Berg. Der Empfänger schickt die Nachricht über das Internet zum Server. Der Server zeigt den Notruf der Bergbahn.</desc>
+        <rect class="z-signal" x="10" y="45" width="96" height="56" rx="10"/>
+        <text x="58" y="78" text-anchor="middle" style="font-family:var(--mono);font-size:13px;fill:#fff">Chip</text>
+        <path class="z-linie" d="M112 73 H 214" stroke-dasharray="6 5"/>
+        <path class="z-linie" d="M206 67 L216 73 L206 79"/>
+        <text class="z-text" x="163" y="62" text-anchor="middle">Funk (LoRa)</text>
+        <rect class="z-flaeche" x="222" y="45" width="116" height="56" rx="4"/>
+        <text class="z-text" x="280" y="70" text-anchor="middle">Empfänger</text>
+        <text class="z-klein" x="280" y="86" text-anchor="middle">am Berg</text>
+        <path class="z-linie" d="M344 73 H 410"/>
+        <path class="z-linie" d="M402 67 L412 73 L402 79"/>
+        <text class="z-text" x="377" y="62" text-anchor="middle">Internet</text>
+        <rect class="z-flaeche" x="418" y="45" width="90" height="56" rx="4"/>
+        <text class="z-text" x="463" y="78" text-anchor="middle">Server</text>
+        <path class="z-linie" d="M514 73 H 538"/>
+        <path class="z-linie" d="M530 67 L540 73 L530 79"/>
+        <rect class="z-flaeche" x="546" y="45" width="84" height="56" rx="4"/>
+        <text class="z-text" x="588" y="78" text-anchor="middle">Bergbahn</text>
+        <text class="z-klein" x="58" y="125" text-anchor="middle">dieses Buch</text>
+        <path class="z-hilfe" d="M222 120 H 630"/>
+        <text class="z-klein" x="426" y="140" text-anchor="middle">Netzwerk-Buch von Lukas Eder</text>
+      </svg>
+      <figcaption>Der Chip braucht kein Handy und kein Handynetz. Empfänger und Server baut Lukas, dieses Buch beschreibt nur den Chip.</figcaption>
+    </figure>
+    <div class="text">
+      <p>Der Chip funkt mit <span class="wort">LoRa</span>. Das ist eine Funkart, die mit wenig Strom mehrere Kilometer weit kommt. Dafür passen nur kleine Nachrichten durch: Eine Meldung vom Chip ist 27 Byte groß. Das ist so viel Platz wie für 27 Buchstaben. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p>Seine Position kennt der Chip über <span class="wort">GPS</span>: Ein kleiner Empfänger im Chip hört die Signale von Satelliten und berechnet daraus, wo er gerade ist. Alle 20 Sekunden schickt der Chip seine Position mit, auch ohne Notruf. So weiß die Bergbahn bei einem Notruf sofort, wo sie suchen muss. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p>Wie weit der Funk am Berg wirklich kommt, zwischen Bäumen und hinter Kuppen, wissen wir erst nach dem Testtag. <span class="stempel s-offen">Offen</span></p>
+      <p>Wie Empfänger und Server funktionieren, steht im <a href="https://lukcoderc.github.io/SKI-TAG/">Netzwerk-Buch von Lukas Eder</a>.</p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-nicht">
+    <header>
+      <span class="mono">GRENZEN</span>
+      <h2 id="h-nicht">Was der Chip nicht kann</h2>
+    </header>
+    <div class="text">
+      <ul>
+        <li><strong>Er ist kein Telefon.</strong> Man kann damit weder sprechen noch Nachrichten schreiben. Er schickt nur „Gruppe rufen“, „Notruf“ und seine Position.</li>
+        <li><strong>Er ist kein Lawinen-Suchgerät.</strong> Wer abseits der Piste fährt, braucht trotzdem LVS, Schaufel und Sonde. Ob das Funksignal des Chips durch Schnee kommt, ist nicht getestet. <span class="stempel s-offen">Offen</span></li>
+        <li><strong>Auf einen Gruppenruf kann man nicht antworten.</strong> Eine Antwort-Funktion war geplant und ist gestrichen. Deshalb macht die Gruppe vorher einen Treffpunkt aus. <span class="stempel s-entschieden">Entschieden</span></li>
+        <li><strong>Ein gesendeter Notruf bleibt gesendet.</strong> Beenden kann ihn nur die Bergbahn.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-steckbrief">
+    <header>
+      <span class="mono">STECKBRIEF</span>
+      <h2 id="h-steckbrief">Der Prototyp in Zahlen</h2>
+    </header>
+    <div class="text">
+      <p>Ein <span class="wort">Prototyp</span> ist ein erstes Versuchsstück: gebaut, um zu testen, ob die Idee funktioniert, und noch nicht so klein und günstig wie ein fertiges Gerät. Für den Testtag im Februar oder März 2027 bauen wir 5 Stück.</p>
+    </div>
+    <table class="steckbrief">
+      <tr><th>Größe</th><td>120 × 60 × 32 mm mit Hülle, etwa so groß wie ein kleines Handy, aber dicker</td><td><span class="stempel s-entschieden">Entschieden</span></td></tr>
+      <tr><th>Gehäuse</th><td>harter Kunststoff (PETG oder ASA) in Signal-Orange, darüber eine weiche Hülle</td><td><span class="stempel s-entschieden">Entschieden</span></td></tr>
+      <tr><th>Akku</th><td>Lithium-Akku mit 1000 mAh</td><td><span class="stempel s-entschieden">Entschieden</span></td></tr>
+      <tr><th>Laden</th><td>ohne Kabel in der Ladebox mit 6 Plätzen. Die Technik heißt <span class="wort">Qi</span> (gesprochen „tschi“) und steckt auch in vielen Handys.</td><td><span class="stempel s-entschieden">Entschieden</span></td></tr>
+      <tr><th>Funk</th><td>LoRa auf 869,525 MHz</td><td><span class="stempel s-entschieden">Entschieden</span></td></tr>
+      <tr><th>Position</th><td>GPS</td><td><span class="stempel s-entschieden">Entschieden</span></td></tr>
+      <tr><th>Laufzeit</th><td>noch nicht berechnet, siehe Kapitel 9</td><td><span class="stempel s-offen">Offen</span></td></tr>
+      <tr><th>Gewicht</th><td>noch nicht gewogen</td><td><span class="stempel s-offen">Offen</span></td></tr>
+      <tr><th>Teile pro Chip</th><td>etwa 105 bis 112 €</td><td><span class="stempel s-geschaetzt">Geschätzt</span></td></tr>
+    </table>
+  </section>
+
+  <section class="abschnitt" id="ergebnis" aria-labelledby="h-ergebnis">
+    <header>
+      <span class="mono">KURZFASSUNG</span>
+      <h2 id="h-ergebnis">Das Ergebnis</h2>
+    </header>
+    <div class="ergebnis">
+      <ul>
+        <li>Der SkiTag-Chip ist ein Mietgerät mit einem einzigen Knopf. Wo man ihn trägt, entscheidet jeder selbst.</li>
+        <li>Kurz drücken ruft die eigene Gruppe. 3 Sekunden halten schickt einen Notruf mit Position an die Bergbahn, mit 5 Sekunden zum Abbrechen.</li>
+        <li>Wer den Reichweiten-Alarm einschaltet, spürt eine Vibration, wenn sich jemand aus der Gruppe weiter entfernt als eingestellt.</li>
+        <li>Der Chip braucht kein Handy und kein Handynetz. Er funkt über LoRa zu Empfängern am Berg.</li>
+        <li>Kommt ein Notruf nicht an, warnt der Chip nach 90 Sekunden. Dann selbst 140 rufen.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-offen">
+    <header>
+      <span class="mono">NOCH NICHT GEKLÄRT</span>
+      <h2 id="h-offen">Was noch offen ist</h2>
+    </header>
+    <ul class="offen-liste">
+      <li><strong>Laufzeit bei Kälte.</strong> Wie lange der Akku bei Minusgraden hält, kommt in Kapitel 9.</li>
+      <li><strong>Reichweite am Berg.</strong> Wie weit der Funk zwischen Bäumen und hinter Kuppen kommt, zeigt erst der Testtag.</li>
+      <li><strong>Funk durch Schnee.</strong> Ob ein Chip unter Schnee noch empfangen wird, ist nicht getestet.</li>
+      <li><strong>Warnung, wenn die Bergbahn nichts sieht.</strong> Der Server bestätigt einen Notruf, sobald er ihn hat. Fällt danach beim Server das Internet aus, sieht die Bergbahn den Notruf nicht, und der Chip warnt trotzdem nicht. Vorschlag: Der Chip warnt auch, wenn nach etwa 3 Minuten niemand den Notruf angenommen hat. Noch nicht entschieden.</li>
+    </ul>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-quellen">
+    <header>
+      <span class="mono">NACHWEISE</span>
+      <h2 id="h-quellen">Quellen</h2>
+    </header>
+    <ol class="quellen">
+      <li>Chip-Firmware, Dateien <code>config.h</code> und <code>skitag_chip.ino</code> im Projektordner <code>material/firmware/skitag_chip</code>: Zeiten (3 s, 5 s, 90 s, 20 s), Funkfrequenz, Verhalten von LED und Vibration.</li>
+      <li>Gehäusemodell <code>material/scad/chip_gehaeuse.scad</code>: Maße und Material.</li>
+      <li>Tobias Strobl: <a href="https://tobiass3.github.io/SKI-TAG/">SkiTag Projekt-Buch</a>, für die App und den Reichweiten-Alarm.</li>
+      <li>Lukas Eder: <a href="https://lukcoderc.github.io/SKI-TAG/">SkiTag Netzwerk-Buch</a>, für Empfänger, Server und die Bestätigung von Notrufen.</li>
+      <li>Alpinnotruf 140 in Österreich: <a href="https://www.bergrettung.at/">Österreichischer Bergrettungsdienst</a>.</li>
+    </ol>
+  </section>
+
+  <nav class="blaettern" aria-label="Blättern">
+    <a href="index.html"><span class="mono">ZURÜCK</span><strong>Startseite</strong></a>
+    <a class="weiter" href="kapitel-02.html"><span class="mono">WEITER</span><strong>02 Anforderungen</strong></a>
+  </nav>
+
+  <footer class="fuss">
+    <span>SkiTag · Werkstattbuch · Blatt 01</span>
+    <span>HTL Braunau · 2026</span>
+  </footer>
+</div>

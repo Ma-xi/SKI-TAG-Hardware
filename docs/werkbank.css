@@ -1,0 +1,235 @@
+/* Werkbank: gemeinsame Stile für alle Kapitel. Tokens identisch mit docs/index.html. */
+:root {
+  --papier: #f1eee7;
+  --raster: #e3ded3;
+  --raster-fein: #ebe7de;
+  --karte: #faf8f4;
+  --tinte: #23221f;
+  --tinte-2: #57534a;
+  --tinte-3: #85806f;
+  --linie: #cbc4b4;
+  --signal: #e0521d;
+  --signal-tinte: #a33a10;
+  --signal-flaeche: #fbe4d8;
+  --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --text: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papier: #1a1b19; --raster: #262824; --raster-fein: #20221f; --karte: #222420;
+    --tinte: #edebe4; --tinte-2: #b3afa3; --tinte-3: #888476; --linie: #3c3e38;
+    --signal: #f0672f; --signal-tinte: #ff9364; --signal-flaeche: #3a241a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papier: #1a1b19; --raster: #262824; --raster-fein: #20221f; --karte: #222420;
+  --tinte: #edebe4; --tinte-2: #b3afa3; --tinte-3: #888476; --linie: #3c3e38;
+  --signal: #f0672f; --signal-tinte: #ff9364; --signal-flaeche: #3a241a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background-color: var(--papier);
+  background-image:
+    linear-gradient(var(--raster) 1px, transparent 1px),
+    linear-gradient(90deg, var(--raster) 1px, transparent 1px),
+    linear-gradient(var(--raster-fein) 1px, transparent 1px),
+    linear-gradient(90deg, var(--raster-fein) 1px, transparent 1px);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+  color: var(--tinte);
+  font-family: var(--text);
+  font-size: 17px;
+  line-height: 1.6;
+}
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; font-variation-settings: "wdth" 112; }
+p, ul, ol { margin: 0; }
+.mono { font-family: var(--mono); font-size: 13px; letter-spacing: .04em; }
+
+/* Blatt: schmaler als die Startseite, damit Fließtext gut lesbar bleibt */
+.blatt {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-block: 28px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+}
+
+/* Kopf mit Schriftfeld */
+.kopf { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: start; }
+.marke { display: flex; align-items: center; gap: 10px; color: var(--tinte-2); text-decoration: none; }
+.marke:hover { color: var(--tinte); }
+.marke svg { flex: none; }
+.schriftfeld {
+  border: 1.5px solid var(--tinte);
+  background: var(--karte);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  font-family: var(--mono);
+  font-size: 12px;
+  width: fit-content;
+  max-width: 100%;
+}
+.schriftfeld div { padding: 5px 10px; border-bottom: 1px solid var(--linie); }
+.schriftfeld div:nth-child(odd) { color: var(--tinte-3); border-right: 1px solid var(--linie); }
+.schriftfeld div:nth-last-child(-n+2) { border-bottom: 0; }
+
+/* Kapitel-Titel mit Zeichnung */
+.kap-titel { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.kap-nr { font-family: var(--mono); font-size: 14px; color: var(--signal-tinte); letter-spacing: .08em; }
+.kap-titel h1 {
+  font-size: clamp(38px, 5.4vw, 64px);
+  line-height: .98;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  font-variation-settings: "wdth" 116;
+  margin-top: 8px;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+.kap-titel .einstieg { margin-top: 18px; font-size: 19px; max-width: 34em; }
+.kap-titel .lesezeit { margin-top: 14px; color: var(--tinte-3); }
+
+/* Explosionszeichnung */
+.zeichnung { margin: 0; background: var(--karte); border: 1.5px solid var(--tinte); padding: 14px 14px 10px; min-width: 0; }
+.zeichnung svg { display: block; width: 100%; height: auto; }
+.zeichnung figcaption { font-family: var(--mono); font-size: 12px; color: var(--tinte-3); border-top: 1px solid var(--linie); padding-top: 8px; margin-top: 6px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.z-linie { stroke: var(--tinte); fill: none; stroke-width: 1.4; }
+.z-hilfe { stroke: var(--tinte-3); fill: none; stroke-width: 1; stroke-dasharray: 3 3; }
+.z-flaeche { fill: var(--papier); stroke: var(--tinte); stroke-width: 1.4; }
+.z-modul { fill: var(--raster); stroke: var(--tinte); stroke-width: 1.2; }
+.z-signal { fill: var(--signal); stroke: var(--tinte); stroke-width: 1.4; }
+.z-weich { fill: var(--signal-flaeche); stroke: var(--signal-tinte); stroke-width: 1.2; }
+.z-text { font-family: var(--mono); font-size: 11.5px; fill: var(--tinte); }
+.z-klein { font-family: var(--mono); font-size: 10.5px; fill: var(--tinte-3); }
+.z-nr { font-family: var(--mono); font-size: 10.5px; fill: var(--tinte-2); }
+.z-nr.aktiv { fill: var(--signal-tinte); }
+.z-blass { opacity: .45; }
+
+/* Abschnitte */
+.abschnitt { display: grid; gap: 20px; }
+.abschnitt > header { display: grid; gap: 6px; border-top: 2px solid var(--tinte); padding-top: 12px; }
+.abschnitt > header .mono { color: var(--tinte-3); }
+.abschnitt h2 { font-size: clamp(26px, 3.6vw, 34px); line-height: 1.1; font-weight: 750; }
+.text { display: grid; gap: 14px; max-width: 40em; }
+.text ul { padding-left: 1.2em; display: grid; gap: 6px; }
+
+/* Fachwort: gepunktet orange unterstrichen, Erklärung steht direkt dahinter im Text */
+.wort { border-bottom: 2px dotted var(--signal); }
+
+/* Stempel */
+.stempel {
+  display: inline-block;
+  font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 1px 7px; border: 2px solid currentColor; border-radius: 2px;
+  transform: rotate(-2.5deg);
+  vertical-align: 2px;
+  white-space: nowrap;
+}
+.s-fest { color: var(--tinte); }
+.s-entschieden { color: var(--tinte); border-style: double; border-width: 4px; padding: 0 6px; }
+.s-geschaetzt { color: var(--signal-tinte); }
+.s-offen { color: var(--signal-tinte); border-style: dashed; }
+
+/* Szene: Ablauf über den Tag */
+.szene { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; max-width: 46em; }
+.szene li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--linie); }
+.szene li:first-child { border-top: 1px solid var(--linie); }
+.szene .zeit { font-family: var(--mono); font-size: 13px; color: var(--tinte-3); padding-top: 3px; }
+.szene li.notruf .zeit { color: var(--signal-tinte); }
+.szene h3 { font-size: 19px; font-weight: 700; font-variation-settings: "wdth" 108; }
+.szene p { margin-top: 4px; }
+.chip-zeigt { margin-top: 8px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; font-size: 15px; border-left: 2px solid var(--signal); padding-left: 12px; }
+.chip-zeigt dt { font-family: var(--mono); font-size: 11.5px; color: var(--tinte-3); padding-top: 2px; }
+.chip-zeigt dd { margin: 0; }
+
+/* Bedienung: zwei große Karten */
+.bedienung { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; }
+.bedien-karte { background: var(--karte); border: 1.5px solid var(--tinte); padding: 18px; display: grid; gap: 8px; align-content: start; }
+.bedien-karte.notruf { border-color: var(--signal); }
+.bedien-karte .wie { font-family: var(--mono); font-size: 13px; color: var(--tinte-3); }
+.bedien-karte h3 { font-size: 24px; font-weight: 750; }
+.bedien-karte p { color: var(--tinte-2); font-size: 16px; }
+
+/* Weg des Notrufs */
+.weg { background: var(--karte); border: 1px solid var(--linie); padding: 16px; margin: 0; }
+.weg svg { display: block; width: 100%; height: auto; }
+.weg figcaption { font-size: 15px; color: var(--tinte-2); margin-top: 10px; }
+
+/* Steckbrief-Tabelle */
+.steckbrief { border-collapse: collapse; width: 100%; max-width: 46em; font-size: 16px; background: var(--karte); border: 1.5px solid var(--tinte); }
+.steckbrief th, .steckbrief td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--linie); vertical-align: top; }
+.steckbrief th { font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--tinte-3); width: 9.5em; }
+.steckbrief td:last-child { width: 1%; white-space: nowrap; text-align: right; }
+.steckbrief tr:last-child th, .steckbrief tr:last-child td { border-bottom: 0; }
+
+/* Ergebnis und Offen */
+.ergebnis { background: var(--karte); border: 1.5px solid var(--tinte); padding: 18px 20px; display: grid; gap: 10px; max-width: 46em; }
+.ergebnis ul { padding-left: 1.2em; display: grid; gap: 6px; }
+.offen-liste { list-style: none; padding: 0; display: grid; gap: 10px; max-width: 46em; }
+.offen-liste li { border: 1.5px dashed var(--signal-tinte); background: var(--karte); padding: 12px 16px; }
+.offen-liste strong { font-family: var(--display); font-variation-settings: "wdth" 108; }
+.quellen { padding-left: 1.2em; display: grid; gap: 6px; font-size: 15px; color: var(--tinte-2); max-width: 46em; }
+
+/* Blättern */
+.blaettern { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px; }
+.blaettern > a, .blaettern > div { border: 1px solid var(--linie); background: var(--karte); padding: 14px 16px; text-decoration: none; display: grid; gap: 2px; }
+.blaettern > a:hover { border-color: var(--tinte); }
+.blaettern .mono { color: var(--tinte-3); font-size: 12px; }
+.blaettern strong { font-family: var(--display); font-size: 18px; font-variation-settings: "wdth" 108; }
+.blaettern > div { color: var(--tinte-3); }
+.blaettern .weiter { text-align: right; }
+.fuss { font-family: var(--mono); font-size: 12px; color: var(--tinte-3); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid var(--linie); padding-top: 14px; }
+
+@media (max-width: 820px) {
+  /* Handy: Titel zuerst, dann Schriftfeld, dann Zeichnung (wie auf der Startseite) */
+  .kopf, .kap-titel { display: contents; }
+  .marke { order: -4; }
+  .kap-titel > div { order: -3; margin-top: -20px; }
+  .schriftfeld { order: -2; justify-self: start; margin-top: -20px; }
+  .zeichnung { order: -1; margin-top: -20px; }
+}
+@media (max-width: 480px) {
+  .szene li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .steckbrief th { width: auto; }
+  .steckbrief tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .steckbrief th { grid-column: 1 / -1; border-bottom: 0; padding-bottom: 0; }
+  .steckbrief td:last-child { width: auto; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+.abschnitt { min-width: 0; }
+code { font-family: var(--mono); font-size: .88em; overflow-wrap: anywhere; }
+
+/* Tabelle mit Anforderungen (Kapitel 2) und allgemein */
+.tabelle { border-collapse: collapse; width: 100%; font-size: 15.5px; background: var(--karte); border: 1.5px solid var(--tinte); }
+.tabelle th, .tabelle td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--linie); vertical-align: top; }
+.tabelle thead th { font-family: var(--mono); font-size: 11.5px; font-weight: 400; letter-spacing: .06em; color: var(--tinte-3); border-bottom: 1.5px solid var(--tinte); }
+.tabelle tbody th { font-family: var(--display); font-size: 16px; font-weight: 700; font-variation-settings: "wdth" 108; width: 9em; }
+.tabelle td.stempel-spalte { width: 1%; white-space: nowrap; text-align: right; }
+.tabelle tr:last-child th, .tabelle tr:last-child td { border-bottom: 0; }
+.beispiel { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; max-width: 46em; }
+.beispiel div { background: var(--karte); border: 1px solid var(--linie); padding: 14px 16px; display: grid; gap: 4px; }
+.beispiel .mono { color: var(--tinte-3); font-size: 12px; }
+.beispiel .gut { border: 1.5px solid var(--tinte); }
+@media (max-width: 680px) {
+  .tabelle thead { display: none; }
+  .tabelle tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; border-bottom: 1px solid var(--linie); padding: 6px 0; }
+  .tabelle tr:last-child { border-bottom: 0; }
+  .tabelle th, .tabelle td { border-bottom: 0; padding: 4px 12px; }
+  .tabelle tbody th { width: auto; grid-column: 1; }
+  .tabelle td.stempel-spalte { grid-column: 2; grid-row: 1; width: auto; }
+  .tabelle td { grid-column: 1 / -1; }
+  .tabelle td[data-label]::before { content: attr(data-label); display: block; font-family: var(--mono); font-size: 11px; color: var(--tinte-3); letter-spacing: .06em; }
+}
+
+/* Rechenweg: Schritt für Schritt */
+.rechnung { padding: 12px 16px 12px 2.4em; display: grid; gap: 6px; background: var(--karte); border: 1px solid var(--linie); border-left: 3px solid var(--signal); }
+.rechnung li { padding-left: 4px; }
+.rechnung li::marker { font-family: var(--mono); color: var(--signal-tinte); }

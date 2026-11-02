@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SkiTag Werkstattbuch</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Werkbank: Millimeterpapier, technische Zeichnung mit Schriftfeld, Signal-Orange wie Gehäuse und SOS-Knopf */
+:root {
+  --papier: #f1eee7;
+  --raster: #e3ded3;
+  --raster-fein: #ebe7de;
+  --karte: #faf8f4;
+  --tinte: #23221f;
+  --tinte-2: #57534a;
+  --tinte-3: #85806f;
+  --linie: #cbc4b4;
+  --signal: #e0521d;
+  --signal-tinte: #a33a10;
+  --signal-flaeche: #fbe4d8;
+  --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --text: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papier: #1a1b19; --raster: #262824; --raster-fein: #20221f; --karte: #222420;
+    --tinte: #edebe4; --tinte-2: #b3afa3; --tinte-3: #888476; --linie: #3c3e38;
+    --signal: #f0672f; --signal-tinte: #ff9364; --signal-flaeche: #3a241a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papier: #1a1b19; --raster: #262824; --raster-fein: #20221f; --karte: #222420;
+  --tinte: #edebe4; --tinte-2: #b3afa3; --tinte-3: #888476; --linie: #3c3e38;
+  --signal: #f0672f; --signal-tinte: #ff9364; --signal-flaeche: #3a241a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--papier);
+  background-image:
+    linear-gradient(var(--raster) 1px, transparent 1px),
+    linear-gradient(90deg, var(--raster) 1px, transparent 1px),
+    linear-gradient(var(--raster-fein) 1px, transparent 1px),
+    linear-gradient(90deg, var(--raster-fein) 1px, transparent 1px);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+  color: var(--tinte);
+  font-family: var(--text);
+  font-size: 17px;
+  line-height: 1.6;
+}
+.blatt {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-block: 28px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 56px;
+}
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; font-variation-settings: "wdth" 112; }
+p { margin: 0; }
+.mono { font-family: var(--mono); font-size: 13px; letter-spacing: .04em; }
+
+/* Kopf mit Schriftfeld */
+.kopf { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: start; }
+.marke { display: flex; align-items: center; gap: 10px; color: var(--tinte-2); }
+.marke svg { flex: none; }
+.schriftfeld {
+  border: 1.5px solid var(--tinte);
+  background: var(--karte);
+  display: grid;
+  grid-template-columns: auto auto;
+  font-family: var(--mono);
+  font-size: 12px;
+  min-width: 0;
+}
+.schriftfeld div { padding: 5px 10px; border-bottom: 1px solid var(--linie); }
+.schriftfeld div:nth-child(odd) { color: var(--tinte-3); border-right: 1px solid var(--linie); }
+.schriftfeld div:nth-last-child(-n+2) { border-bottom: 0; }
+
+/* Titel */
+.titel { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.titel h1 {
+  font-size: clamp(44px, 6.2vw, 76px);
+  line-height: .92;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  font-variation-settings: "wdth" 118;
+}
+.titel h1 span { color: var(--signal); }
+.titel .unter { font-family: var(--display); font-size: 21px; font-weight: 600; margin-top: 14px; color: var(--tinte-2); }
+.titel .einstieg { margin-top: 22px; font-size: 19px; line-height: 1.6; max-width: 34em; }
+.knoepfe { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.knopf {
+  font-family: var(--display); font-weight: 700; font-size: 16px;
+  padding: 10px 18px; border: 1.5px solid var(--tinte); border-radius: 3px;
+  text-decoration: none; background: var(--karte);
+}
+.knopf.voll { background: var(--signal); border-color: var(--signal); color: #fff; }
+.knopf:hover { background: var(--signal-flaeche); }
+.knopf.voll:hover { background: var(--signal-tinte); border-color: var(--signal-tinte); }
+
+/* Explosionszeichnung */
+.zeichnung { margin: 0; background: var(--karte); border: 1.5px solid var(--tinte); padding: 14px 14px 10px; min-width: 0; }
+.zeichnung svg { display: block; width: 100%; height: auto; }
+.zeichnung figcaption { font-family: var(--mono); font-size: 12px; color: var(--tinte-3); border-top: 1px solid var(--linie); padding-top: 8px; margin-top: 6px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.z-linie { stroke: var(--tinte); fill: none; stroke-width: 1.4; }
+.z-hilfe { stroke: var(--tinte-3); fill: none; stroke-width: 1; stroke-dasharray: 3 3; }
+.z-flaeche { fill: var(--papier); stroke: var(--tinte); stroke-width: 1.4; }
+.z-modul { fill: var(--raster); stroke: var(--tinte); stroke-width: 1.2; }
+.z-signal { fill: var(--signal); stroke: var(--tinte); stroke-width: 1.4; }
+.z-weich { fill: var(--signal-flaeche); stroke: var(--signal-tinte); stroke-width: 1.2; }
+.z-text { font-family: var(--mono); font-size: 11.5px; fill: var(--tinte); }
+.z-klein { font-family: var(--mono); font-size: 10.5px; fill: var(--tinte-3); }
+.z-nr { font-family: var(--mono); font-size: 10.5px; fill: var(--tinte-2); }
+
+/* Abschnitte */
+.abschnitt { display: grid; gap: 22px; }
+.abschnitt > header { display: grid; gap: 6px; border-top: 2px solid var(--tinte); padding-top: 12px; }
+.abschnitt h2 { font-size: clamp(28px, 4vw, 36px); line-height: 1.1; font-weight: 750; }
+.abschnitt > header p { color: var(--tinte-2); max-width: 40em; }
+
+/* Lesehilfen */
+.hilfen { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.hilfe { background: var(--karte); border: 1px solid var(--linie); padding: 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.hilfe h3 { font-size: 20px; font-weight: 700; }
+.hilfe p { color: var(--tinte-2); font-size: 16px; }
+.wort { border-bottom: 2px dotted var(--signal); }
+.schrittkasten { border: 1.5px solid var(--tinte); font-size: 14px; display: grid; }
+.schrittkasten div { display: grid; grid-template-columns: 92px minmax(0, 1fr); border-bottom: 1px solid var(--linie); }
+.schrittkasten div:last-child { border-bottom: 0; }
+.schrittkasten span { padding: 5px 8px; }
+.schrittkasten span:first-child { font-family: var(--mono); font-size: 11.5px; color: var(--tinte-3); border-right: 1px solid var(--linie); }
+.schrittkasten .achtung span:first-child { color: var(--signal-tinte); }
+
+/* Stempel */
+.stempel-reihe { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.stempel-feld { display: grid; gap: 10px; align-content: start; }
+.stempel {
+  justify-self: start;
+  font-family: var(--mono); font-weight: 500; font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 3px 9px; border: 2px solid currentColor; border-radius: 2px;
+  transform: rotate(-2.5deg);
+}
+.s-fest { color: var(--tinte); }
+.s-entschieden { color: var(--tinte); border-style: double; border-width: 4px; padding: 1px 8px; }
+.s-geschaetzt { color: var(--signal-tinte); }
+.s-offen { color: var(--signal-tinte); border-style: dashed; }
+.stempel-feld p { color: var(--tinte-2); font-size: 16px; }
+
+/* Inhalt */
+.inhalt { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 28px 40px; }
+.gruppe { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.gruppe h3 { font-size: 15px; font-family: var(--mono); font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--tinte-3); font-variation-settings: normal; padding-bottom: 6px; border-bottom: 1px solid var(--linie); }
+.kapitel { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--linie); text-decoration: none; }
+.kapitel .nr { font-family: var(--mono); font-size: 14px; color: var(--tinte-3); font-variant-numeric: tabular-nums; }
+.kapitel strong { display: block; font-family: var(--display); font-size: 19px; font-weight: 700; line-height: 1.25; font-variation-settings: "wdth" 108; }
+.kapitel small { display: block; color: var(--tinte-2); font-size: 15px; line-height: 1.45; margin-top: 2px; }
+.kapitel .stand { font-family: var(--mono); font-size: 11.5px; color: var(--tinte-3); white-space: nowrap; }
+.kapitel.naechstes .nr, .kapitel.naechstes .stand { color: var(--signal-tinte); }
+.kapitel.naechstes { border-bottom-color: var(--signal); }
+a.kapitel strong { text-decoration: underline; text-decoration-color: var(--linie); text-underline-offset: 4px; }
+a.kapitel:hover strong { color: var(--signal-tinte); text-decoration-color: currentColor; }
+.kapitel.fertig .stand { color: var(--tinte); }
+
+/* Fuß */
+.buecher { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.buch { border: 1px solid var(--linie); background: var(--karte); padding: 16px; display: grid; gap: 4px; min-width: 0; }
+.buch.hier { border: 1.5px solid var(--signal); }
+.buch strong { font-family: var(--display); font-size: 19px; font-variation-settings: "wdth" 108; }
+.buch span { color: var(--tinte-2); font-size: 15px; }
+.fuss { font-family: var(--mono); font-size: 12px; color: var(--tinte-3); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid var(--linie); padding-top: 14px; }
+
+@media (max-width: 820px) {
+  /* Handy: Titel zuerst, Schriftfeld rutscht unter die Knöpfe, dann die Zeichnung */
+  .kopf, .titel { display: contents; }
+  .marke { order: -4; }
+  .titel > div { order: -3; margin-top: -24px; }
+  .schriftfeld { order: -2; justify-self: start; margin-top: -24px; width: fit-content; max-width: 100%; grid-template-columns: auto minmax(0, 1fr); }
+  .zeichnung { order: -1; margin-top: -24px; }
+}
+@media (max-width: 420px) {
+  .kapitel { grid-template-columns: 34px minmax(0, 1fr); }
+  .kapitel .stand { grid-column: 2; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="blatt">
+
+  <div class="kopf">
+    <div class="marke mono">
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="5" fill="var(--signal)"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#fff" stroke-width="2"/></svg>
+      SkiTag · Hardware-Buch
+    </div>
+    <div class="schriftfeld" aria-label="Angaben zu diesem Blatt">
+      <div>Blatt</div><div>00 · Übersicht</div>
+      <div>Bereich</div><div>Chip, Akku, Gehäuse, Ladebox</div>
+      <div>Verfasser</div><div>Maximilian Joszt</div>
+      <div>Stand</div><div>01.11.2026</div>
+    </div>
+  </div>
+
+  <div class="titel">
+    <div>
+      <h1 id="buchtitel">Werkstatt&shy;buch<span>.</span></h1>
+      <p class="unter">Ein Notruf-Chip für die Piste, zum Nachbauen</p>
+      <p class="einstieg">Der Chip besteht aus 8 fertigen Modulen in einem gedruckten Gehäuse. Du brauchst kein Vorwissen in Elektronik: Was du wissen musst, steht in Kapitel&nbsp;3.</p>
+      <div class="knoepfe">
+        <a class="knopf voll" href="#inhalt">Zum Inhalt</a>
+        <a class="knopf" href="#lesen">So liest du das Buch</a>
+      </div>
+    </div>
+
+    <figure class="zeichnung">
+      <svg viewBox="0 0 460 400" role="img" aria-labelledby="zt zd">
+        <title id="zt">Explosionszeichnung des Prototyp-Chips</title>
+        <desc id="zd">Die Schichten des Chips von oben nach unten: Knopf mit weichem Kragen, Deckel mit LED, Platine mit Funkmodul, GPS und Sensoren, Akku, Qi-Empfänger und Unterteil. Daneben die Kapitel, in denen jedes Teil erklärt wird.</desc>
+        <line class="z-hilfe" x1="150" y1="18" x2="150" y2="372"/>
+
+        <rect class="z-modul" x="122" y="26" width="56" height="10" rx="5"/>
+        <rect class="z-flaeche" x="136" y="14" width="28" height="16" rx="4"/>
+        <path class="z-linie" d="M182 22 H 300"/>
+        <text class="z-nr" x="306" y="18">KAP. 11</text>
+        <text class="z-text" x="306" y="31">Knopf und Kragen</text>
+
+        <path class="z-flaeche" d="M48 66 H252 a10 10 0 0 1 10 10 V82 H38 V76 a10 10 0 0 1 10 -10 Z"/>
+        <rect class="z-flaeche" x="134" y="58" width="16" height="10" rx="2"/>
+        <circle cx="210" cy="74" r="4" fill="var(--tinte-3)"/>
+        <path class="z-linie" d="M262 74 H 300"/>
+        <text class="z-nr" x="306" y="70">KAP. 12, 15</text>
+        <text class="z-text" x="306" y="83">Deckel mit LED</text>
+
+        <rect class="z-flaeche" x="56" y="118" width="188" height="8" rx="1"/>
+        <rect class="z-modul" x="66" y="104" width="54" height="14"/>
+        <rect class="z-modul" x="130" y="98" width="46" height="20"/>
+        <rect class="z-modul" x="186" y="108" width="22" height="10"/>
+        <rect class="z-modul" x="214" y="108" width="22" height="10"/>
+        <text class="z-klein" x="70" y="114">RAK</text>
+        <text class="z-klein" x="140" y="112">GPS</text>
+        <path class="z-linie" d="M244 116 H 300"/>
+        <text class="z-nr" x="306" y="112">KAP. 4–8</text>
+        <text class="z-text" x="306" y="125">Platine mit Modulen</text>
+
+        <rect class="z-modul" x="70" y="160" width="40" height="12"/>
+        <rect class="z-modul" x="196" y="158" width="38" height="14" rx="7"/>
+        <path class="z-linie" d="M234 165 H 300"/>
+        <text class="z-nr" x="306" y="161">KAP. 10, 12</text>
+        <text class="z-text" x="306" y="174">Lade-Modul, Motor</text>
+
+        <rect class="z-flaeche" x="62" y="204" width="176" height="18" rx="3"/>
+        <text class="z-klein" x="122" y="217">LiPo 1000 mAh</text>
+        <path class="z-linie" d="M238 213 H 300"/>
+        <text class="z-nr" x="306" y="209">KAP. 9</text>
+        <text class="z-text" x="306" y="222">Akku</text>
+
+        <rect class="z-flaeche" x="78" y="254" width="144" height="10" rx="2"/>
+        <ellipse cx="150" cy="259" rx="44" ry="3" fill="none" stroke="var(--tinte-3)" stroke-width="1.2"/>
+        <path class="z-linie" d="M222 259 H 300"/>
+        <text class="z-nr" x="306" y="255">KAP. 10</text>
+        <text class="z-text" x="306" y="268">Qi-Empfänger</text>
+
+        <path class="z-flaeche" d="M38 296 H262 V330 a12 12 0 0 1 -12 12 H50 a12 12 0 0 1 -12 -12 Z"/>
+        <path class="z-linie" d="M262 318 H 300"/>
+        <text class="z-nr" x="306" y="314">KAP. 15</text>
+        <text class="z-text" x="306" y="327">Unterteil und Hülle</text>
+
+        <path class="z-hilfe" d="M38 372 H262"/>
+        <path class="z-linie" d="M38 366 V378 M262 366 V378"/>
+        <text class="z-klein" x="118" y="392">120 mm mit Hülle</text>
+      </svg>
+      <figcaption><span>Prototyp, Schichten von oben nach unten</span><span>nicht maßstäblich</span></figcaption>
+    </figure>
+  </div>
+
+  <section class="abschnitt" id="lesen" aria-labelledby="h-lesen">
+    <header>
+      <span class="mono" style="color:var(--tinte-3)">VOR DEM ERSTEN KAPITEL</span>
+      <h2 id="h-lesen">So liest du das Buch</h2>
+      <p>Das Buch ist für Leute geschrieben, die noch nie gelötet haben.</p>
+    </header>
+    <div class="hilfen">
+      <div class="hilfe">
+        <h3>Fachwörter</h3>
+        <p>Ein Wort wie <span class="wort">Spannungsregler</span> wird beim ersten Mal im Text erklärt. Danach steht es im Glossar im Anhang, falls du es nachschlagen willst.</p>
+      </div>
+      <div class="hilfe">
+        <h3>Jeder Bauschritt gleich</h3>
+        <p>Bei jedem Schritt steht ein Kasten mit diesen vier Zeilen:</p>
+        <div class="schrittkasten" aria-label="Beispiel für einen Schrittkasten">
+          <div><span>WERKZEUG</span><span>Lötkolben, Seitenschneider</span></div>
+          <div><span>MATERIAL</span><span>Stiftleiste 2,54 mm, 10 Pins</span></div>
+          <div class="achtung"><span>ACHTUNG</span><span>Lötspitze hat 350 °C</span></div>
+          <div><span>KLAPPT NICHT?</span><span>Fehlersuche, Punkt F3</span></div>
+        </div>
+      </div>
+      <div class="hilfe">
+        <h3>Zeichnung oben</h3>
+        <p>Die Explosionszeichnung kommt in jedem Kapitel wieder. Das Teil, um das es gerade geht, ist dort orange. So weißt du immer, wo im Chip du gerade bist. Auf dieser Übersicht ist noch nichts hervorgehoben.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-stempel">
+    <header>
+      <span class="mono" style="color:var(--tinte-3)">STEMPEL</span>
+      <h2 id="h-stempel">Wie sicher eine Aussage ist</h2>
+      <p>Jede wichtige Aussage bekommt einen Stempel. Auf echter Hardware ist noch nichts gemessen. Nach dem Bau im Jänner werden aus vielen Schätzungen Messungen.</p>
+    </header>
+    <div class="stempel-reihe">
+      <div class="stempel-feld"><span class="stempel s-fest">Fest</span><p>Steht im Datenblatt oder ist durch die Physik vorgegeben. Daran ändern wir nichts.</p></div>
+      <div class="stempel-feld"><span class="stempel s-entschieden">Entschieden</span><p>So bauen wir es. Ob es sich bewährt, zeigt erst der Test.</p></div>
+      <div class="stempel-feld"><span class="stempel s-geschaetzt">Geschätzt</span><p>Ausgerechnet oder angenommen, aber noch nicht nachgemessen.</p></div>
+      <div class="stempel-feld"><span class="stempel s-offen">Offen</span><p>Noch nicht geklärt. Steht am Kapitelende unter „Was noch offen ist“.</p></div>
+    </div>
+  </section>
+
+  <section class="abschnitt" id="inhalt" aria-labelledby="h-inhalt">
+    <header>
+      <span class="mono" style="color:var(--tinte-3)">23 KAPITEL UND ANHANG</span>
+      <h2 id="h-inhalt">Inhalt</h2>
+      <p>Die Kapitel erscheinen nach und nach. Wer den Chip nur bauen will, liest Kapitel 3 und springt dann zu Kapitel 16.</p>
+    </header>
+    <div class="inhalt">
+      <div class="gruppe">
+        <h3>Grundlagen</h3>
+        <a class="kapitel fertig" href="kapitel-01.html"><span class="nr">01</span><span><strong>Der Chip in einer Minute</strong><small>Was er kann, mit einer Szene am Hang.</small></span><span class="stand">fertig</span></a>
+        <a class="kapitel fertig" href="kapitel-02.html"><span class="nr">02</span><span><strong>Anforderungen</strong><small>Kälte, Nässe, Sturz, Laufzeit, Größe und Gewicht.</small></span><span class="stand">fertig</span></a>
+        <div class="kapitel naechstes"><span class="nr">03</span><span><strong>Elektronik-Wissen für den Chip</strong><small>Spannung, Strom, Akku, Module und wie die Teile miteinander reden.</small></span><span class="stand">als Nächstes</span></div>
+      </div>
+      <div class="gruppe">
+        <h3>Der Chip</h3>
+        <div class="kapitel"><span class="nr">04</span><span><strong>Blockschaltbild</strong><small>Alle Teile und wie sie zusammenhängen.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">05</span><span><strong>Die Bauteile einzeln</strong><small>Funkmodul, GPS, Sensoren, Regler, Knopf, LED, Motor.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">06</span><span><strong>Entscheidungen</strong><small>Warum dieses Funkmodul, GPS ja oder nein, warum Qi.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">07</span><span><strong>Schaltplan</strong><small>Welcher Pin wohin geht.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">08</span><span><strong>Die Platine</strong><small>Wo jedes Teil auf der Lochrasterplatte sitzt.</small></span><span class="stand">geplant</span></div>
+      </div>
+      <div class="gruppe">
+        <h3>Energie</h3>
+        <div class="kapitel"><span class="nr">09</span><span><strong>Akku und Laufzeit bei Kälte</strong><small>Wie lange der Chip am Berg durchhält.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">10</span><span><strong>Laden</strong><small>Qi im Chip und die Ladebox.</small></span><span class="stand">geplant</span></div>
+      </div>
+      <div class="gruppe">
+        <h3>Bedienung und Software</h3>
+        <div class="kapitel"><span class="nr">11</span><span><strong>Knopf und SOS</strong><small>3 s halten, 5 s zum Abbrechen: so soll kein Notruf aus Versehen rausgehen.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">12</span><span><strong>LED und Vibration</strong><small>Was der Chip wann zeigt.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">13</span><span><strong>Firmware</strong><small>Was der Chip wann sendet.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">14</span><span><strong>Firmware aufspielen</strong><small>Vom Laptop auf den Chip.</small></span><span class="stand">geplant</span></div>
+      </div>
+      <div class="gruppe">
+        <h3>Gehäuse</h3>
+        <div class="kapitel"><span class="nr">15</span><span><strong>Gehäuse</strong><small>Maße, 3D-Modell, Material, Kälte, Nässe, Sturz.</small></span><span class="stand">geplant</span></div>
+      </div>
+      <div class="gruppe">
+        <h3>Bauen</h3>
+        <div class="kapitel"><span class="nr">16</span><span><strong>Werkzeug und sicheres Löten</strong><small>Was du brauchst und wie du dich nicht verbrennst.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">17</span><span><strong>Bauanleitung Chip</strong><small>Schritt für Schritt, mit Fotos.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">18</span><span><strong>Bauanleitung Ladebox</strong><small>Schritt für Schritt, mit Fotos.</small></span><span class="stand">geplant</span></div>
+      </div>
+      <div class="gruppe">
+        <h3>Prüfen und Zusammenarbeit</h3>
+        <div class="kapitel"><span class="nr">19</span><span><strong>Tests</strong><small>Jedes Teil einzeln, dann der ganze Chip.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">20</span><span><strong>Schnittstelle zum Netzwerk</strong><small>Was Lukas vom Chip bekommt.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">21</span><span><strong>Risiken</strong><small>Was schiefgehen kann und was wir dagegen tun.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">22</span><span><strong>Material und Kosten</strong><small>Stückliste mit Links zu den Datenblättern.</small></span><span class="stand">geplant</span></div>
+        <div class="kapitel"><span class="nr">23</span><span><strong>Nächste Schritte</strong><small>Vom Prototyp zum fertigen Chip.</small></span><span class="stand">geplant</span></div>
+      </div>
+      <div class="gruppe">
+        <h3>Anhang</h3>
+        <div class="kapitel"><span class="nr">A</span><span><strong>Glossar, Fehlersuche, Quellen</strong><small>Zum Nachschlagen.</small></span><span class="stand">geplant</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-buecher">
+    <header>
+      <span class="mono" style="color:var(--tinte-3)">DAS TEAM</span>
+      <h2 id="h-buecher">Die drei SkiTag-Bücher</h2>
+      <p>Die Funk-Schnittstelle (Kapitel 20) stimme ich mit Lukas ab, die Kosten (Kapitel 22) gehen an Tobias.</p>
+    </header>
+    <div class="buecher">
+      <div class="buch hier"><strong>Werkstattbuch</strong><span>Hardware: Chip, Akku, Gehäuse, Ladebox. Maximilian Joszt. Du bist hier.</span></div>
+      <a class="buch" href="https://lukcoderc.github.io/SKI-TAG/"><strong>Netzwerk-Buch</strong><span>Funk, Gateways, Server. Lukas Eder.</span></a>
+      <div class="buch"><strong>Projekt-Buch</strong><span>Wirtschaft, Verkauf, App. Tobias Strobl.</span></div>
+    </div>
+  </section>
+
+  <footer class="fuss">
+    <span>SkiTag · Werkstattbuch · Blatt 00</span>
+    <span>HTL Braunau · 2026</span>
+  </footer>
+</div>

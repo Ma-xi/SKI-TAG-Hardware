@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kapitel 2 · Anforderungen · SkiTag Werkstattbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="werkbank.css">
+
+<div class="blatt">
+
+  <div class="kopf">
+    <a class="marke mono" href="index.html">
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="5" fill="var(--signal)"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#fff" stroke-width="2"/></svg>
+      SkiTag · Hardware-Buch
+    </a>
+    <div class="schriftfeld" aria-label="Angaben zu diesem Blatt">
+      <div>Blatt</div><div>02 · Anforderungen</div>
+      <div>Bereich</div><div>Grundlagen</div>
+      <div>Verfasser</div><div>Maximilian Joszt</div>
+      <div>Stand</div><div>02.11.2026</div>
+    </div>
+  </div>
+
+  <div class="kap-titel">
+    <div>
+      <p class="kap-nr">KAP. 02 · GRUNDLAGEN</p>
+      <h1>Anforderungen</h1>
+      <p class="einstieg">Was der Chip aushalten muss, bevor ihn ein Gast am Berg trägt: Kälte, Nässe, Stürze und einen ganzen Skitag ohne Laden. Zu jeder Anforderung steht, wie wir sie prüfen.</p>
+      <p class="lesezeit mono">Eilig? Die Kurzfassung steht unten unter <a href="#ergebnis">„Das Ergebnis“</a>.</p>
+    </div>
+
+    <figure class="zeichnung">
+      <svg viewBox="0 0 460 400" role="img" aria-labelledby="zt zd">
+        <title id="zt">Explosionszeichnung des Chips, Gehäuse und Akku hervorgehoben</title>
+        <desc id="zd">Die Schichten des Chips von oben nach unten. Orange sind Deckel, Unterteil mit Hülle und der Akku, weil die meisten Anforderungen sie betreffen.</desc>
+        <line class="z-hilfe" x1="150" y1="18" x2="150" y2="372"/>
+
+        <g class="z-blass">
+          <rect class="z-modul" x="122" y="26" width="56" height="10" rx="5"/>
+          <rect class="z-flaeche" x="136" y="14" width="28" height="16" rx="4"/>
+          <path class="z-linie" d="M182 22 H 300"/>
+          <text class="z-nr" x="306" y="18">KAP. 11</text>
+          <text class="z-text" x="306" y="31">Knopf und Kragen</text>
+        </g>
+
+        <path class="z-signal" d="M48 66 H252 a10 10 0 0 1 10 10 V82 H38 V76 a10 10 0 0 1 10 -10 Z"/>
+        <rect class="z-flaeche" x="134" y="58" width="16" height="10" rx="2"/>
+        <circle cx="210" cy="74" r="4" fill="var(--karte)" stroke="var(--tinte)" stroke-width="1.2"/>
+        <path class="z-linie" d="M262 74 H 300"/>
+        <text class="z-nr aktiv" x="306" y="70">KAP. 12, 15</text>
+        <text class="z-text" x="306" y="83">Deckel mit LED</text>
+
+        <g class="z-blass">
+          <rect class="z-flaeche" x="56" y="118" width="188" height="8" rx="1"/>
+          <rect class="z-modul" x="66" y="104" width="54" height="14"/>
+          <rect class="z-modul" x="130" y="98" width="46" height="20"/>
+          <rect class="z-modul" x="186" y="108" width="22" height="10"/>
+          <rect class="z-modul" x="214" y="108" width="22" height="10"/>
+          <text class="z-klein" x="70" y="114">RAK</text>
+          <text class="z-klein" x="140" y="112">GPS</text>
+          <path class="z-linie" d="M244 116 H 300"/>
+          <text class="z-nr" x="306" y="112">KAP. 4–8</text>
+          <text class="z-text" x="306" y="125">Platine mit Modulen</text>
+
+          <rect class="z-modul" x="70" y="160" width="40" height="12"/>
+          <rect class="z-modul" x="196" y="158" width="38" height="14" rx="7"/>
+          <path class="z-linie" d="M234 165 H 300"/>
+          <text class="z-nr" x="306" y="161">KAP. 10, 12</text>
+          <text class="z-text" x="306" y="174">Lade-Modul, Motor</text>
+        </g>
+
+        <rect class="z-signal" x="62" y="204" width="176" height="18" rx="3"/>
+        <text x="122" y="217" style="font-family:var(--mono);font-size:10.5px;fill:#fff">LiPo 1000 mAh</text>
+        <path class="z-linie" d="M238 213 H 300"/>
+        <text class="z-nr aktiv" x="306" y="209">KAP. 9</text>
+        <text class="z-text" x="306" y="222">Akku</text>
+
+        <g class="z-blass">
+          <rect class="z-flaeche" x="78" y="254" width="144" height="10" rx="2"/>
+          <ellipse cx="150" cy="259" rx="44" ry="3" fill="none" stroke="var(--tinte-3)" stroke-width="1.2"/>
+          <path class="z-linie" d="M222 259 H 300"/>
+          <text class="z-nr" x="306" y="255">KAP. 10</text>
+          <text class="z-text" x="306" y="268">Qi-Empfänger</text>
+        </g>
+
+        <path class="z-signal" d="M38 296 H262 V330 a12 12 0 0 1 -12 12 H50 a12 12 0 0 1 -12 -12 Z"/>
+        <path class="z-linie" d="M262 318 H 300"/>
+        <text class="z-nr aktiv" x="306" y="314">KAP. 15</text>
+        <text class="z-text" x="306" y="327">Unterteil und Hülle</text>
+
+        <path class="z-hilfe" d="M38 372 H262"/>
+        <path class="z-linie" d="M38 366 V378 M262 366 V378"/>
+        <text class="z-klein" x="118" y="392">120 mm mit Hülle</text>
+      </svg>
+      <figcaption><span>Orange: Gehäuse und Akku</span><span>nicht maßstäblich</span></figcaption>
+    </figure>
+  </div>
+
+  <section class="abschnitt" aria-labelledby="h-was">
+    <header>
+      <span class="mono">VORWEG</span>
+      <h2 id="h-was">Was eine Anforderung ist</h2>
+    </header>
+    <div class="text">
+      <p>Eine <span class="wort">Anforderung</span> ist ein Ziel, das feststeht, bevor wir bauen. Sie muss so genau sein, dass man nachher messen kann, ob der Chip sie erfüllt.</p>
+    </div>
+    <div class="beispiel">
+      <div><span class="mono">ZU UNGENAU</span><p>„Der Akku hält lange.“</p><p style="color:var(--tinte-2);font-size:15px">Was ist lange? Das kann niemand prüfen.</p></div>
+      <div class="gut"><span class="mono">SO GEHT ES</span><p>„Nach 8 Stunden hat der Akku noch mindestens 30 %.“</p><p style="color:var(--tinte-2);font-size:15px">Das kann man an einem Skitag messen.</p></div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-liste">
+    <header>
+      <span class="mono">ÜBERSICHT</span>
+      <h2 id="h-liste">Alle Anforderungen auf einen Blick</h2>
+    </header>
+    <table class="tabelle">
+      <thead><tr><th>Thema</th><th>Ziel</th><th>So prüfen wir es</th><th></th></tr></thead>
+      <tbody>
+        <tr><th>Laufzeit</th><td data-label="ZIEL">Ein Skitag von 8 Stunden. Am Abend sind noch mindestens 30 % im Akku.</td><td data-label="PRÜFEN">voll laden, 8 Stunden laufen lassen, Akku-Stand ablesen</td><td class="stempel-spalte"><span class="stempel s-entschieden">Entschieden</span></td></tr>
+        <tr><th>Kälte</th><td data-label="ZIEL">Der Chip funktioniert bis −20 °C. Funk und Gruppenruf funktionieren nach 1 Stunde im Gefrierfach wie im Warmen.</td><td data-label="PRÜFEN">1 Stunde ins Gefrierfach (in einer Tüte), dann Funk und Ruf testen</td><td class="stempel-spalte"><span class="stempel s-entschieden">Entschieden</span></td></tr>
+        <tr><th>Nässe</th><td data-label="ZIEL">Schnee und Schmelzwasser kommen nicht ins Gehäuse.</td><td data-label="PRÜFEN">Dichtung ansehen: kein Spalt, kein Kabel unter der Dichtung</td><td class="stempel-spalte"><span class="stempel s-entschieden">Entschieden</span></td></tr>
+        <tr><th>Sturz</th><td data-label="ZIEL">Der Chip verletzt niemanden, wenn man auf ihn fällt, und übersteht den Sturz.</td><td data-label="PRÜFEN">Hülle sitzt rundum, nichts Hartes steht ab</td><td class="stempel-spalte"><span class="stempel s-entschieden">Entschieden</span></td></tr>
+        <tr><th>Notruf</th><td data-label="ZIEL">Kein Notruf aus Versehen. Und wenn ein Notruf nicht ankommt, merkt man das am Chip.</td><td data-label="PRÜFEN">Abbrechen testen, dann Empfänger und Server absichtlich ausschalten</td><td class="stempel-spalte"><span class="stempel s-entschieden">Entschieden</span></td></tr>
+        <tr><th>Sichtbarkeit</th><td data-label="ZIEL">Ein verlorener Chip ist im Schnee leicht zu finden.</td><td data-label="PRÜFEN">Farbe Signal-Orange</td><td class="stempel-spalte"><span class="stempel s-entschieden">Entschieden</span></td></tr>
+        <tr><th>Größe</th><td data-label="ZIEL">Prototyp 120 × 60 × 32 mm mit Hülle. Später deutlich kleiner.</td><td data-label="PRÜFEN">mit dem Messschieber nachmessen</td><td class="stempel-spalte"><span class="stempel s-entschieden">Entschieden</span></td></tr>
+        <tr><th>Gewicht</th><td data-label="ZIEL">noch kein Ziel festgelegt</td><td data-label="PRÜFEN">wiegen, sobald der erste Chip gebaut ist</td><td class="stempel-spalte"><span class="stempel s-offen">Offen</span></td></tr>
+      </tbody>
+    </table>
+    <div class="text">
+      <p>Alle Prüfungen stehen genau beschrieben in Kapitel 19. Jeder Chip muss sie bestehen, bevor wir ihn verleihen.</p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-laufzeit">
+    <header>
+      <span class="mono">LAUFZEIT</span>
+      <h2 id="h-laufzeit">Ein ganzer Skitag ohne Laden</h2>
+    </header>
+    <div class="text">
+      <p>Ein Skitag dauert etwa 8 Stunden. So lange muss der Chip durchhalten, ohne dass jemand ihn lädt. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p>Am Abend sollen noch mindestens 30 % im Akku sein. Diese Reserve brauchen wir aus zwei Gründen:</p>
+      <ul>
+        <li>In der Kälte gibt ein Akku weniger Strom her als im Warmen. Ein Akku, der im Wohnzimmer gerade so reicht, wäre am Berg zu früh leer. <span class="stempel s-fest">Fest</span></li>
+        <li>Wenn am Nachmittag ein Notruf läuft, muss der Chip noch lange weiterfunken können.</li>
+      </ul>
+      <p>Ob der Akku mit 1000 mAh das schafft, rechnen wir in Kapitel 9 Schritt für Schritt nach. Gemessen wird es am Testtag.</p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-kaelte">
+    <header>
+      <span class="mono">KÄLTE</span>
+      <h2 id="h-kaelte">Kälte</h2>
+    </header>
+    <div class="text">
+      <p>Der Chip muss bei Minusgraden genauso funken und vibrieren wie im Warmen. Zum Prüfen kommt er 1 Stunde in einer Tüte ins Gefrierfach. Dort hat es etwa −18 °C. Danach testen wir Funk und Gruppenruf. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p><strong>Ziel: Der Chip funktioniert bis −20 °C.</strong> Gemessene Tiefstwerte für die Bergstationen haben wir nicht gefunden. Darum haben wir die Temperatur aus den Werten im Tal geschätzt: <span class="stempel s-geschaetzt">Geschätzt</span></p>
+      <ol class="rechnung">
+        <li>Im Ort Kitzbühel, auf etwa 800 m Höhe, hat es in einer Jännernacht im Durchschnitt etwa −6 °C.</li>
+        <li>Mit jeden 100 m Höhe wird die Luft im Durchschnitt um etwa 0,65 °C kälter. Das ist eine Faustregel aus der Physik.</li>
+        <li>Vom Ort bis zum Gipfel auf etwa 2000 m sind es 1200 m. Das sind 12 mal 100 m, also 12 × 0,65 °C ≈ 8 °C kälter.</li>
+        <li>Eine durchschnittliche Jännernacht am Gipfel hat also etwa −6 °C − 8 °C ≈ −14 °C.</li>
+        <li>An kalten Tagen ist es deutlich kälter als im Durchschnitt. −20 °C sind dann am Gipfel gut möglich.</li>
+      </ol>
+      <p>In der Jackentasche ist es wärmer, weil der Körper mitwärmt. Wind macht es für Menschen kälter, aber nicht für Geräte: Ein Chip wird nie kälter als die Luft. Richtig kalt wird es für den Chip nur außen am Rucksack oder wenn er verloren im Schnee liegt.</p>
+      <p>Der Gefrierfach-Test mit etwa −18 °C liegt nah an diesem Ziel. Genauere Werte gibt es bei GeoSphere Austria, dem österreichischen Wetterdienst. <span class="stempel s-offen">Offen</span></p>
+      <p>Kälte betrifft auch das Material. Das Gehäuse wird deshalb aus PETG oder ASA gedruckt und nicht aus PLA. PLA ist der häufigste Kunststoff für 3D-Drucker, wird aber in der Kälte spröde und kann brechen. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p><strong>Laden nur im Warmen.</strong> Der Akku darf in der Kälte nicht geladen werden. Das Lade-Modul im Chip passt darauf auf und lädt erst, wenn der Akku warm genug ist. Kalte Chips, zum Beispiel aus dem Auto, bleiben darum erst 30 Minuten im Warmen liegen, bevor sie in die Ladebox kommen. Ab welcher Temperatur genau geladen wird, steht im Datenblatt des Lade-Moduls. Das prüfen wir in Kapitel 10. <span class="stempel s-offen">Offen</span></p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-naesse">
+    <header>
+      <span class="mono">NÄSSE</span>
+      <h2 id="h-naesse">Schnee und Wasser</h2>
+    </header>
+    <div class="text">
+      <p>Am Berg wird der Chip nass: Schnee in der Tasche, Schmelzwasser, nasse Handschuhe. Ins Gehäuse darf nichts davon. Dafür achten wir auf jede Öffnung im Gehäuse:</p>
+      <ul>
+        <li><strong>Deckel:</strong> Zwischen Deckel und Unterteil liegt eine weiche Dichtung aus TPU, einem gummiartigen Kunststoff. Die Schrauben drücken sie zusammen.</li>
+        <li><strong>Knopf:</strong> Wir kaufen einen Knopf, der laut Hersteller wasserdicht nach <span class="wort">IP67</span> ist. IP ist ein Code für Dichtheit: Die erste Ziffer sagt, wie gut ein Gerät gegen Staub geschützt ist, die zweite, wie gut gegen Wasser. Eine 7 als zweite Ziffer heißt: Das Gerät hält kurzes Untertauchen aus.</li>
+        <li><strong>LED:</strong> Sie sitzt in einem Loch im Deckel. Ob dieses Loch eigens abgedichtet werden muss, klären wir in Kapitel 15.</li>
+      </ul>
+      <p>Wie dicht das ganze Gehäuse am Ende ist, haben wir noch nicht gemessen. Für das Gehäuse gibt es also noch keine IP-Zahl. <span class="stempel s-offen">Offen</span></p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-sturz">
+    <header>
+      <span class="mono">STURZ</span>
+      <h2 id="h-sturz">Wenn man auf den Chip fällt</h2>
+    </header>
+    <div class="text">
+      <p>Beim Skifahren stürzt man. Dabei kann man auch auf den Chip fallen. Daraus folgen zwei Anforderungen:</p>
+      <ul>
+        <li><strong>Der Chip darf niemanden verletzen.</strong> Eine weiche Hülle aus TPU umschließt das Gehäuse wie eine Handyhülle. Um den Knopf liegt ein weicher Kragen statt eines harten Rings. Alle Ecken sind stark gerundet, und es gibt keine Öse, die absteht. <span class="stempel s-entschieden">Entschieden</span></li>
+        <li><strong>Der Chip muss den Sturz überstehen.</strong> PETG und ASA sind zäh und brechen nicht so leicht. Die Hülle fängt Stöße an den Kanten ab. <span class="stempel s-entschieden">Entschieden</span></li>
+      </ul>
+      <p>Aus welcher Höhe wir einen Fall testen, ist noch nicht festgelegt. <span class="stempel s-offen">Offen</span></p>
+      <p><strong>Kinder:</strong> Wo man den Chip trägt, entscheidet jeder selbst. Eine Regel gibt es aber: Kinder tragen den Chip nie an einem Band um den Hals. Am Lift kann sich so ein Band verfangen. Besser ist eine Jackentasche oder ein weiches Armband. <span class="stempel s-entschieden">Entschieden</span></p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-notruf">
+    <header>
+      <span class="mono">NOTRUF</span>
+      <h2 id="h-notruf">Der Notruf muss verlässlich sein</h2>
+    </header>
+    <div class="text">
+      <p><strong>Kein Notruf aus Versehen.</strong> Ein Notruf startet erst nach 3 Sekunden Halten, danach bleiben 5 Sekunden zum Abbrechen. Der weiche Kragen um den Knopf schützt zusätzlich davor, dass man ihn aus Versehen drückt. Mehr dazu in Kapitel 11. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p><strong>Immer jemand, der annimmt.</strong> Ein Notruf geht zuerst an den Mitarbeiter der Bergbahn, der dem Gast am nächsten ist. Nimmt der nicht innerhalb von 60 Sekunden an, geht er an den nächsten, und so weiter. Das macht der Server, nicht der Chip. Wie das genau funktioniert, steht im <a href="https://lukcoderc.github.io/SKI-TAG/">Netzwerk-Buch von Lukas Eder</a>. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p><strong>Kein stiller Fehler.</strong> Wenn etwas kaputt ist, darf ein Notruf nicht einfach verschwinden. Der Chip muss dann zeigen, dass der Notruf nicht angekommen ist, damit der Gast selbst 140 ruft. Deshalb lösen wir einmal absichtlich Fehler aus und schauen, was der Chip macht: <span class="stempel s-entschieden">Entschieden</span></p>
+    </div>
+    <table class="tabelle">
+      <thead><tr><th>Fehler</th><th>So lösen wir ihn aus</th><th>Bestanden, wenn</th></tr></thead>
+      <tbody>
+        <tr><th>Kein Empfänger</th><td data-label="SO">beide Empfänger ausstecken, Notruf auslösen</td><td data-label="BESTANDEN, WENN">Nach 90 Sekunden blinkt der Chip doppelt rot und vibriert 3-mal kurz.</td></tr>
+        <tr><th>Kein Internet</th><td data-label="SO">WLAN am Empfänger aus, Notruf auslösen, nach 3 Minuten wieder an</td><td data-label="BESTANDEN, WENN">Erst blinkt der Chip doppelt rot. Sobald das Netz wieder da ist, kommt der Notruf an, und der Chip leuchtet wieder normal rot.</td></tr>
+        <tr><th>Kein GPS</th><td data-label="SO">Chip drinnen ohne GPS-Empfang, Notruf auslösen</td><td data-label="BESTANDEN, WENN">Der Notruf kommt an. Die App zeigt eine ungefähre oder ältere Position.</td></tr>
+        <tr><th>Akku kurz weg</th><td data-label="SO">während eines Notrufs den Akku kurz abstecken</td><td data-label="BESTANDEN, WENN">Nach dem Neustart läuft der Notruf weiter. In der App erscheint kein zweiter Notruf.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-groesse">
+    <header>
+      <span class="mono">GRÖSSE UND GEWICHT</span>
+      <h2 id="h-groesse">Wie groß und wie schwer</h2>
+    </header>
+    <div class="text">
+      <p>Der Prototyp ist mit Hülle 120 × 60 × 32 mm groß, also etwa so groß wie ein Lawinen-Suchgerät. Er ist so groß, weil wir fertige Module verwenden statt einer eigenen, kleinen Platine. Für den Test ist das in Ordnung. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p>Wie schwer der Prototyp ist, wissen wir erst, wenn wir den ersten Chip gebaut haben. <span class="stempel s-offen">Offen</span></p>
+      <p>Der fertige Chip für den Verleih soll später ungefähr so groß wie eine Streichholzschachtel sein und 40 bis 50 g wiegen. Dafür braucht er eine eigene Platine und ein gespritztes Gehäuse statt eines gedruckten. Das steht in Kapitel 23. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+    </div>
+  </section>
+
+  <section class="abschnitt" id="ergebnis" aria-labelledby="h-ergebnis">
+    <header>
+      <span class="mono">KURZFASSUNG</span>
+      <h2 id="h-ergebnis">Das Ergebnis</h2>
+    </header>
+    <div class="ergebnis">
+      <ul>
+        <li>Der Chip hält einen Skitag von 8 Stunden durch und hat am Abend noch mindestens 30 % Akku.</li>
+        <li>Er funktioniert bis −20 °C, geprüft mit 1 Stunde im Gefrierfach. Geladen wird nur im Warmen.</li>
+        <li>Dichtung, wasserdichter Knopf und weiche Hülle schützen vor Schnee und vor Verletzungen beim Sturz.</li>
+        <li>Ein Notruf geht nicht aus Versehen raus. Kommt er nicht an, zeigt der Chip das.</li>
+        <li>Jede Anforderung hat eine Prüfung. Jeder Chip besteht sie, bevor er verliehen wird.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-offen">
+    <header>
+      <span class="mono">NOCH NICHT GEKLÄRT</span>
+      <h2 id="h-offen">Was noch offen ist</h2>
+    </header>
+    <ul class="offen-liste">
+      <li><strong>Kälte genauer.</strong> Die −20 °C sind geschätzt. Echte Messwerte der Wetterstationen am Berg (GeoSphere Austria) haben wir noch nicht angeschaut.</li>
+      <li><strong>Ladetemperatur.</strong> Ab welcher Temperatur das Lade-Modul lädt. Das prüfen wir mit dem Datenblatt in Kapitel 10.</li>
+      <li><strong>Dichtheit des Gehäuses.</strong> Wie dicht das ganze Gehäuse ist, ist noch nicht gemessen.</li>
+      <li><strong>Falltest.</strong> Aus welcher Höhe wir einen Fall testen. Legen wir beim Testen im Jänner fest.</li>
+      <li><strong>Gewicht.</strong> Der Prototyp ist noch nicht gewogen, und es gibt noch kein Ziel dafür. Gewogen wird im Jänner, sobald der erste Chip gebaut ist.</li>
+    </ul>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-quellen">
+    <header>
+      <span class="mono">NACHWEISE</span>
+      <h2 id="h-quellen">Quellen</h2>
+    </header>
+    <ol class="quellen">
+      <li>Bisheriger Test-Bauplan <code>material/test-bauplan.html</code>: Kapitel „Der Chip“ (Hülle, Material, Tragen), „Tests“ (Tests 7 bis 9, Ausfall-Test) und „Die Ladebox“ (Laden nur im Warmen, 30 Minuten warten).</li>
+      <li>Gehäusemodell <code>material/scad/chip_gehaeuse.scad</code>: Maße, Material, Dichtung, Kragen.</li>
+      <li>Chip-Firmware <code>material/firmware/skitag_chip/config.h</code>: 3 s Halten, 5 s Abbrechen, 90 s bis zur Warnung.</li>
+      <li>Temperaturen im Tal: <a href="https://bestdateweather.com/de/beste-reisezeit-kitzbuhel">bestdateweather.com, Kitzbühel</a> und <a href="https://klima.org/österreich/klima-kitzbuehel/">klima.org, Klima Kitzbühel</a>.</li>
+      <li>Dichtheits-Code IP: <a href="https://de.wikipedia.org/wiki/IP-Schutzart">Wikipedia, IP-Schutzart</a>.</li>
+    </ol>
+  </section>
+
+  <nav class="blaettern" aria-label="Blättern">
+    <a href="kapitel-01.html"><span class="mono">ZURÜCK</span><strong>01 Der Chip in einer Minute</strong></a>
+    <div class="weiter"><span class="mono">WEITER · KOMMT NOCH</span><strong>03 Elektronik-Wissen für den Chip</strong></div>
+  </nav>
+
+  <footer class="fuss">
+    <span>SkiTag · Werkstattbuch · Blatt 02</span>
+    <span>HTL Braunau · 2026</span>
+  </footer>
+</div>
