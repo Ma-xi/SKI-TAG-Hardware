@@ -293,7 +293,7 @@
       <h2 id="h-t4">Der Akku</h2>
     </header>
     <div class="text">
-      <p>Im Chip steckt ein <span class="wort">LiPo-Akku</span>, wie in vielen Handys. An seiner Spannung sieht man ungefähr, wie voll er ist, ähnlich wie bei einer Tankanzeige im Auto. Genau ist das nicht. Darum hat der Chip zusätzlich einen eigenen Akku-Messer (Thema 6). <span class="stempel s-fest">Fest</span></p>
+      <p>Im Chip steckt ein <span class="wort">LiPo-Akku</span>, wie in vielen Handys. An seiner Spannung sieht man ungefähr, wie voll er ist, ähnlich wie bei einer Tankanzeige im Auto. Genau ist das nicht. Darum hat der Chip zusätzlich einen eigenen Akku-Messer (Thema 6). Wie genau der misst, erklärt Kapitel 5. <span class="stempel s-fest">Fest</span></p>
     </div>
     <div class="bilder">
       <figure class="bild">
@@ -375,7 +375,7 @@
     </div>
     <details class="genauer">
       <summary>Genauer: welcher Regler?</summary>
-      <p>Unser Regler heißt MCP1700-3302E. Die „33“ im Namen steht für 3,3 V. Neben ihm sitzen zwei kleine Kondensatoren mit je 1 µF. Sie glätten kurze Schwankungen, wenn der Funkchip beim Senden plötzlich mehr Strom braucht. Einen zu schwachen Akku können sie aber nicht ersetzen. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p>Unser Regler heißt MCP1700-3302E. Die „33“ im Namen steht für 3,3 V. Neben ihm sitzen laut Bauplan zwei kleine Kondensatoren mit je 1 µF, einer am Eingang und einer am Ausgang. Sie helfen, die Spannung ruhig zu halten. Einen zu schwachen Akku können sie nicht ersetzen. Ob Größe und Art der Kondensatoren zum Regler passen, prüfen wir in Kapitel 5 im Datenblatt. <span class="stempel s-entschieden">Entschieden</span></p>
     </details>
   </section>
 
@@ -490,7 +490,7 @@
     </details>
 
     <div class="text">
-      <p><strong>b) Zwei Drähte für mehrere Sensoren.</strong> Bewegungssensor und Akku-Messer hängen an denselben zwei Drähten. Damit das Funkmodul weiß, wen es gerade fragt, hat jeder Sensor eine eigene Nummer, wie eine Hausnummer. Zwei Teile an derselben Straße dürfen deshalb nie dieselbe Nummer haben. Bei uns sind es 0x18 und 0x36, das passt. Dazu kommen, wie bei jedem Modul, die Drähte für 3,3 V und GND. Diese Verbindung heißt <span class="wort">I2C</span> (sprich „I-Quadrat-C“).</p>
+      <p><strong>b) Zwei Drähte für mehrere Sensoren.</strong> Bewegungssensor und Akku-Messer hängen an denselben zwei Drähten. Damit das Funkmodul weiß, wen es gerade fragt, hat jeder Sensor eine eigene Nummer, wie eine Hausnummer. Zwei Teile an derselben Straße dürfen deshalb nie dieselbe Nummer haben. Laut Firmware sind es bei uns 0x18 und 0x36, das passt. Ob die gekauften Module wirklich diese Nummern haben, prüfen wir in Kapitel 5. Dazu kommen, wie bei jedem Modul, die Drähte für 3,3 V und GND. Diese Verbindung heißt <span class="wort">I2C</span> (sprich „I-Quadrat-C“).</p>
     </div>
     <figure class="bild">
       <svg viewBox="0 0 560 190" role="img" aria-labelledby="i1t">
@@ -624,7 +624,7 @@
           <text class="z-text" x="203" y="100" text-anchor="middle" style="fill:var(--signal-tinte)">+</text>
           <text class="z-text" x="245" y="100" text-anchor="middle">−</text>
         </svg>
-        <figcaption><strong>Plus vor der Zahl:</strong> Das rote Kabel ist am Plus. Alles richtig, der Akku darf eingesteckt werden.</figcaption>
+        <figcaption><strong>Plus vor der Zahl:</strong> Das rote Kabel ist am Plus, die Polung stimmt. Vor dem Einstecken trotzdem prüfen, ob alle Drähte richtig sitzen und nirgends ein Kurzschluss ist.</figcaption>
       </figure>
       <figure class="bild">
         <svg viewBox="0 0 300 200" role="img" aria-labelledby="mm2t">
@@ -673,7 +673,7 @@
       <li><strong>LED-Strom genau.</strong> Die 9 mA beruhen auf einem typischen Wert für rote LEDs. Den genauen Wert prüfen wir in Kapitel 5 im Datenblatt.</li>
       <li><strong>Datenblätter.</strong> Die Bauteil-Angaben hier stammen aus Firmware und Bauplan. Mit den Datenblättern geprüft werden sie in Kapitel 5.</li>
       <li><strong>Regler bei fast leerem Akku.</strong> Ab welcher Akku-Spannung der Regler keine 3,3 V mehr schafft und ob die Module bis „leer“ (3,30 V) sicher weiterlaufen.</li>
-      <li><strong>Motor.</strong> Wie viel Strom der Motor braucht, auch beim Anlaufen, und ob Transistor, 1 kΩ und Diode dafür passen.</li>
+      <li><strong>Motor.</strong> Wie viel Strom der Motor braucht, auch beim Anlaufen, und ob Transistor, 1 kΩ und die Diode 1N4148 dafür passen. Die Diode ist eine übliche Wahl für kleine Motoren, nachgewiesen ist das für unseren Motor aber noch nicht.</li>
       <li><strong>Akku.</strong> Ob der gekaufte Akku wirklich eine Schutzschaltung hat.</li>
       <li><strong>LED grün.</strong> Wie viel Strom mit 150 Ω durch die grüne LED fließt.</li>
     </ul>
