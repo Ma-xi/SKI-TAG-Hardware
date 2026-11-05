@@ -292,3 +292,16 @@ h2[id] { scroll-margin-top: 20px; }
   .blatt.mit-sprung { padding-bottom: 110px; }
 }
 @media print { .sprung, .sprung-knopf { display: none !important; } }
+
+/* Großes Bild, am Handy seitlich verschiebbar (Kapitel 4) */
+.gross { margin: 0; background: var(--karte); border: 1.5px solid var(--tinte); padding: 14px; min-width: 0; }
+.gross .rollen { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.gross svg { display: block; width: 100%; min-width: 720px; height: auto; }
+.gross figcaption { font-size: 15px; color: var(--tinte-2); margin-top: 10px; display: grid; gap: 6px; }
+.gross .wischen { display: none; font-family: var(--mono); font-size: 12px; color: var(--tinte-3); }
+@media (max-width: 760px) { .gross .wischen { display: block; } }
+.legende { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; color: var(--tinte-2); }
+.legende span { display: inline-flex; align-items: center; gap: 8px; }
+.legende i { display: inline-block; width: 28px; height: 0; border-top: 5px solid var(--signal); }
+.legende i.signal { border-top: 2px solid var(--tinte); }
+.legende i.bereich { width: 18px; height: 12px; border: 1.5px dashed var(--tinte-3); }
