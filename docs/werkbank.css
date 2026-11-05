@@ -204,7 +204,7 @@ p, ul, ol { margin: 0; }
   .steckbrief td:last-child { width: auto; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-.abschnitt { min-width: 0; }
+.abschnitt { min-width: 0; grid-template-columns: minmax(0, 1fr); }
 code { font-family: var(--mono); font-size: .88em; overflow-wrap: anywhere; }
 
 /* Tabelle mit Anforderungen (Kapitel 2) und allgemein */
@@ -239,3 +239,22 @@ code { font-family: var(--mono); font-size: .88em; overflow-wrap: anywhere; }
 .thema { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--tinte-2); background: var(--karte); border: 1px solid var(--linie); border-radius: 2px; padding: 4px 10px; cursor: pointer; }
 .thema:hover { border-color: var(--tinte); color: var(--tinte); }
 .thema:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+/* Bilder zum Erklären (Kapitel 3) */
+.bilder { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; }
+.bild { margin: 0; background: var(--karte); border: 1px solid var(--linie); padding: 14px; min-width: 0; }
+.bild svg { display: block; width: 100%; height: auto; }
+.bild figcaption { font-size: 15px; color: var(--tinte-2); margin-top: 8px; }
+.bild figcaption strong { color: var(--tinte); }
+.merke { border: 1.5px solid var(--tinte); background: var(--signal-flaeche); padding: 12px 16px; max-width: 46em; display: grid; gap: 4px; }
+.merke .mono { color: var(--signal-tinte); font-size: 12px; }
+.merke p { font-family: var(--display); font-weight: 700; font-size: 19px; font-variation-settings: "wdth" 108; line-height: 1.35; }
+details.genauer { max-width: 46em; border: 1px dashed var(--linie); background: var(--karte); padding: 10px 14px; }
+details.genauer summary { cursor: pointer; font-family: var(--mono); font-size: 13px; color: var(--tinte-2); }
+details.genauer summary:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+details.genauer[open] summary { margin-bottom: 8px; }
+details.genauer p + p { margin-top: 8px; }
+.wegweiser { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 8px 16px; max-width: 46em; }
+.wegweiser a { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px; text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--linie); }
+.wegweiser .mono { color: var(--signal-tinte); }
+.wegweiser a:hover span:last-child { text-decoration: underline; }
