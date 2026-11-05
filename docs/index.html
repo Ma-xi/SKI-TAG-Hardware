@@ -158,9 +158,13 @@ p { margin: 0; }
 .stempel-feld p { color: var(--tinte-2); font-size: 16px; }
 
 /* Inhalt */
-.inhalt { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 28px 40px; }
-.gruppe { display: grid; gap: 4px; align-content: start; min-width: 0; }
-.gruppe h3 { font-size: 15px; font-family: var(--mono); font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--tinte-3); font-variation-settings: normal; padding-bottom: 6px; border-bottom: 1px solid var(--linie); }
+.inhalt { display: grid; counter-reset: teil; border-top: 2px solid var(--tinte); background: var(--karte); border-bottom: 2px solid var(--tinte); }
+.gruppe { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 0 32px; padding: 6px 18px; border-bottom: 1px solid var(--linie); counter-increment: teil; min-width: 0; }
+.gruppe:last-child { border-bottom: 0; }
+.gruppe h3 { font-family: var(--display); font-size: 20px; font-weight: 750; line-height: 1.2; font-variation-settings: "wdth" 110; padding: 14px 0; align-self: start; grid-row: 1 / span 6; }
+.gruppe h3::before { content: "TEIL " counter(teil); display: block; font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .1em; color: var(--signal-tinte); margin-bottom: 4px; }
+.gruppe > :not(h3) { grid-column: 2; }
+.gruppe .kapitel:last-child { border-bottom: 0; }
 .kapitel { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--linie); text-decoration: none; }
 .kapitel .nr { font-family: var(--mono); font-size: 14px; color: var(--tinte-3); font-variant-numeric: tabular-nums; }
 .kapitel strong { display: block; font-family: var(--display); font-size: 19px; font-weight: 700; line-height: 1.25; font-variation-settings: "wdth" 108; }
@@ -193,6 +197,11 @@ a.kapitel:hover strong { color: var(--signal-tinte); text-decoration-color: curr
   .titel > div { order: -3; margin-top: -24px; }
   .schriftfeld { order: -2; justify-self: start; margin-top: -24px; width: fit-content; max-width: 100%; grid-template-columns: auto minmax(0, 1fr); }
   .zeichnung { order: -1; margin-top: -24px; }
+}
+@media (max-width: 680px) {
+  .gruppe { grid-template-columns: minmax(0, 1fr); padding: 4px 14px; }
+  .gruppe > :not(h3) { grid-column: 1; }
+  .gruppe h3 { padding: 14px 0 6px; border-bottom: 1px solid var(--linie); grid-row: auto; }
 }
 @media (max-width: 420px) {
   .kapitel { grid-template-columns: 34px minmax(0, 1fr); }
@@ -406,6 +415,6 @@ a.kapitel:hover strong { color: var(--signal-tinte); text-decoration-color: curr
 
   <footer class="fuss">
     <span>SkiTag · Werkstattbuch · Blatt 00</span>
-    <span>HTL Braunau · 2026</span>
+    <span>2026</span>
   </footer>
 </div>

@@ -258,3 +258,37 @@ details.genauer p + p { margin-top: 8px; }
 .wegweiser a { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px; text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--linie); }
 .wegweiser .mono { color: var(--signal-tinte); }
 .wegweiser a:hover span:last-child { text-decoration: underline; }
+
+/* Sprungmarken (sprung.js) */
+h2[id] { scroll-margin-top: 20px; }
+.sprung { display: none; }
+.sprung-kopf { color: var(--tinte-3); font-size: 11.5px; margin-bottom: 8px; }
+.sprung ol { list-style: none; margin: 0; padding: 0; display: grid; border-left: 1px solid var(--linie); }
+.sprung ol a { display: block; padding: 5px 0 5px 12px; margin-left: -1px; border-left: 2px solid transparent; text-decoration: none; color: var(--tinte-2); font-size: 14.5px; line-height: 1.35; }
+.sprung ol a:hover { color: var(--tinte); border-left-color: var(--linie); }
+.sprung ol a[aria-current="true"] { color: var(--signal-tinte); border-left-color: var(--signal); font-weight: 600; }
+.sprung-oben { display: inline-block; margin-top: 12px; font-size: 12px; color: var(--tinte-3); text-decoration: none; }
+.sprung-oben:hover { color: var(--tinte); }
+.sprung-knopf { display: none; }
+
+@media (min-width: 1180px) {
+  .blatt.mit-sprung { max-width: 1320px; grid-template-columns: minmax(0, 1fr) 210px; column-gap: 56px; }
+  .blatt.mit-sprung > * { grid-column: 1; }
+  .blatt.mit-sprung > .sprung { display: block; grid-column: 2; align-self: start; position: sticky; top: 24px; max-height: calc(100vh - 48px); overflow-y: auto; padding-top: 4px; }
+}
+@media (max-width: 1179px) {
+  .sprung-knopf {
+    display: block; position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 20;
+    font-size: 13px; padding: 10px 16px; border-radius: 3px; border: 1.5px solid var(--tinte);
+    background: var(--signal); color: #fff; border-color: var(--signal); box-shadow: 0 2px 10px rgba(0,0,0,.18); cursor: pointer;
+  }
+  .sprung-knopf:focus-visible { outline: 2px solid var(--tinte); outline-offset: 3px; }
+  .sprung.offen {
+    display: block; position: fixed; z-index: 19; right: max(16px, env(safe-area-inset-right, 0px)); bottom: 70px;
+    width: min(320px, calc(100vw - 32px)); max-height: 70vh; overflow-y: auto;
+    background: var(--karte); border: 1.5px solid var(--tinte); padding: 14px 16px; box-shadow: 0 6px 24px rgba(0,0,0,.22);
+  }
+  .sprung.offen ol a { padding-top: 8px; padding-bottom: 8px; font-size: 15.5px; }
+  .blatt.mit-sprung { padding-bottom: 110px; }
+}
+@media print { .sprung, .sprung-knopf { display: none !important; } }
