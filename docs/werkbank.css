@@ -305,3 +305,51 @@ h2[id] { scroll-margin-top: 20px; }
 .legende i { display: inline-block; width: 28px; height: 0; border-top: 5px solid var(--signal); }
 .legende i.signal { border-top: 2px solid var(--tinte); }
 .legende i.bereich { width: 18px; height: 12px; border: 1.5px dashed var(--tinte-3); }
+
+/* Interaktive Bilder (kap04.js) */
+.schalter-reihe { display: flex; flex-wrap: wrap; gap: 8px; }
+.schalter { font-family: var(--mono); font-size: 13px; padding: 7px 12px; border: 1.5px solid var(--tinte); border-radius: 3px; background: var(--karte); color: var(--tinte); cursor: pointer; }
+.schalter:hover { background: var(--signal-flaeche); }
+.schalter[aria-pressed="true"], .schalter.voll { background: var(--signal); border-color: var(--signal); color: #fff; }
+.schalter:disabled { opacity: .45; cursor: default; background: var(--karte); }
+.schalter:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.info-feld { display: block; border-left: 3px solid var(--signal); padding: 6px 10px; background: var(--papier); color: var(--tinte); min-height: 2.6em; }
+.b-hit { fill: transparent; stroke: transparent; stroke-width: 3; cursor: pointer; }
+.b-hit:hover { stroke: var(--signal); stroke-dasharray: 4 3; }
+.b-hit:focus { outline: none; }
+.b-hit:focus-visible, .b-hit.gewaehlt { stroke: var(--signal); stroke-dasharray: none; }
+@keyframes fluss { to { stroke-dashoffset: -40; } }
+svg.zeige-strom .b-strom { stroke-dasharray: 14 6; animation: fluss 1.2s linear infinite; }
+svg.zeige-strom .b-sig { opacity: .2; }
+svg.zeige-sig .b-sig { stroke: var(--signal-tinte); stroke-width: 2.6; stroke-dasharray: 8 5; animation: fluss 1s linear infinite; }
+svg.zeige-sig .b-strom { opacity: .2; }
+
+/* Notruf-Spieler */
+.spieler figcaption { display: grid; gap: 8px; }
+.s-zaehler { color: var(--signal-tinte); font-size: 12.5px; }
+.s-text { color: var(--tinte); font-size: 16px; min-height: 3em; }
+.s-pfad { fill: none; stroke: var(--linie); stroke-width: 2; transition: stroke .3s, stroke-width .3s; }
+.s-pfad.s-funk { stroke-dasharray: 6 5; }
+.s-pfad.an { stroke: var(--signal); stroke-width: 3.5; }
+.s-box { transition: opacity .3s; }
+.spieler.laeuft .s-box:not(.an) { opacity: .4; }
+.s-punkt { fill: var(--signal); stroke: var(--tinte); stroke-width: 1.5; opacity: 0; }
+.s-punkt.an { opacity: 1; }
+.s-led { fill: var(--karte); stroke: var(--tinte); stroke-width: 1.2; }
+.s-wellen path { fill: none; stroke: var(--signal); stroke-width: 2.5; opacity: 0; }
+@keyframes brummen { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+@keyframes blinken { 50% { fill: var(--signal); } }
+@keyframes welle { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
+#b-motor.brummt { animation: brummen .12s linear 10; transform-box: fill-box; }
+#b-motor.brummt .s-led { animation: blinken .5s steps(1) 4; }
+.s-wellen.an path { animation: welle 1.2s ease-out 2; }
+.s-wellen.an path:nth-child(2) { animation-delay: .15s; }
+.s-wellen.an path:nth-child(3) { animation-delay: .3s; }
+#notruf-schritte li { transition: background .3s; }
+#notruf-schritte li.aktiv { background: var(--signal-flaeche); }
+@media (prefers-reduced-motion: reduce) {
+  svg.zeige-strom .b-strom, svg.zeige-sig .b-sig { animation: none; }
+  #b-motor.brummt { animation: none; }
+  #b-motor.brummt .s-led { animation: none; fill: var(--signal); }
+  .s-wellen.an path { animation: none; opacity: 1; }
+}
