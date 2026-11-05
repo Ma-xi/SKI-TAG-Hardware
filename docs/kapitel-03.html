@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kapitel 3 · Elektronik-Wissen für den Chip · SkiTag Werkstattbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="werkbank.css">
+<script src="thema.js"></script>
+<script src="sprung.js" defer></script>
+
+<div class="blatt">
+
+  <div class="kopf">
+    <div class="leiste">
+      <a class="marke mono" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="5" fill="var(--signal)"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#fff" stroke-width="2"/></svg>
+        SkiTag · Hardware-Buch
+      </a>
+      <button class="thema mono" type="button" hidden></button>
+    </div>
+    <div class="schriftfeld" aria-label="Angaben zu diesem Blatt">
+      <div>Blatt</div><div>03 · Elektronik-Wissen</div>
+      <div>Bereich</div><div>Grundlagen</div>
+      <div>Verfasser</div><div>Maximilian Joszt</div>
+      <div>Stand</div><div>05.11.2026</div>
+    </div>
+  </div>
+
+  <div class="kap-titel">
+    <div>
+      <p class="kap-nr">KAP. 03 · GRUNDLAGEN</p>
+      <h1>Elektronik-Wissen für den Chip</h1>
+      <p class="einstieg">Du musst kein Elektroniker werden. Hier steht nur, was du für den SkiTag-Chip brauchst. Jedes Thema hat ein Bild und ein Beispiel aus dem Chip.</p>
+      <p class="lesezeit mono">Schwierigere Details stecken in grauen Kästen „Genauer“. Die kannst du beim ersten Lesen überspringen.</p>
+    </div>
+
+    <figure class="zeichnung">
+      <svg viewBox="0 0 460 400" role="img" aria-labelledby="zt zd">
+        <title id="zt">Explosionszeichnung des Chips, Elektronik hervorgehoben</title>
+        <desc id="zd">Die Schichten des Chips von oben nach unten. Orange sind die Platine mit den Modulen, Lade-Modul und Motor sowie der Akku, also die Elektronik, um die es in diesem Kapitel geht.</desc>
+        <line class="z-hilfe" x1="150" y1="18" x2="150" y2="372"/>
+        <g class="z-blass">
+          <rect class="z-modul" x="122" y="26" width="56" height="10" rx="5"/>
+          <rect class="z-flaeche" x="136" y="14" width="28" height="16" rx="4"/>
+          <path class="z-linie" d="M182 22 H 300"/>
+          <text class="z-nr" x="306" y="18">KAP. 11</text>
+          <text class="z-text" x="306" y="31">Knopf und Kragen</text>
+          <path class="z-flaeche" d="M48 66 H252 a10 10 0 0 1 10 10 V82 H38 V76 a10 10 0 0 1 10 -10 Z"/>
+          <rect class="z-flaeche" x="134" y="58" width="16" height="10" rx="2"/>
+          <circle cx="210" cy="74" r="4" fill="var(--tinte-3)"/>
+          <path class="z-linie" d="M262 74 H 300"/>
+          <text class="z-nr" x="306" y="70">KAP. 12, 15</text>
+          <text class="z-text" x="306" y="83">Deckel mit LED</text>
+        </g>
+        <rect class="z-signal" x="56" y="118" width="188" height="8" rx="1"/>
+        <rect class="z-weich" x="66" y="104" width="54" height="14"/>
+        <rect class="z-weich" x="130" y="98" width="46" height="20"/>
+        <rect class="z-weich" x="186" y="108" width="22" height="10"/>
+        <rect class="z-weich" x="214" y="108" width="22" height="10"/>
+        <text class="z-klein" x="70" y="114" style="fill:var(--signal-tinte)">RAK</text>
+        <text class="z-klein" x="140" y="112" style="fill:var(--signal-tinte)">GPS</text>
+        <path class="z-linie" d="M244 116 H 300"/>
+        <text class="z-nr aktiv" x="306" y="112">KAP. 4–8</text>
+        <text class="z-text" x="306" y="125">Platine mit Modulen</text>
+        <rect class="z-weich" x="70" y="160" width="40" height="12"/>
+        <rect class="z-weich" x="196" y="158" width="38" height="14" rx="7"/>
+        <path class="z-linie" d="M234 165 H 300"/>
+        <text class="z-nr aktiv" x="306" y="161">KAP. 10, 12</text>
+        <text class="z-text" x="306" y="174">Lade-Modul, Motor</text>
+        <rect class="z-signal" x="62" y="204" width="176" height="18" rx="3"/>
+        <text x="122" y="217" style="font-family:var(--mono);font-size:10.5px;fill:#fff">LiPo 1000 mAh</text>
+        <path class="z-linie" d="M238 213 H 300"/>
+        <text class="z-nr aktiv" x="306" y="209">KAP. 9</text>
+        <text class="z-text" x="306" y="222">Akku</text>
+        <g class="z-blass">
+          <rect class="z-flaeche" x="78" y="254" width="144" height="10" rx="2"/>
+          <ellipse cx="150" cy="259" rx="44" ry="3" fill="none" stroke="var(--tinte-3)" stroke-width="1.2"/>
+          <path class="z-linie" d="M222 259 H 300"/>
+          <text class="z-nr" x="306" y="255">KAP. 10</text>
+          <text class="z-text" x="306" y="268">Qi-Empfänger</text>
+          <path class="z-flaeche" d="M38 296 H262 V330 a12 12 0 0 1 -12 12 H50 a12 12 0 0 1 -12 -12 Z"/>
+          <path class="z-linie" d="M262 318 H 300"/>
+          <text class="z-nr" x="306" y="314">KAP. 15</text>
+          <text class="z-text" x="306" y="327">Unterteil und Hülle</text>
+        </g>
+        <path class="z-hilfe" d="M38 372 H262"/>
+        <path class="z-linie" d="M38 366 V378 M262 366 V378"/>
+        <text class="z-klein" x="118" y="392">120 mm mit Hülle</text>
+      </svg>
+      <figcaption><span>Orange: die Elektronik im Chip</span><span>nicht maßstäblich</span></figcaption>
+    </figure>
+  </div>
+
+  <section class="abschnitt" aria-labelledby="h-weg">
+    <header>
+      <span class="mono">ÜBERSICHT</span>
+      <h2 id="h-weg">Was du hier lernst</h2>
+    </header>
+    <ol class="wegweiser">
+      <li><a href="#t1"><span class="mono">1</span><span>Strom ist wie Wasser</span></a></li>
+      <li><a href="#t2"><span class="mono">2</span><span>Strom fließt nur im Kreis</span></a></li>
+      <li><a href="#t3"><span class="mono">3</span><span>Warum die LED einen Widerstand braucht</span></a></li>
+      <li><a href="#t4"><span class="mono">4</span><span>Der Akku</span></a></li>
+      <li><a href="#t5"><span class="mono">5</span><span>Der Spannungsregler</span></a></li>
+      <li><a href="#t6"><span class="mono">6</span><span>Module und Platine</span></a></li>
+      <li><a href="#t7"><span class="mono">7</span><span>Wie die Teile miteinander reden</span></a></li>
+      <li><a href="#t8"><span class="mono">8</span><span>Der Motor braucht einen Helfer</span></a></li>
+      <li><a href="#t9"><span class="mono">9</span><span>Messen mit dem Multimeter</span></a></li>
+    </ol>
+  </section>
+
+  <!-- 1 Wasser -->
+  <section class="abschnitt" id="t1" aria-labelledby="h-t1">
+    <header>
+      <span class="mono">THEMA 1</span>
+      <h2 id="h-t1">Strom ist wie Wasser</h2>
+    </header>
+    <div class="text">
+      <p>Elektrizität kann man nicht sehen. Darum hilft ein Vergleich mit Wasser in einer Leitung:</p>
+    </div>
+    <div class="bilder">
+      <figure class="bild">
+        <svg viewBox="0 0 300 190" role="img" aria-labelledby="w1t">
+          <title id="w1t">Wasserleitung: Ein hoher Tank drückt Wasser durch ein Rohr mit einer Engstelle zu einem Wasserrad.</title>
+          <rect class="z-flaeche" x="14" y="20" width="56" height="120" rx="3"/>
+          <rect class="z-weich" x="16" y="48" width="52" height="90"/>
+          <text class="z-klein" x="42" y="38" text-anchor="middle">Tank</text>
+          <path class="z-linie" d="M70 128 H 120 M70 140 H 120"/>
+          <path class="z-linie" d="M120 128 L136 132 H160 L176 128 H 214 M120 140 L136 136 H160 L176 140 H 214"/>
+          <circle class="z-flaeche" cx="236" cy="134" r="20"/>
+          <path class="z-linie" d="M236 114 V154 M216 134 H256 M222 120 L250 148 M250 120 L222 148"/>
+          <path d="M84 162 h28" stroke="var(--signal)" stroke-width="2.5" fill="none"/>
+          <path d="M106 157 l8 5 -8 5" stroke="var(--signal)" stroke-width="2.5" fill="none"/>
+          <text class="z-text" x="42" y="178" text-anchor="middle">Druck</text>
+          <text class="z-text" x="100" y="184" text-anchor="middle" style="fill:var(--signal-tinte)">fließt</text>
+          <text class="z-text" x="148" y="118" text-anchor="middle">Engstelle</text>
+          <text class="z-text" x="236" y="178" text-anchor="middle">Wasserrad</text>
+        </svg>
+        <figcaption><strong>Wasser:</strong> Der hohe Tank drückt. Das Wasser fließt durchs Rohr. Die Engstelle bremst es. Das Wasserrad dreht sich.</figcaption>
+      </figure>
+      <figure class="bild">
+        <svg viewBox="0 0 300 190" role="img" aria-labelledby="w2t">
+          <title id="w2t">Stromkreis: Ein Akku drückt Strom durch einen Widerstand zu einer LED.</title>
+          <rect class="z-flaeche" x="14" y="60" width="56" height="80" rx="4"/>
+          <rect class="z-signal" x="32" y="52" width="20" height="8" rx="1"/>
+          <text class="z-text" x="42" y="96" text-anchor="middle">Akku</text>
+          <text class="z-klein" x="42" y="112" text-anchor="middle">3,7 V</text>
+          <path class="z-linie" d="M42 52 V 30 H 120"/>
+          <rect class="z-flaeche" x="120" y="22" width="56" height="16" rx="2"/>
+          <path class="z-linie" d="M176 30 H 236 V 110"/>
+          <path class="z-signal" d="M224 110 H248 L236 130 Z"/>
+          <path class="z-linie" d="M224 130 H248 M236 130 V 170 H 42 V 140"/>
+          <path d="M252 104 l10 -8 M256 114 l10 -8" stroke="var(--signal)" stroke-width="2" fill="none"/>
+          <path d="M84 158 h28" stroke="var(--signal)" stroke-width="2.5" fill="none"/>
+          <path d="M92 153 l-8 5 8 5" stroke="var(--signal)" stroke-width="2.5" fill="none"/>
+          <text class="z-text" x="148" y="58" text-anchor="middle">Widerstand</text>
+          <text class="z-text" x="256" y="140">LED</text>
+          <text class="z-text" x="100" y="184" text-anchor="middle" style="fill:var(--signal-tinte)">Strom fließt</text>
+        </svg>
+        <figcaption><strong>Strom:</strong> Der Akku drückt. Der Strom fließt durch die Drähte. Der Widerstand bremst ihn. Die LED leuchtet.</figcaption>
+      </figure>
+    </div>
+    <table class="tabelle">
+      <thead><tr><th>Wasser</th><th>Elektrik</th><th>Einheit</th></tr></thead>
+      <tbody>
+        <tr><th>Druck</th><td data-label="ELEKTRIK"><span class="wort">Spannung</span></td><td data-label="EINHEIT">Volt (V). Der Akku im Chip hat etwa 3,7 V.</td></tr>
+        <tr><th>wie viel fließt</th><td data-label="ELEKTRIK"><span class="wort">Strom</span></td><td data-label="EINHEIT">Milliampere (mA). Durch die LED fließen etwa 9 mA.</td></tr>
+        <tr><th>Engstelle</th><td data-label="ELEKTRIK"><span class="wort">Widerstand</span></td><td data-label="EINHEIT">Ohm (Ω). Vor der LED sitzen 150 Ω.</td></tr>
+      </tbody>
+    </table>
+    <div class="merke">
+      <span class="mono">MERKEN</span>
+      <p>Mehr Spannung heißt mehr Strom. Mehr Widerstand heißt weniger Strom.</p>
+    </div>
+  </section>
+
+  <!-- 2 Kreis -->
+  <section class="abschnitt" id="t2" aria-labelledby="h-t2">
+    <header>
+      <span class="mono">THEMA 2</span>
+      <h2 id="h-t2">Strom fließt nur im Kreis</h2>
+    </header>
+    <div class="text">
+      <p>Strom fließt vom Plus des Akkus durch das Bauteil und zurück zum Minus. Ist der Kreis irgendwo unterbrochen, fließt nichts. Beim Bauen passiert das oft durch eine schlechte Lötstelle. <span class="stempel s-fest">Fest</span></p>
+    </div>
+    <div class="bilder">
+      <figure class="bild">
+        <svg viewBox="0 0 260 150" role="img" aria-labelledby="k1t">
+          <title id="k1t">Geschlossener Kreis: Die LED leuchtet.</title>
+          <rect class="z-flaeche" x="16" y="50" width="44" height="60" rx="4"/>
+          <text class="z-text" x="38" y="76" text-anchor="middle">+</text>
+          <text class="z-text" x="38" y="98" text-anchor="middle">−</text>
+          <path class="z-linie" d="M60 66 H 120 V 30 H 200 V 62"/>
+          <path class="z-signal" d="M188 62 H212 L200 80 Z"/>
+          <path class="z-linie" d="M188 80 H212 M200 80 V 120 H 120 V 94 H 60"/>
+          <path d="M216 56 l10 -8 M220 66 l10 -8" stroke="var(--signal)" stroke-width="2" fill="none"/>
+          <text class="z-text" x="130" y="142" text-anchor="middle">LED leuchtet</text>
+        </svg>
+        <figcaption><strong>Geschlossen:</strong> Der Strom kommt rundherum. Die LED leuchtet.</figcaption>
+      </figure>
+      <figure class="bild">
+        <svg viewBox="0 0 260 150" role="img" aria-labelledby="k2t">
+          <title id="k2t">Offener Kreis: Eine Lücke im Draht, die LED bleibt aus.</title>
+          <rect class="z-flaeche" x="16" y="50" width="44" height="60" rx="4"/>
+          <text class="z-text" x="38" y="76" text-anchor="middle">+</text>
+          <text class="z-text" x="38" y="98" text-anchor="middle">−</text>
+          <path class="z-linie" d="M60 66 H 120 V 30 H 146 M166 30 H 200 V 62"/>
+          <circle cx="156" cy="30" r="12" fill="none" stroke="var(--signal)" stroke-width="2" stroke-dasharray="3 3"/>
+          <path class="z-flaeche" d="M188 62 H212 L200 80 Z"/>
+          <path class="z-linie" d="M188 80 H212 M200 80 V 120 H 120 V 94 H 60"/>
+          <text class="z-klein" x="156" y="14" text-anchor="middle" style="fill:var(--signal-tinte)">Lücke</text>
+          <text class="z-text" x="130" y="142" text-anchor="middle">LED bleibt aus</text>
+        </svg>
+        <figcaption><strong>Offen:</strong> Eine Lücke, zum Beispiel eine schlechte Lötstelle. Kein Strom, die LED bleibt aus.</figcaption>
+      </figure>
+    </div>
+    <div class="text">
+      <p><strong>GND:</strong> Den Minus-Anschluss nennt man in der Elektronik <span class="wort">GND</span> (englisch „Ground“, sprich „Graund“). Alle Teile im Chip hängen am selben GND, wie Häuser an einem gemeinsamen Abfluss. Fehlt bei einem Modul der GND-Draht, funktioniert es nicht.</p>
+      <p><strong>Polung:</strong> Plus muss an Plus, Minus an Minus. Falsch herum gehen viele Teile sofort kaputt. Beim Akku ist das besonders wichtig, denn bei gleichen Steckern sind Plus und Minus nicht immer gleich belegt. Darum messen wir jeden Akku, bevor wir ihn einstecken (Thema 9). <span class="stempel s-entschieden">Entschieden</span></p>
+    </div>
+  </section>
+
+  <!-- 3 LED -->
+  <section class="abschnitt" id="t3" aria-labelledby="h-t3">
+    <header>
+      <span class="mono">THEMA 3</span>
+      <h2 id="h-t3">Warum die LED einen Widerstand braucht</h2>
+    </header>
+    <div class="text">
+      <p>Eine LED bremst den Strom selbst fast gar nicht. Ohne Bremse fließt zu viel Strom, und sie brennt durch. Der Widerstand davor ist die Bremse.</p>
+    </div>
+    <div class="bilder">
+      <figure class="bild">
+        <svg viewBox="0 0 260 120" role="img" aria-labelledby="l1t">
+          <title id="l1t">Ohne Widerstand: zu viel Strom, die LED brennt durch.</title>
+          <text class="z-text" x="20" y="64">3,3 V</text>
+          <path class="z-linie" d="M60 60 H 150"/>
+          <path class="z-flaeche" d="M150 46 V74 L176 60 Z"/>
+          <path class="z-linie" d="M176 46 V74 M176 60 H 220"/>
+          <text class="z-text" x="224" y="64">GND</text>
+          <path d="M150 30 l8 10 l-6 2 l8 12" stroke="var(--signal)" stroke-width="2.5" fill="none"/>
+          <path d="M176 28 l-4 12 l6 0 l-4 12" stroke="var(--signal)" stroke-width="2.5" fill="none"/>
+          <text class="z-text" x="130" y="106" text-anchor="middle" style="fill:var(--signal-tinte)">zu viel Strom: kaputt</text>
+        </svg>
+        <figcaption><strong>Ohne Widerstand:</strong> Die LED leuchtet kurz sehr hell und ist dann kaputt.</figcaption>
+      </figure>
+      <figure class="bild">
+        <svg viewBox="0 0 260 120" role="img" aria-labelledby="l2t">
+          <title id="l2t">Mit Widerstand: passender Strom, die LED leuchtet.</title>
+          <text class="z-text" x="6" y="64">3,3 V</text>
+          <path class="z-linie" d="M44 60 H 64"/>
+          <rect class="z-flaeche" x="64" y="50" width="54" height="20" rx="2"/>
+          <text class="z-klein" x="91" y="64" text-anchor="middle">150 Ω</text>
+          <path class="z-linie" d="M118 60 H 150"/>
+          <path class="z-signal" d="M150 46 V74 L176 60 Z"/>
+          <path class="z-linie" d="M176 46 V74 M176 60 H 220"/>
+          <text class="z-text" x="224" y="64">GND</text>
+          <path d="M158 38 l10 -10 M168 44 l10 -10" stroke="var(--signal)" stroke-width="2" fill="none"/>
+          <text class="z-text" x="130" y="106" text-anchor="middle">etwa 9 mA: leuchtet</text>
+        </svg>
+        <figcaption><strong>Mit Widerstand:</strong> Es fließt gerade so viel Strom, dass die LED gut leuchtet.</figcaption>
+      </figure>
+    </div>
+    <div class="text">
+      <p>Wie viel Strom fließt, rechnet man mit einer einzigen Formel aus. Sie heißt Ohmsches Gesetz und ist die einzige Formel, die du für den Chip brauchst: <span class="stempel s-fest">Fest</span></p>
+    </div>
+    <div class="merke">
+      <span class="mono">FORMEL</span>
+      <p>Strom = Spannung ÷ Widerstand</p>
+    </div>
+    <div class="text">
+      <p><strong>Ergebnis:</strong> Durch die rote LED fließen etwa 9 mA. Das reicht, damit man sie gut sieht, und schadet nichts. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+    </div>
+    <ol class="rechnung">
+      <li>Der Funkchip gibt 3,3 V auf die LED, wenn sie leuchten soll.</li>
+      <li>Die rote LED „schluckt“ selbst etwa 2 V. Das ist ein typischer Wert für rote LEDs.</li>
+      <li>Für den Widerstand bleibt der Rest: 3,3 V − 2 V = 1,3 V.</li>
+      <li>Jetzt die Formel: Strom = 1,3 V ÷ 150 Ω = 0,0087 A.</li>
+      <li>0,0087 A sind 8,7 mA, also etwa 9 mA.</li>
+    </ol>
+    <details class="genauer">
+      <summary>Genauer: Warum nur „geschätzt“?</summary>
+      <p>Die 2 V sind ein typischer Wert für rote LEDs. Unsere LED kann etwas abweichen. Den genauen Wert lesen wir in Kapitel 5 im Datenblatt nach. Die grüne Farbe der LED ist genauso angeschlossen, nur an einem anderen Pin.</p>
+    </details>
+  </section>
+
+  <!-- 4 Akku -->
+  <section class="abschnitt" id="t4" aria-labelledby="h-t4">
+    <header>
+      <span class="mono">THEMA 4</span>
+      <h2 id="h-t4">Der Akku</h2>
+    </header>
+    <div class="text">
+      <p>Im Chip steckt ein <span class="wort">LiPo-Akku</span>, wie in vielen Handys. An seiner Spannung sieht man, wie voll er ist, ähnlich wie bei einer Tankanzeige im Auto. <span class="stempel s-fest">Fest</span></p>
+    </div>
+    <div class="bilder">
+      <figure class="bild">
+        <svg viewBox="0 0 300 200" role="img" aria-labelledby="a1t">
+          <title id="a1t">Tankanzeige des Akkus: voll bei 4,2 Volt, fast leer unter 3,45 Volt, leer unter 3,30 Volt.</title>
+          <rect class="z-flaeche" x="30" y="16" width="60" height="170" rx="6"/>
+          <rect class="z-linie" x="48" y="8" width="24" height="8" rx="2"/>
+          <rect x="36" y="22" width="48" height="110" rx="2" style="fill:var(--raster)"/>
+          <rect x="36" y="132" width="48" height="26" style="fill:var(--signal-flaeche)"/>
+          <rect class="z-signal" x="36" y="158" width="48" height="22" rx="2" style="stroke:none"/>
+          <path class="z-hilfe" d="M90 26 H 130 M90 132 H 130 M90 158 H 130"/>
+          <text class="z-text" x="136" y="30">4,2 V · voll</text>
+          <text class="z-text" x="136" y="80">ca. 3,7 V · normal</text>
+          <text class="z-text" x="136" y="136">3,45 V · fast leer</text>
+          <text class="z-text" x="136" y="162" style="fill:var(--signal-tinte)">3,30 V · leer</text>
+        </svg>
+        <figcaption>Je leerer der Akku, desto niedriger die Spannung. Bei 3,45 V leuchtet der Chip rot, bei 3,30 V blinkt er alle 2 Sekunden rot.</figcaption>
+      </figure>
+      <figure class="bild">
+        <svg viewBox="0 0 300 200" role="img" aria-labelledby="a2t">
+          <title id="a2t">1000 Milliamperestunden: 100 Milliampere für 10 Stunden oder 200 Milliampere für 5 Stunden.</title>
+          <text class="z-text" x="10" y="30">Akku mit 1000 mAh reicht für …</text>
+          <rect class="z-weich" x="10" y="52" width="270" height="34" rx="2"/>
+          <text class="z-text" x="20" y="74">100 mA  →  10 Stunden</text>
+          <rect class="z-signal" x="10" y="104" width="135" height="34" rx="2"/>
+          <text x="20" y="126" style="font-family:var(--mono);font-size:11.5px;fill:#fff">200 mA → 5 h</text>
+          <text class="z-klein" x="10" y="170">doppelt so viel Strom = halb so lang</text>
+        </svg>
+        <figcaption><strong>mAh</strong> heißt Milliampere-Stunden. 1000 mAh sind zum Beispiel 100 mA für 10 Stunden. Wie viel der Chip wirklich braucht, steht in Kapitel 9.</figcaption>
+      </figure>
+    </div>
+    <div class="merke">
+      <span class="mono">VORSICHT</span>
+      <p>Ein LiPo-Akku kann heiß werden und brennen, wenn Plus und Minus direkt verbunden werden oder wenn er beschädigt wird. Nie knicken, nie anstechen, nie bei eingestecktem Akku löten.</p>
+    </div>
+    <details class="genauer">
+      <summary>Genauer: Schutzschaltung und Kurzschluss</summary>
+      <p>Werden Plus und Minus direkt verbunden, nennt man das <span class="wort">Kurzschluss</span>. Dann fließt sehr viel Strom. Unser Akku hat eine eingebaute Schutzschaltung, die in so einem Fall abschaltet. Verlassen sollte man sich darauf trotzdem nicht. <span class="stempel s-fest">Fest</span></p>
+      <p>Die Grenzen 3,45 V und 3,30 V sind in der Firmware eingestellt. <span class="stempel s-entschieden">Entschieden</span></p>
+    </details>
+  </section>
+
+  <!-- 5 Regler -->
+  <section class="abschnitt" id="t5" aria-labelledby="h-t5">
+    <header>
+      <span class="mono">THEMA 5</span>
+      <h2 id="h-t5">Der Spannungsregler</h2>
+    </header>
+    <div class="text">
+      <p>Die Spannung des Akkus sinkt im Lauf des Tages von 4,2 V auf etwa 3,3 V. Die Module im Chip wollen aber immer genau 3,3 V. Der <span class="wort">Spannungsregler</span> sorgt dafür: Er macht aus der schwankenden Spannung gleichmäßige 3,3 V.</p>
+    </div>
+    <figure class="bild">
+      <svg viewBox="0 0 560 150" role="img" aria-labelledby="r1t">
+        <title id="r1t">Spannungsregler: Links sinkt die Akku-Spannung von 4,2 auf 3,3 Volt, rechts kommen immer 3,3 Volt heraus.</title>
+        <path class="z-hilfe" d="M20 120 H 200"/>
+        <path d="M20 34 C 70 44, 120 70, 200 96" stroke="var(--signal)" stroke-width="3" fill="none"/>
+        <text class="z-klein" x="20" y="24">4,2 V</text>
+        <text class="z-klein" x="168" y="114">3,3 V</text>
+        <text class="z-text" x="110" y="142" text-anchor="middle">Akku: wird weniger</text>
+        <path class="z-linie" d="M206 80 H 236"/>
+        <path class="z-linie" d="M228 74 L238 80 L228 86"/>
+        <rect class="z-signal" x="242" y="54" width="92" height="52" rx="4"/>
+        <text x="288" y="85" text-anchor="middle" style="font-family:var(--mono);font-size:13px;fill:#fff">Regler</text>
+        <path class="z-linie" d="M340 80 H 370"/>
+        <path class="z-linie" d="M362 74 L372 80 L362 86"/>
+        <path class="z-hilfe" d="M380 120 H 540"/>
+        <path d="M380 80 H 540" stroke="var(--tinte)" stroke-width="3" fill="none"/>
+        <text class="z-klein" x="380" y="70">3,3 V</text>
+        <text class="z-text" x="460" y="142" text-anchor="middle">Module: immer gleich</text>
+      </svg>
+      <figcaption>Wie ein Druckminderer an einer Gasflasche: Egal wie voll die Flasche ist, hinten kommt immer der gleiche Druck heraus.</figcaption>
+    </figure>
+    <details class="genauer">
+      <summary>Genauer: welcher Regler?</summary>
+      <p>Unser Regler heißt MCP1700-3302E. Die „33“ im Namen steht für 3,3 V. Neben ihm sitzen zwei kleine Kondensatoren mit je 1 µF. Sie glätten die Spannung, wenn der Funkchip beim Senden plötzlich mehr Strom braucht. <span class="stempel s-entschieden">Entschieden</span></p>
+    </details>
+  </section>
+
+  <!-- 6 Module -->
+  <section class="abschnitt" id="t6" aria-labelledby="h-t6">
+    <header>
+      <span class="mono">THEMA 6</span>
+      <h2 id="h-t6">Module und Platine</h2>
+    </header>
+    <div class="text">
+      <p>Ein <span class="wort">Modul</span> ist eine kleine fertige Platine. Der eigentliche Chip und alle seine kleinen Helfer sind schon aufgelötet. Wir müssen nur noch Drähte an die Anschlüsse löten. Diese Anschlüsse heißen <span class="wort">Pins</span>. Das ist viel leichter, als winzige Bauteile selbst zu löten.</p>
+      <p><strong>Pin-Namen musst du dir nicht merken.</strong> Jeder Pin hat einen kurzen Namen, zum Beispiel „GND“ oder „3,3 V“, am Funkmodul auch Namen wie „PA4“. Das ist nur eine Beschriftung, damit man die Anschlüsse auseinanderhält, wie die Nummern an Steckdosen in einem Verteiler. In der Bauanleitung steht bei jedem Draht genau, von welchem Pin zu welchem Pin er geht.</p>
+    </div>
+    <div class="bilder">
+      <figure class="bild">
+        <svg viewBox="0 0 300 190" role="img" aria-labelledby="m1t">
+          <title id="m1t">Ein Modul von der Seite: kleine Platine mit Chip oben, unten eine Reihe Metallstifte.</title>
+          <rect class="z-weich" x="40" y="60" width="220" height="14" rx="2"/>
+          <rect class="z-signal" x="110" y="38" width="70" height="22" rx="2"/>
+          <rect class="z-modul" x="70" y="50" width="20" height="10"/>
+          <rect class="z-modul" x="200" y="50" width="26" height="10"/>
+          <path class="z-linie" d="M60 74 V 120 M84 74 V 120 M108 74 V 120 M132 74 V 120 M156 74 V 120 M180 74 V 120 M204 74 V 120 M228 74 V 120"/>
+          <rect class="z-modul" x="52" y="84" width="186" height="8"/>
+          <text class="z-text" x="145" y="28" text-anchor="middle">Chip</text>
+          <text class="z-text" x="150" y="146" text-anchor="middle">Stiftleiste = die Pins</text>
+          <text class="z-klein" x="150" y="166" text-anchor="middle">Abstand 2,54 mm</text>
+        </svg>
+        <figcaption><strong>Ein Modul von der Seite:</strong> oben der Chip mit Helfern, unten die <span class="wort">Stiftleiste</span>, eine Reihe Metallstifte zum Anlöten.</figcaption>
+      </figure>
+      <figure class="bild">
+        <svg viewBox="0 0 300 190" role="img" aria-labelledby="m2t">
+          <title id="m2t">Lochrasterplatte von oben: viele Löcher im Raster, darauf vier Module, mit Drähten verbunden.</title>
+          <rect class="z-flaeche" x="10" y="10" width="280" height="170" rx="4"/>
+          <g fill="var(--linie)">
+            <circle cx="30" cy="30" r="2"/><circle cx="50" cy="30" r="2"/><circle cx="70" cy="30" r="2"/><circle cx="90" cy="30" r="2"/><circle cx="110" cy="30" r="2"/><circle cx="130" cy="30" r="2"/><circle cx="150" cy="30" r="2"/><circle cx="170" cy="30" r="2"/><circle cx="190" cy="30" r="2"/><circle cx="210" cy="30" r="2"/><circle cx="230" cy="30" r="2"/><circle cx="250" cy="30" r="2"/><circle cx="270" cy="30" r="2"/>
+            <circle cx="30" cy="160" r="2"/><circle cx="50" cy="160" r="2"/><circle cx="70" cy="160" r="2"/><circle cx="90" cy="160" r="2"/><circle cx="110" cy="160" r="2"/><circle cx="130" cy="160" r="2"/><circle cx="150" cy="160" r="2"/><circle cx="170" cy="160" r="2"/><circle cx="190" cy="160" r="2"/><circle cx="210" cy="160" r="2"/><circle cx="230" cy="160" r="2"/><circle cx="250" cy="160" r="2"/><circle cx="270" cy="160" r="2"/>
+          </g>
+          <rect class="z-signal" x="24" y="44" width="110" height="52" rx="3"/>
+          <text x="79" y="74" text-anchor="middle" style="font-family:var(--mono);font-size:12px;fill:#fff">Funkmodul</text>
+          <rect class="z-weich" x="168" y="44" width="100" height="44" rx="3"/>
+          <text class="z-text" x="218" y="70" text-anchor="middle">GPS</text>
+          <rect class="z-weich" x="40" y="112" width="84" height="36" rx="3"/>
+          <text class="z-klein" x="82" y="134" text-anchor="middle">Bewegung</text>
+          <rect class="z-weich" x="168" y="108" width="100" height="40" rx="3"/>
+          <text class="z-klein" x="218" y="132" text-anchor="middle">Akku-Messer</text>
+          <path d="M134 60 H 168 M124 100 V 112 M134 84 C 150 84, 150 120, 168 120" stroke="var(--tinte)" stroke-width="1.6" fill="none"/>
+        </svg>
+        <figcaption><strong>Die <span class="wort">Lochrasterplatte</span> von oben:</strong> eine Platte mit vielen Löchern. Die Module stecken darauf und werden mit Drähten verbunden.</figcaption>
+      </figure>
+    </div>
+    <div class="text">
+      <p>Im Chip stecken diese Module. Jedes stellt Kapitel 5 genau vor:</p>
+      <ul>
+        <li><strong>Funkmodul:</strong> das „Gehirn“. Es führt das Programm aus und funkt.</li>
+        <li><strong>GPS-Modul:</strong> findet heraus, wo der Chip ist.</li>
+        <li><strong>Bewegungssensor:</strong> merkt, ob sich der Chip bewegt.</li>
+        <li><strong>Akku-Messer:</strong> misst, wie voll der Akku ist.</li>
+        <li><strong>Lade-Modul:</strong> lädt den Akku und passt dabei auf ihn auf.</li>
+        <li><strong>Qi-Empfänger:</strong> holt die Energie kabellos aus der Ladebox.</li>
+      </ul>
+    </div>
+    <details class="genauer">
+      <summary>Genauer: Raster und Größe</summary>
+      <p>Die Löcher haben einen Abstand von 2,54 mm. Das ist ein weltweiter Standard, darum passen fast alle Module darauf. Unsere Platte ist 64 × 48 mm groß. Dazu kommen einzelne Teile: Spannungsregler, Knopf, LED, Motor und ein paar Widerstände. <span class="stempel s-entschieden">Entschieden</span></p>
+    </details>
+  </section>
+
+  <!-- 7 Reden -->
+  <section class="abschnitt" id="t7" aria-labelledby="h-t7">
+    <header>
+      <span class="mono">THEMA 7</span>
+      <h2 id="h-t7">Wie die Teile miteinander reden</h2>
+    </header>
+    <div class="text">
+      <p>Das Funkmodul ist der Chef. Es gibt Befehle an LED und Motor und fragt die Sensoren ab. Dafür gibt es drei Arten von Verbindungen.</p>
+      <p><strong>a) An und aus.</strong> Die einfachste Sprache kennt nur zwei Wörter: 3,3 V heißt „an“, 0 V heißt „aus“. So schaltet das Funkmodul die LED. Beim Knopf ist es umgekehrt: Da hört das Funkmodul zu.</p>
+    </div>
+    <div class="bilder">
+      <figure class="bild">
+        <svg viewBox="0 0 300 160" role="img" aria-labelledby="b1t">
+          <title id="b1t">Knopf nicht gedrückt: Der Pin hat 3,3 Volt.</title>
+          <rect class="z-flaeche" x="10" y="50" width="90" height="56" rx="4"/>
+          <text class="z-text" x="55" y="76" text-anchor="middle">Funkmodul</text>
+          <text class="z-klein" x="55" y="94" text-anchor="middle">liest: 3,3 V</text>
+          <path class="z-linie" d="M100 78 H 170"/>
+          <path class="z-linie" d="M170 78 L 200 62"/>
+          <path class="z-linie" d="M206 78 H 250 V 110"/>
+          <path class="z-linie" d="M236 110 H264 M242 116 H258 M248 122 H252"/>
+          <text class="z-klein" x="250" y="140" text-anchor="middle">GND</text>
+          <text class="z-text" x="188" y="46" text-anchor="middle">Knopf offen</text>
+        </svg>
+        <figcaption><strong>Nicht gedrückt:</strong> Der Knopf ist offen. Das Funkmodul liest 3,3 V.</figcaption>
+      </figure>
+      <figure class="bild">
+        <svg viewBox="0 0 300 160" role="img" aria-labelledby="b2t">
+          <title id="b2t">Knopf gedrückt: Der Pin ist mit GND verbunden und hat 0 Volt.</title>
+          <rect class="z-flaeche" x="10" y="50" width="90" height="56" rx="4"/>
+          <text class="z-text" x="55" y="76" text-anchor="middle">Funkmodul</text>
+          <text class="z-klein" x="55" y="94" text-anchor="middle" style="fill:var(--signal-tinte)">liest: 0 V</text>
+          <path class="z-linie" d="M100 78 H 250 V 110"/>
+          <rect class="z-signal" x="170" y="70" width="36" height="16" rx="3"/>
+          <path class="z-linie" d="M236 110 H264 M242 116 H258 M248 122 H252"/>
+          <text class="z-klein" x="250" y="140" text-anchor="middle">GND</text>
+          <text class="z-text" x="188" y="46" text-anchor="middle">Knopf gedrückt</text>
+        </svg>
+        <figcaption><strong>Gedrückt:</strong> Der Knopf verbindet mit GND. Das Funkmodul liest 0 V und weiß: Jemand drückt.</figcaption>
+      </figure>
+    </div>
+    <details class="genauer">
+      <summary>Genauer: Woher kommen die 3,3 V beim offenen Knopf?</summary>
+      <p>Im Funkmodul ist ein Widerstand eingebaut, der den Pin auf 3,3 V „hochzieht“, solange nichts anderes passiert. Er heißt <span class="wort">Pull-up</span>. Drückt man den Knopf, gewinnt die direkte Verbindung zu GND, und der Pin fällt auf 0 V. <span class="stempel s-fest">Fest</span></p>
+    </details>
+
+    <div class="text">
+      <p><strong>b) Zwei Drähte für mehrere Sensoren.</strong> Bewegungssensor und Akku-Messer hängen an denselben zwei Drähten. Damit das Funkmodul weiß, wen es gerade fragt, hat jeder Sensor eine eigene Nummer, wie eine Hausnummer. Diese Verbindung heißt <span class="wort">I2C</span> (sprich „I-Quadrat-C“).</p>
+    </div>
+    <figure class="bild">
+      <svg viewBox="0 0 560 190" role="img" aria-labelledby="i1t">
+        <title id="i1t">I2C wie eine Straße: Das Funkmodul am Anfang, zwei Drähte als Straße, daran der Bewegungssensor mit Hausnummer 0x18 und der Akku-Messer mit Hausnummer 0x36.</title>
+        <rect class="z-signal" x="10" y="70" width="110" height="56" rx="4"/>
+        <text x="65" y="102" text-anchor="middle" style="font-family:var(--mono);font-size:12px;fill:#fff">Funkmodul</text>
+        <path class="z-linie" d="M120 86 H 540"/>
+        <path class="z-linie" d="M120 110 H 540" stroke-dasharray="6 4"/>
+        <text class="z-klein" x="536" y="80" text-anchor="end">Draht 1: Daten</text>
+        <text class="z-klein" x="536" y="126" text-anchor="end">Draht 2: Takt</text>
+        <path class="z-linie" d="M232 86 V 54 M248 110 V 54"/>
+        <path class="z-weich" d="M196 54 V 20 L240 4 L284 20 V 54 Z"/>
+        <text class="z-text" x="240" y="40" text-anchor="middle">Nr. 0x18</text>
+        <text class="z-klein" x="240" y="150" text-anchor="middle">Bewegungssensor</text>
+        <path class="z-hilfe" d="M240 136 V 120"/>
+        <path class="z-linie" d="M392 86 V 54 M408 110 V 54"/>
+        <path class="z-weich" d="M356 54 V 20 L400 4 L444 20 V 54 Z"/>
+        <text class="z-text" x="400" y="40" text-anchor="middle">Nr. 0x36</text>
+        <text class="z-klein" x="400" y="150" text-anchor="middle">Akku-Messer</text>
+        <path class="z-hilfe" d="M400 136 V 120"/>
+        <text class="z-text" x="280" y="180" text-anchor="middle">„Nr. 0x36, wie voll ist der Akku?“ – nur der Akku-Messer antwortet.</text>
+      </svg>
+      <figcaption>Wie eine Straße mit zwei Häusern: Das Funkmodul ruft eine Hausnummer, und nur dieses Haus antwortet.</figcaption>
+    </figure>
+    <details class="genauer">
+      <summary>Genauer: Was heißt „0x“?</summary>
+      <p>„0x“ heißt nur, dass die Zahl in einer anderen Schreibweise steht, der hexadezimalen. Für dich ist es einfach eine Hausnummer. Die beiden Drähte heißen SDA (Daten) und SCL (Takt). <span class="stempel s-entschieden">Entschieden</span></p>
+    </details>
+
+    <div class="text">
+      <p><strong>c) Die Leitung zum GPS.</strong> Das GPS-Modul hat zwei Drähte zum Funkmodul: einen zum Sprechen (TX) und einen zum Zuhören (RX). Das ist wie bei einem Telefon: Der Mund des einen muss zum Ohr des anderen. Darum werden die Drähte gekreuzt.</p>
+    </div>
+    <figure class="bild">
+      <svg viewBox="0 0 560 160" role="img" aria-labelledby="g1t">
+        <title id="g1t">TX und RX gekreuzt: TX vom Funkmodul geht zu RX vom GPS, TX vom GPS geht zu RX vom Funkmodul.</title>
+        <rect class="z-signal" x="20" y="30" width="130" height="100" rx="4"/>
+        <text x="85" y="22" text-anchor="middle" class="z-text">Funkmodul</text>
+        <text x="140" y="62" text-anchor="end" style="font-family:var(--mono);font-size:12px;fill:#fff">TX (spricht)</text>
+        <text x="140" y="110" text-anchor="end" style="font-family:var(--mono);font-size:12px;fill:#fff">RX (hört)</text>
+        <rect class="z-weich" x="410" y="30" width="130" height="100" rx="4"/>
+        <text x="475" y="22" text-anchor="middle" class="z-text">GPS-Modul</text>
+        <text class="z-text" x="420" y="62">RX (hört)</text>
+        <text class="z-text" x="420" y="110">TX (spricht)</text>
+        <path d="M150 58 C 260 58, 300 58, 410 58" stroke="var(--tinte)" stroke-width="2" fill="none"/>
+        <path d="M150 106 C 260 106, 300 106, 410 106" stroke="var(--tinte)" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+        <path d="M402 52 l8 6 -8 6" stroke="var(--tinte)" stroke-width="2" fill="none"/>
+        <path d="M158 100 l-8 6 8 6" stroke="var(--tinte)" stroke-width="2" fill="none"/>
+        <text class="z-klein" x="280" y="150" text-anchor="middle">TX an RX, RX an TX. Wer TX an TX lötet, bekommt keine Daten.</text>
+      </svg>
+      <figcaption>Sprechen geht immer an Zuhören. Diese Verbindung heißt <span class="wort">serielle Verbindung</span>.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 8 Motor -->
+  <section class="abschnitt" id="t8" aria-labelledby="h-t8">
+    <header>
+      <span class="mono">THEMA 8</span>
+      <h2 id="h-t8">Der Motor braucht einen Helfer</h2>
+    </header>
+    <div class="text">
+      <p>Der Vibrationsmotor braucht mehr Strom, als ein Pin des Funkmoduls liefern darf. Darum schaltet der Pin den Motor über einen Helfer, den <span class="wort">Transistor</span>. Er ist ein elektronischer Schalter: Ein kleiner Strom vom Pin schaltet einen großen Strom für den Motor, wie ein Finger, der einen großen Wasserhahn aufdreht.</p>
+    </div>
+    <figure class="bild">
+      <svg viewBox="0 0 560 200" role="img" aria-labelledby="t1t">
+        <title id="t1t">Transistor als Schalter: Ein dünner Strom vom Funkmodul schaltet den Transistor, dann fließt ein dicker Strom vom Akku durch den Motor.</title>
+        <rect class="z-flaeche" x="236" y="6" width="88" height="34" rx="4"/>
+        <text class="z-text" x="280" y="28" text-anchor="middle">Akku</text>
+        <path d="M280 40 V 64" stroke="var(--signal)" stroke-width="6" fill="none"/>
+        <circle class="z-weich" cx="280" cy="84" r="20"/>
+        <text class="z-klein" x="280" y="88" text-anchor="middle">M</text>
+        <text class="z-text" x="310" y="88">Motor</text>
+        <path d="M280 104 V 128" stroke="var(--signal)" stroke-width="6" fill="none"/>
+        <rect class="z-signal" x="226" y="128" width="108" height="40" rx="4"/>
+        <text x="280" y="153" text-anchor="middle" style="font-family:var(--mono);font-size:12px;fill:#fff">Transistor</text>
+        <rect class="z-flaeche" x="10" y="128" width="110" height="40" rx="4"/>
+        <text class="z-text" x="65" y="153" text-anchor="middle">Funkmodul</text>
+        <path d="M120 148 H 226" stroke="var(--tinte)" stroke-width="1.5" fill="none"/>
+        <text class="z-klein" x="173" y="140" text-anchor="middle">kleiner Strom</text>
+        <path d="M334 148 H 420" stroke="var(--signal)" stroke-width="6" fill="none"/>
+        <text class="z-text" x="430" y="152">GND</text>
+        <text class="z-text" x="350" y="40" style="fill:var(--signal-tinte)">großer Strom</text>
+        <path d="M352 48 C 340 70, 330 90, 300 112" class="z-hilfe"/>
+        <text class="z-klein" x="280" y="192" text-anchor="middle">dünne Linie = kleiner Strom · dicke Linie = großer Strom</text>
+      </svg>
+      <figcaption>Der dünne Strom vom Funkmodul öffnet den Transistor. Dann fließt der dicke Strom vom Akku durch den Motor, und er vibriert.</figcaption>
+    </figure>
+    <div class="text">
+      <p>Neben dem Motor sitzt außerdem eine <span class="wort">Diode</span>. Sie lässt Strom nur in eine Richtung durch und schützt den Transistor. Bei Dioden ist die Richtung wichtig: Eine Seite ist mit einem Ring markiert. Wie herum sie eingelötet wird, zeigt Kapitel 17. <span class="stempel s-fest">Fest</span></p>
+    </div>
+    <details class="genauer">
+      <summary>Genauer: Wovor schützt die Diode?</summary>
+      <p>Im Motor steckt eine Drahtspule. Wenn man den Motor ausschaltet, erzeugt die Spule ganz kurz eine Spannung in die falsche Richtung. Die Diode leitet diese Spitze ab, bevor sie den Transistor beschädigt. Unser Transistor heißt BC337, die Diode 1N4148. Zwischen Funkmodul und Transistor sitzt ein Widerstand mit 1 kΩ (1000 Ω), damit nicht zu viel Strom aus dem Pin fließt. <span class="stempel s-entschieden">Entschieden</span></p>
+    </details>
+  </section>
+
+  <!-- 9 Messen -->
+  <section class="abschnitt" id="t9" aria-labelledby="h-t9">
+    <header>
+      <span class="mono">THEMA 9</span>
+      <h2 id="h-t9">Messen mit dem Multimeter</h2>
+    </header>
+    <div class="text">
+      <p>Ein <span class="wort">Multimeter</span> ist ein Messgerät mit zwei Kabeln, einem roten und einem schwarzen. Für den Chip brauchst du zwei Einstellungen:</p>
+      <ul>
+        <li><strong>Spannung (V):</strong> zeigt, wie viel Volt zwischen den beiden Kabeln anliegen.</li>
+        <li><strong>Durchgang (Piepser):</strong> piepst, wenn zwischen den Kabeln eine Verbindung ist. So prüfst du nach dem Löten, ob ein Draht wirklich verbunden ist und ob sich zwei Lötstellen aus Versehen berühren.</li>
+      </ul>
+    </div>
+    <div class="bilder">
+      <figure class="bild">
+        <svg viewBox="0 0 300 200" role="img" aria-labelledby="mm1t">
+          <title id="mm1t">Polung messen: Multimeter zeigt plus 3,7 Volt, das rote Kabel ist am Plus.</title>
+          <rect class="z-flaeche" x="20" y="14" width="110" height="150" rx="10"/>
+          <rect x="34" y="28" width="82" height="40" rx="3" style="fill:var(--raster)"/>
+          <text class="z-text" x="75" y="54" text-anchor="middle" style="font-size:16px">+3,70</text>
+          <circle class="z-flaeche" cx="75" cy="110" r="22"/>
+          <text class="z-klein" x="75" y="114" text-anchor="middle">V</text>
+          <path d="M60 164 C 60 186, 190 190, 200 120" stroke="var(--signal)" stroke-width="3" fill="none"/>
+          <path d="M90 164 C 90 176, 220 182, 240 120" stroke="var(--tinte)" stroke-width="3" fill="none"/>
+          <rect class="z-flaeche" x="186" y="70" width="80" height="50" rx="3"/>
+          <text class="z-klein" x="226" y="64" text-anchor="middle">Akku-Stecker</text>
+          <text class="z-text" x="203" y="100" text-anchor="middle" style="fill:var(--signal-tinte)">+</text>
+          <text class="z-text" x="245" y="100" text-anchor="middle">−</text>
+        </svg>
+        <figcaption><strong>Plus vor der Zahl:</strong> Das rote Kabel ist am Plus. Alles richtig, der Akku darf eingesteckt werden.</figcaption>
+      </figure>
+      <figure class="bild">
+        <svg viewBox="0 0 300 200" role="img" aria-labelledby="mm2t">
+          <title id="mm2t">Polung messen: Multimeter zeigt minus 3,7 Volt, die Kabel sind vertauscht.</title>
+          <rect class="z-flaeche" x="20" y="14" width="110" height="150" rx="10"/>
+          <rect x="34" y="28" width="82" height="40" rx="3" style="fill:var(--signal-flaeche)"/>
+          <text class="z-text" x="75" y="54" text-anchor="middle" style="font-size:16px;fill:var(--signal-tinte)">−3,70</text>
+          <circle class="z-flaeche" cx="75" cy="110" r="22"/>
+          <text class="z-klein" x="75" y="114" text-anchor="middle">V</text>
+          <path d="M60 164 C 60 186, 230 190, 240 120" stroke="var(--signal)" stroke-width="3" fill="none"/>
+          <path d="M90 164 C 90 176, 190 182, 200 120" stroke="var(--tinte)" stroke-width="3" fill="none"/>
+          <rect class="z-flaeche" x="186" y="70" width="80" height="50" rx="3"/>
+          <text class="z-klein" x="226" y="64" text-anchor="middle">Akku-Stecker</text>
+          <text class="z-text" x="203" y="100" text-anchor="middle">+</text>
+          <text class="z-text" x="245" y="100" text-anchor="middle" style="fill:var(--signal-tinte)">−</text>
+        </svg>
+        <figcaption><strong>Minus vor der Zahl:</strong> Das rote Kabel ist am Minus. Die Belegung ist anders als gedacht. Erst klären, dann einstecken.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="abschnitt" id="ergebnis" aria-labelledby="h-ergebnis">
+    <header>
+      <span class="mono">KURZFASSUNG</span>
+      <h2 id="h-ergebnis">Das Ergebnis</h2>
+    </header>
+    <div class="ergebnis">
+      <ul>
+        <li>Spannung ist der Druck, Strom die Menge, Widerstand die Bremse. Strom = Spannung ÷ Widerstand.</li>
+        <li>Strom fließt nur im geschlossenen Kreis. Minus heißt GND. Plus muss an Plus, beim Akku wird das vorher gemessen.</li>
+        <li>Die LED braucht einen Widerstand, sonst brennt sie durch.</li>
+        <li>Die Akku-Spannung zeigt, wie voll er ist. Der Spannungsregler macht daraus immer 3,3 V.</li>
+        <li>Module sind fertige kleine Platinen. Sie reden über an/aus, über I2C mit Hausnummern und über eine gekreuzte Leitung zum GPS.</li>
+        <li>Den Motor schaltet ein Transistor, eine Diode schützt ihn.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-offen">
+    <header>
+      <span class="mono">NOCH NICHT GEKLÄRT</span>
+      <h2 id="h-offen">Was noch offen ist</h2>
+    </header>
+    <ul class="offen-liste">
+      <li><strong>LED-Strom genau.</strong> Die 9 mA beruhen auf einem typischen Wert für rote LEDs. Den genauen Wert prüfen wir in Kapitel 5 im Datenblatt.</li>
+      <li><strong>Datenblätter.</strong> Die Bauteil-Angaben hier stammen aus Firmware und Bauplan. Mit den Datenblättern geprüft werden sie in Kapitel 5.</li>
+    </ul>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-quellen">
+    <header>
+      <span class="mono">NACHWEISE</span>
+      <h2 id="h-quellen">Quellen</h2>
+    </header>
+    <ol class="quellen">
+      <li>Chip-Firmware <code>material/firmware/skitag_chip/skitag_chip.ino</code> und <code>config.h</code>: Pins, Knopf mit Pull-up, I2C-Hausnummern, Akku-Grenzen 3,45 V und 3,30 V.</li>
+      <li>Bisheriger Test-Bauplan <code>material/test-bauplan.html</code>: Bauteile, Widerstände, Polung des Akkus vor dem Einstecken messen.</li>
+      <li>Ohmsches Gesetz: <a href="https://de.wikipedia.org/wiki/Ohmsches_Gesetz">Wikipedia, Ohmsches Gesetz</a>.</li>
+      <li>LiPo-Akku, Spannungen und Sicherheit: <a href="https://de.wikipedia.org/wiki/Lithium-Polymer-Akkumulator">Wikipedia, Lithium-Polymer-Akkumulator</a>.</li>
+      <li>I2C: <a href="https://de.wikipedia.org/wiki/I%C2%B2C">Wikipedia, I²C</a>.</li>
+    </ol>
+  </section>
+
+  <nav class="blaettern" aria-label="Blättern">
+    <a href="kapitel-02.html"><span class="mono">ZURÜCK</span><strong>02 Anforderungen</strong></a>
+    <div class="weiter"><span class="mono">WEITER · KOMMT NOCH</span><strong>04 Blockschaltbild</strong></div>
+  </nav>
+
+  <footer class="fuss">
+    <span>SkiTag · Werkstattbuch · Blatt 03</span>
+    <span>2026</span>
+  </footer>
+</div>
