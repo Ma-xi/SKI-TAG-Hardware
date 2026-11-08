@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kapitel 6 · Entscheidungen · SkiTag Werkstattbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="werkbank.css">
+<script src="thema.js"></script>
+<script src="sprung.js" defer></script>
+<script src="begriffe.js" defer></script>
+
+<style>
+  .entscheid .e-nr { font-size: 11.5px; letter-spacing: .06em; color: var(--signal-tinte); margin: 0; }
+  .entscheid h3 { margin-top: -4px; }
+  .entscheid .e-wahl { font-weight: 600; }
+  .entscheid .e-stempel { margin: 0; }
+  .entscheid table.anschluss td:first-child { white-space: normal; font-weight: 600; width: 38%; }
+  .e-tabelle th a { color: inherit; }
+  .p-groesse { max-width: 46em; }
+  .p-groesse svg { width: 100%; height: auto; display: block; }
+  .p-spalten { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px; }
+  .p-spalte { background: var(--karte); border: 1.5px solid var(--tinte); padding: 14px 16px; min-width: 0; }
+  .p-spalte .mono { font-size: 11.5px; letter-spacing: .06em; color: var(--signal-tinte); margin: 0 0 8px; }
+  .p-spalte ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+  .p-ja { border-color: var(--tinte); }
+  .p-spaeter { border-style: dashed; }
+  .p-spalte li strong { font-weight: 600; }
+  .p-titel { font-size: 22px; font-weight: 750; margin: 8px 0 0; }
+</style>
+
+<div class="blatt">
+
+  <div class="kopf">
+    <div class="leiste">
+      <a class="marke mono" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="5" fill="var(--signal)"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#fff" stroke-width="2"/></svg>
+        SkiTag · Hardware-Buch
+      </a>
+      <button class="thema mono" type="button" hidden></button>
+    </div>
+    <div class="schriftfeld" aria-label="Angaben zu diesem Blatt">
+      <div>Blatt</div><div>06 · Entscheidungen</div>
+      <div>Bereich</div><div>Der Chip</div>
+      <div>Verfasser</div><div>Maximilian Joszt</div>
+      <div>Stand</div><div>08.11.2026</div>
+    </div>
+  </div>
+
+  <div class="kap-titel">
+    <div>
+      <p class="kap-nr">KAP. 06 · DER CHIP</p>
+      <h1>Entscheidungen</h1>
+      <p class="einstieg">Warum genau diese Teile? Für fast alles im Chip gab es mehrere Möglichkeiten. Hier steht, wofür wir uns entschieden haben, warum, und was wir dafür in Kauf nehmen. Am Ende steht, was der <span class="wort" data-wort="Prototyp" data-erklaerung="Ein erstes Muster, an dem man ausprobiert, ob eine Idee funktioniert. Er ist oft größer und einfacher gebaut als das fertige Gerät.">Prototyp</span> zeigen kann und was erst der fertige Chip.</p>
+      <p class="lesezeit mono">Eilig? Die Kurzfassung steht unten unter <a href="#ergebnis">„Das Ergebnis“</a>.</p>
+    </div>
+    <figure class="zeichnung">
+      <svg viewBox="0 0 460 400" role="img" aria-labelledby="zt zd">
+        <title id="zt">Explosionszeichnung des Chips, alle Teile hervorgehoben, über die in diesem Kapitel entschieden wird</title>
+        <desc id="zd">Die Schichten des Chips von oben nach unten. Orange sind die Teile, über die in diesem Kapitel entschieden wird.</desc>
+        <line class="z-hilfe" x1="150" y1="18" x2="150" y2="372"/>
+        <g class="z-blass">
+          <rect class="z-modul" x="122" y="26" width="56" height="10" rx="5"/>
+          <rect class="z-flaeche" x="136" y="14" width="28" height="16" rx="4"/>
+          <path class="z-linie" d="M182 22 H 300"/>
+          <text class="z-nr" x="306" y="18">KAP. 11</text>
+          <text class="z-text" x="306" y="31">Knopf und Kragen</text>
+          <path class="z-flaeche" d="M48 66 H252 a10 10 0 0 1 10 10 V82 H38 V76 a10 10 0 0 1 10 -10 Z"/>
+          <rect class="z-flaeche" x="134" y="58" width="16" height="10" rx="2"/>
+          <circle cx="210" cy="74" r="4" fill="var(--tinte-3)"/>
+          <path class="z-linie" d="M262 74 H 300"/>
+          <text class="z-nr" x="306" y="70">KAP. 12, 15</text>
+          <text class="z-text" x="306" y="83">Deckel mit LED</text>
+        </g>
+        <rect class="z-signal" x="56" y="118" width="188" height="8" rx="1"/>
+        <rect class="z-weich" x="66" y="104" width="54" height="14"/>
+        <rect class="z-weich" x="130" y="98" width="46" height="20"/>
+        <rect class="z-weich" x="186" y="108" width="22" height="10"/>
+        <rect class="z-weich" x="214" y="108" width="22" height="10"/>
+        <text class="z-klein" x="70" y="114" style="fill:var(--signal-tinte)">RAK</text>
+        <text class="z-klein" x="140" y="112" style="fill:var(--signal-tinte)">GPS</text>
+        <path class="z-linie" d="M244 116 H 300"/>
+        <text class="z-nr aktiv" x="306" y="112">KAP. 4–8</text>
+        <text class="z-text" x="306" y="125">Platine mit Modulen</text>
+        <rect class="z-weich" x="70" y="160" width="40" height="12"/>
+        <rect class="z-weich" x="196" y="158" width="38" height="14" rx="7"/>
+        <path class="z-linie" d="M234 165 H 300"/>
+        <text class="z-nr aktiv" x="306" y="161">KAP. 10, 12</text>
+        <text class="z-text" x="306" y="174">Lade-Modul, Motor</text>
+        <rect class="z-weich" x="62" y="204" width="176" height="18" rx="3"/>
+        <text class="z-klein" x="122" y="217" style="fill:var(--signal-tinte)">LiPo 1000 mAh</text>
+        <path class="z-linie" d="M238 213 H 300"/>
+        <text class="z-nr aktiv" x="306" y="209">KAP. 9</text>
+        <text class="z-text" x="306" y="222">Akku</text>
+        <rect class="z-weich" x="78" y="254" width="144" height="10" rx="2"/>
+        <ellipse cx="150" cy="259" rx="44" ry="3" fill="none" stroke="var(--signal-tinte)" stroke-width="1.2"/>
+        <path class="z-linie" d="M222 259 H 300"/>
+        <text class="z-nr aktiv" x="306" y="255">KAP. 10</text>
+        <text class="z-text" x="306" y="268">Qi-Empfänger</text>
+        <g class="z-blass">
+          <path class="z-flaeche" d="M38 296 H262 V330 a12 12 0 0 1 -12 12 H50 a12 12 0 0 1 -12 -12 Z"/>
+          <path class="z-linie" d="M262 318 H 300"/>
+          <text class="z-nr" x="306" y="314">KAP. 15</text>
+          <text class="z-text" x="306" y="327">Unterteil und Hülle</text>
+        </g>
+        <path class="z-hilfe" d="M38 372 H262"/>
+        <path class="z-linie" d="M38 366 V378 M262 366 V378"/>
+        <text class="z-klein" x="118" y="392">120 mm mit Hülle</text>
+      </svg>
+      <figcaption><span>Orange: Teile, über die hier entschieden wird</span><span>nicht maßstäblich</span></figcaption>
+    </figure>
+
+  </div>
+
+  <section class="abschnitt" aria-labelledby="h-ueberblick">
+    <header>
+      <span class="mono">AUF EINEN BLICK</span>
+      <h2 id="h-ueberblick">Alle Entscheidungen</h2>
+    </header>
+    <div class="text">
+      <p>Für fast jedes Teil gab es mehrere Möglichkeiten. Bei jeder Entscheidung steht unten, was wir gewählt haben, warum, und was wir dafür in Kauf nehmen. Denn jede Wahl hat auch einen Nachteil.</p>
+      <p>Tipp auf eine Frage, dann springst du zur Erklärung.</p>
+    </div>
+    <table class="tabelle e-tabelle">
+      <thead><tr><th>Frage</th><th>Gewählt</th></tr></thead>
+      <tbody><tr><th><a href="#e-funk">Wie funkt der Chip?</a></th><td data-label="GEWÄHLT">LoRa auf 869,525 MHz, mit eigenen Empfängern an der Bergstation</td></tr><tr><th><a href="#e-rak">Welches Funkmodul?</a></th><td data-label="GEWÄHLT">Das Funkmodul RAK3172</td></tr><tr><th><a href="#e-gps">GPS: ja oder nein?</a></th><td data-label="GEWÄHLT">Ja, mit dem GPS-Modul L76K</td></tr><tr><th><a href="#e-bewegung">Braucht es einen Bewegungssensor?</a></th><td data-label="GEWÄHLT">Ja, den LIS3DH</td></tr><tr><th><a href="#e-akku">Welcher Akku?</a></th><td data-label="GEWÄHLT">Flacher LiPo-Akku mit 1000 mAh und Schutzschaltung</td></tr><tr><th><a href="#e-qi">Wie wird geladen?</a></th><td data-label="GEWÄHLT">Kabellos mit Qi, in der Ladebox</td></tr><tr><th><a href="#e-messer">Wie weiß der Chip, wie voll der Akku ist?</a></th><td data-label="GEWÄHLT">Mit einem eigenen Akku-Messer, dem MAX17048</td></tr><tr><th><a href="#e-knopf">Wie viele Knöpfe?</a></th><td data-label="GEWÄHLT">Ein einziger Knopf, 16 mm groß und wasserdicht (IP67)</td></tr><tr><th><a href="#e-zeigen">Wie zeigt der Chip etwas an?</a></th><td data-label="GEWÄHLT">Mit einer zweifarbigen LED und Vibration</td></tr><tr><th><a href="#e-gehaeuse">Woraus ist das Gehäuse?</a></th><td data-label="GEWÄHLT">Gedruckt aus PETG oder ASA, mit weicher Hülle aus TPU, in Signal-Orange</td></tr></tbody>
+    </table>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-funk">
+    <header>
+      <span class="mono">BEREICH 1 · 4 ENTSCHEIDUNGEN</span>
+      <h2 id="h-funk">Funk und Position</h2>
+    </header>
+    <div class="text"><p>Wie der Chip Nachrichten schickt und weiß, wo er ist.</p></div>
+    <div class="teile-raster">
+      <article class="teil-karte entscheid" id="e-funk">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><rect class="z-signal" x="22" y="48" width="34" height="22" rx="4"/>
+<path d="M64 46 a14 14 0 0 1 0 26 M72 40 a22 22 0 0 1 0 38 M80 34 a30 30 0 0 1 0 50" fill="none" stroke="var(--signal)" stroke-width="2.5"/>
+<path class="z-hilfe" d="M96 59 H 214"/>
+<path d="M236 94 L 248 30 L 260 94 M241 70 H 255 M244 52 H 252" fill="none" stroke="var(--tinte)" stroke-width="2"/>
+<circle cx="248" cy="28" r="4" fill="var(--tinte)"/>
+<text class="z-klein" x="155" y="52" text-anchor="middle">einige Kilometer</text>
+<text class="z-klein" x="39" y="92" text-anchor="middle">Chip</text>
+<text class="z-klein" x="248" y="106" text-anchor="middle">Empfänger</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 01</p>
+        <h3>Wie funkt der Chip?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl"><span class="wort" data-wort="LoRa" data-erklaerung="Eine Funkart, die mit wenig Strom sehr weit kommt, dafür aber nur kleine Nachrichten schickt.">LoRa</span> auf 869,525 MHz, mit eigenen Empfängern an der Bergstation</dd>
+          <dt>WARUM</dt><dd>LoRa kommt mit wenig Strom sehr weit, wenn nichts im Weg ist mehrere Kilometer. Der Gast braucht dafür weder Handy noch Handynetz. Auf dieser <span class="wort" data-wort="Frequenz" data-erklaerung="Wie oft eine Funkwelle in einer Sekunde schwingt. 869,525 MHz heißt: etwa 870 Millionen Mal pro Sekunde. Jede Funkart hat ihren eigenen Bereich.">Frequenz</span> darf man ohne Genehmigung senden, wenn man sich an Regeln hält: nicht zu stark und nicht zu oft senden. Unser Chip bleibt weit darunter.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Die Nachrichten müssen klein sein, sonst dauert das Senden zu lange. Unsere Nachricht ist 27 Byte groß. Das sind ungefähr 27 einfache Zeichen. Ein Gruppenruf braucht bis zu 20 Sekunden, bis er ankommt. Und an jeder Bergstation braucht es einen <span class="wort" data-wort="Empfänger" data-erklaerung="Das Gerät von Lukas an der Bergstation. Es hört die Chips und schickt alles übers Internet zum Server.">Empfänger</span>.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        <details class="genauer"><summary>Genauer: die Zahlen</summary><p>Auf dieser Frequenz darf man ohne eigene Genehmigung senden, wenn man sich an Regeln für Sendeleistung und Sendezeit hält. Nach unserem Stand sind das höchstens 500 mW und höchstens 10 % der Zeit. Ob das für unseren Betrieb in Österreich genau so gilt, prüfen wir vor dem Test. Unser Chip sendet mit 100 mW. Eine Nachricht dauert etwa 0,23 Sekunden und kommt alle 20 Sekunden, das sind etwa 1 % der Zeit. Selbst bei einem Notruf, wenn er alle 4 bis 8 Sekunden wiederholt, bleibt er unter 6 %.</p></details>
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Handynetz (wie beim Handy)</td><td>Am Berg gibt es Funklöcher. Jeder Chip bräuchte eine SIM-Karte, die jeden Monat kostet. Braucht mehr Strom.</td></tr><tr><td>Bluetooth</td><td>Reicht nur wenige Meter bis etwa hundert Meter. Das ist für eine Piste viel zu wenig.</td></tr><tr><td>WLAN</td><td>Reicht ungefähr so weit wie Bluetooth und braucht viel mehr Strom.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 3 (Funk) und im Netzwerk-Buch von Lukas</p>
+      </article>
+      <article class="teil-karte entscheid" id="e-rak">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><rect x="60" y="18" width="160" height="74" rx="4" fill="var(--signal-flaeche)" stroke="var(--signal)" stroke-width="2.5"/>
+<rect class="z-modul" x="74" y="34" width="60" height="42" rx="3"/><rect class="z-modul" x="146" y="34" width="60" height="42" rx="3"/>
+<text class="z-klein" x="104" y="59" text-anchor="middle">Funk</text><text class="z-klein" x="176" y="59" text-anchor="middle">Gehirn</text>
+<text class="z-klein" x="140" y="106" text-anchor="middle">beides in einem Chip</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 02</p>
+        <h3>Welches Funkmodul?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Das Funkmodul RAK3172</dd>
+          <dt>WARUM</dt><dd>Im Funkmodul steckt ein einziger Chip, der Funk und Gehirn in einem ist. Man braucht also keinen zweiten Chip, der die <span class="wort" data-wort="Firmware" data-erklaerung="Das Programm, das im Funkmodul läuft und alles steuert.">Firmware</span> ausführt. Das spart Platz, Strom und Drähte. Programmiert wird es mit <span class="wort" data-wort="Arduino" data-erklaerung="Ein einfaches Programm am Computer, mit dem man Firmware schreibt und auf den Chip lädt.">Arduino</span>.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Die normale Ausführung ist nur bis −20&nbsp;°C gebaut. Das ist genau unser Kälteziel, Reserve gibt es also keine. Welche Ausführung wir haben, steht auf dem <span class="wort" data-wort="Modul" data-erklaerung="Eine kleine fertige Platine, auf der ein Chip mit allen Helfern schon aufgelötet ist. Man muss nur noch Drähte anlöten.">Modul</span>. Das prüfen wir, und die Kälte testen wir im Jänner.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        <details class="genauer"><summary>Genauer: die drei Namen</summary><p>Drei Namen, drei Dinge: <strong>RAK3272S</strong> ist die kleine Adapter-Platine, die wir kaufen. Darauf sitzt das Funkmodul <strong>RAK3172</strong>. Und darin steckt der eigentliche Chip <strong>STM32WLE5CC</strong>, in dem Funk und Gehirn vereint sind.</p></details>
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>ESP32 mit LoRa (zum Beispiel Heltec)</td><td>Hat WLAN eingebaut, das der Chip gar nicht braucht, und braucht mehr Strom. Für Lukas’ Empfänger ist es aber genau richtig, denn die müssen ins WLAN.</td></tr><tr><td>Eigener <span class="wort" data-wort="Mikrocontroller" data-erklaerung="Ein kleiner Computer in einem einzigen Chip. Er führt die Firmware aus.">Mikrocontroller</span> und eigener LoRa-Chip</td><td>Zwei Chips statt einem: mehr Drähte, mehr Platz, mehr Fehlerquellen.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 5 (Funkmodul)</p>
+      </article>
+      <article class="teil-karte entscheid" id="e-gps">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><g fill="none" stroke="var(--tinte)" stroke-width="1.6"><rect x="40" y="14" width="16" height="10"/><path d="M30 19 H40 M56 19 H66"/><rect x="132" y="8" width="16" height="10"/><path d="M122 13 H132 M148 13 H158"/><rect x="224" y="14" width="16" height="10"/><path d="M214 19 H224 M240 19 H250"/></g>
+<path class="z-hilfe" d="M48 26 L 136 74 M140 20 L 140 70 M232 26 L 144 74"/>
+<path d="M140 98 C 128 84, 124 78, 124 70 a16 16 0 0 1 32 0 C 156 78, 152 84, 140 98 Z" fill="var(--signal)"/>
+<circle cx="140" cy="70" r="6" fill="#fff"/></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 03</p>
+        <h3>GPS: ja oder nein?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Ja, mit dem <span class="wort" data-wort="GPS" data-erklaerung="Ein Empfänger, der aus den Signalen von Satelliten ausrechnet, wo er gerade ist.">GPS</span>-Modul L76K</dd>
+          <dt>WARUM</dt><dd>Bei einem Notruf muss die Bergbahn wissen, wo der Gast liegt. Mit GPS kennt der Chip seine Position, unter freiem Himmel meist auf wenige Meter genau. Zwischen Bäumen oder Felsen wird es ungenauer. Ohne GPS wüsste man nur, welcher Empfänger ihn gehört hat, also ungefähr welcher Berg.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Das GPS braucht von allen Teilen am meisten Strom, etwa 41 mA. Darum ist es der größte Hebel beim Stromsparen (Kapitel 9 und 13). In Gebäuden findet es oft keine Position. Dann schickt der Chip die letzte, die er kannte.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Kein GPS, nur „welcher Empfänger hört mich“</td><td>Viel zu ungenau. Mit zwei Empfängern wüsste man nur, auf welcher Seite des Berges der Gast ist.</td></tr><tr><td>GPS nur bei einem Notruf einschalten</td><td>Das GPS braucht nach dem Einschalten oft eine halbe Minute oder länger, bis es eine Position hat. Die Zeit fehlt beim Notruf. Ob es dazwischen schlafen darf, prüfen wir in Kapitel 9.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 9 (Strom sparen)</p>
+      </article>
+      <article class="teil-karte entscheid" id="e-bewegung">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><rect class="z-signal" x="118" y="38" width="44" height="34" rx="5"/>
+<path class="z-linie" d="M104 55 H 84 M90 49 L82 55 L90 61 M176 55 H 196 M190 49 L198 55 L190 61 M140 30 V 12 M134 18 L140 10 L146 18"/>
+<text class="z-klein" x="140" y="96" text-anchor="middle">„bewegt sich noch“</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 04</p>
+        <h3>Braucht es einen Bewegungssensor?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Ja, den LIS3DH</dd>
+          <dt>WARUM</dt><dd>Der Chip schickt mit jeder Nachricht mit, ob er sich in der letzten Minute bewegt hat. So sieht man, ob jemand noch fährt oder schon lange still liegt. Später kann der Chip damit auch Strom sparen, wenn er lange nicht bewegt wird.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Ein Teil mehr, das gelötet werden muss. Er kostet aber wenig und braucht fast keinen Strom.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Ohne Bewegungssensor</td><td>Man wüsste nicht, ob ein Chip in der Tasche liegt oder getragen wird.</td></tr><tr><td>Bewegung nur aus dem GPS ablesen</td><td>Klappt nur, wenn das GPS gerade eine Position hat, und kleine Bewegungen sieht es nicht.</td></tr></table>
+        </details>
+        
+      </article>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-energie">
+    <header>
+      <span class="mono">BEREICH 2 · 3 ENTSCHEIDUNGEN</span>
+      <h2 id="h-energie">Energie</h2>
+    </header>
+    <div class="text"><p>Wie der Chip Strom bekommt, speichert und weiß, wie viel noch da ist.</p></div>
+    <div class="teile-raster">
+      <article class="teil-karte entscheid" id="e-akku">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><rect x="70" y="30" width="130" height="50" rx="5" fill="none" stroke="var(--tinte)" stroke-width="2"/>
+<rect x="200" y="45" width="8" height="20" rx="2" fill="var(--tinte)"/>
+<rect class="z-signal" x="76" y="36" width="84" height="38" rx="3"/>
+<text class="z-klein" x="135" y="100" text-anchor="middle">1000 mAh, flach</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 05</p>
+        <h3>Welcher Akku?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Flacher LiPo-Akku mit 1000 <span class="wort" data-wort="mAh" data-erklaerung="Milliamperestunden: wie viel Strom ein Akku speichert. 1000 mAh heißt zum Beispiel: 100 mA lang 10 Stunden.">mAh</span> und <span class="wort" data-wort="Schutzschaltung" data-erklaerung="Eine kleine Platine am Akku. Sie trennt ihn ab, wenn er zu leer, zu voll oder kurzgeschlossen ist.">Schutzschaltung</span></dd>
+          <dt>WARUM</dt><dd>Er muss einen ganzen Skitag von 8 Stunden halten, auch in der Kälte, und am Abend sollen noch 30 % übrig sein. Der Chip braucht unterwegs etwa 55 mA. In 8 Stunden sind das etwa 440 mAh. In der Kälte gibt ein Akku weniger her. Mit Reserve und wegen der Kälte nehmen wir darum einen Akku mit 1000 mAh statt 500 mAh. Ob das wirklich reicht, messen wir in Kapitel 9.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Er ist 50 × 34 mm groß und bestimmt mit, wie groß das Gehäuse wird. Laden darf man ihn nur zwischen 0 und 50 °C.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-geschaetzt">Geschätzt</span></p>
+        
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Kleinerer Akku mit 500 mAh</td><td>Würde ohne Kälte knapp reichen, mit Kälte nicht mehr sicher.</td></tr><tr><td>AA-Batterien</td><td>Muss man tauschen, und kabellos laden geht damit nicht.</td></tr><tr><td>Knopfzelle</td><td>Viel zu wenig Energie für GPS und Funk.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 9 (Laufzeit)</p>
+      </article>
+      <article class="teil-karte entscheid" id="e-qi">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><rect class="z-signal" x="90" y="16" width="100" height="34" rx="6"/>
+<path d="M100 64 h80 M108 72 h64 M116 80 h48" stroke="var(--signal)" stroke-width="2.5" fill="none"/>
+<rect class="z-flaeche" x="70" y="88" width="140" height="12" rx="2"/>
+<text class="z-klein" x="140" y="37" text-anchor="middle" style="fill:#fff">Chip</text>
+<text class="z-klein" x="222" y="98">Ladebox</text>
+<path d="M226 22 l16 16 M242 22 l-16 16" stroke="var(--tinte)" stroke-width="2"/><text class="z-klein" x="220" y="56">kein Stecker</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 06</p>
+        <h3>Wie wird geladen?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Kabellos mit <span class="wort" data-wort="Qi" data-erklaerung="Ein weltweiter Standard für kabelloses Laden, wie bei vielen Handys.">Qi</span>, in der Ladebox</dd>
+          <dt>WARUM</dt><dd>Ohne Stecker braucht das Gehäuse kein Loch für eine Buchse, und es kommt weniger leicht Wasser hinein. Am Abend stellt man die Chips nur in die Ladebox. Keiner muss 5 Kabel einstecken, und keine Buchse kann ausleiern.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Es lädt langsamer als mit Kabel (0,5 A), und die <span class="wort" data-wort="Spule" data-erklaerung="Ein aufgewickelter Draht. Fließt Strom hindurch, entsteht ein Magnetfeld. Ändert sich ein Magnetfeld in der Nähe, entsteht in der Spule Strom.">Spule</span> muss genau über der Spule in der Ladebox liegen. Qi-Teile kosten mehr als eine Buchse.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>USB-C-Buchse</td><td>Billiger und schneller, aber ein Loch im Gehäuse, und jeder Chip muss einzeln eingesteckt werden.</td></tr><tr><td>Kontakte außen (wie bei einer elektrischen Zahnbürste mit Pins)</td><td>Metall außen kann rosten, und bei Nässe gibt es <span class="wort" data-wort="Kriechströme" data-erklaerung="Kleine Ströme, die bei Nässe über die Oberfläche fließen, wo eigentlich keiner fließen soll.">Kriechströme</span>.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 10 (Laden)</p>
+      </article>
+      <article class="teil-karte entscheid" id="e-messer">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><path d="M90 80 a50 50 0 0 1 100 0" fill="none" stroke="var(--linie)" stroke-width="10"/>
+<path d="M90 80 a50 50 0 0 1 82 -38" fill="none" stroke="var(--signal)" stroke-width="10"/>
+<text x="140" y="80" text-anchor="middle" style="font-family:var(--mono);font-size:20px;fill:var(--tinte)">73 %</text>
+<text class="z-klein" x="140" y="102" text-anchor="middle">Beispiel</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 07</p>
+        <h3>Wie weiß der Chip, wie voll der Akku ist?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Mit einem eigenen Akku-Messer, dem MAX17048</dd>
+          <dt>WARUM</dt><dd>Er rechnet den Akku-Stand in Prozent aus und schickt ihn über die Firmware mit jeder Nachricht mit. So sieht der Verleih, welcher Chip bald leer ist. Nur die Spannung zu messen wäre ungenauer, weil sie lange fast gleich bleibt und sich in der Kälte verschiebt.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Noch ein kleines Modul. Ob die Prozent in der Kälte stimmen, sehen wir erst beim Test.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Nur die Spannung messen</td><td>Billiger, aber zwischen „fast voll“ und „halb leer“ ändert sich die Spannung kaum.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 9 (Laufzeit)</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-bedienung">
+    <header>
+      <span class="mono">BEREICH 3 · 3 ENTSCHEIDUNGEN</span>
+      <h2 id="h-bedienung">Bedienung und Gehäuse</h2>
+    </header>
+    <div class="text"><p>Was der Gast in der Hand hält und wie er merkt, was der Chip tut.</p></div>
+    <div class="teile-raster">
+      <article class="teil-karte entscheid" id="e-knopf">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><circle cx="80" cy="56" r="34" fill="var(--signal-flaeche)" stroke="var(--tinte)" stroke-width="1.4"/>
+<circle cx="80" cy="56" r="22" fill="var(--signal)"/>
+<text class="z-klein" x="132" y="44">kurz: Gruppe rufen</text>
+<text class="z-klein" x="132" y="66">3 s halten: Notruf</text>
+<text class="z-klein" x="80" y="104" text-anchor="middle">ein Knopf</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 08</p>
+        <h3>Wie viele Knöpfe?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Ein einziger Knopf, 16 mm groß und wasserdicht (<span class="wort" data-wort="IP67" data-erklaerung="Ein Code für Dichtheit. Die 6 heißt staubdicht, die 7 heißt: hält kurzes Untertauchen aus.">IP67</span>)</dd>
+          <dt>WARUM</dt><dd>Ein großer Knopf lässt sich auch mit dicken Handschuhen drücken. Der Knopf selbst ist dicht. Damit auch das Loch im Gehäuse dicht ist, braucht es eine Dichtung (Kapitel 15). Beim Verleih ist er in einem Satz erklärt. Kurz drücken ruft die Gruppe, 3 Sekunden halten startet den Notruf.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Notruf und Gruppenruf liegen auf demselben Knopf. Darum gibt es den Schutz vor <span class="wort" data-wort="Fehlalarm" data-erklaerung="Ein Notruf, den niemand wollte, zum Beispiel weil der Knopf aus Versehen gedrückt wurde.">Fehlalarm</span>: 3 Sekunden halten, dann 5 Sekunden zum Abbrechen, und ein weicher Kragen um den Knopf.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Zwei Knöpfe (einer nur für den Notruf)</td><td>Wäre eindeutiger, aber zwei Löcher, die dicht sein müssen, und mehr Platz. Mit Handschuhen erwischt man leicht den falschen.</td></tr><tr><td>Berührungsfläche</td><td>Geht mit Handschuhen nicht und löst bei Schnee aus Versehen aus.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 11 (Knopf und SOS)</p>
+      </article>
+      <article class="teil-karte entscheid" id="e-zeigen">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><circle cx="80" cy="54" r="12" fill="var(--signal)"/>
+<path d="M80 28 V20 M80 80 V88 M54 54 H46 M106 54 H114 M62 36 l-6 -6 M98 36 l6 -6 M62 72 l-6 6 M98 72 l6 6" stroke="var(--tinte)" stroke-width="2"/>
+<circle cx="196" cy="54" r="20" fill="var(--signal-flaeche)" stroke="var(--tinte)" stroke-width="1.6"/>
+<path d="M166 40 q-6 14 0 28 M158 34 q-9 20 0 40 M226 40 q6 14 0 28 M234 34 q9 20 0 40" fill="none" stroke="var(--signal)" stroke-width="2"/>
+<text class="z-klein" x="80" y="106" text-anchor="middle">LED</text><text class="z-klein" x="196" y="106" text-anchor="middle">Vibration</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 09</p>
+        <h3>Wie zeigt der Chip etwas an?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Mit einer zweifarbigen LED und Vibration</dd>
+          <dt>WARUM</dt><dd>Die Vibration spürt man auch unter der Jacke und bei Lärm am Lift. Die LED zeigt mit Grün, Gelb und Rot, wie es dem Chip geht. Gelb entsteht, wenn Rot und Grün gleichzeitig leuchten. Das geht, weil die Firmware beide Farben einzeln schalten kann. Beides braucht wenig Strom und hält Kälte gut aus.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Der Chip kann nur wenige Dinge zeigen. Was ein Blinken bedeutet, muss man lernen. Dafür gibt es eine kleine Karte beim Verleih (Kapitel 12).</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Bildschirm</td><td>Braucht viel mehr Strom, wird in der Kälte träge und kann beim Sturz brechen.</td></tr><tr><td>Lautsprecher oder Piepser</td><td>Hört man auf der Piste kaum, und im Lift stört er alle.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 12 (LED und Vibration)</p>
+      </article>
+      <article class="teil-karte entscheid" id="e-gehaeuse">
+        <svg viewBox="0 0 280 110" aria-hidden="true"><rect x="40" y="20" width="200" height="72" rx="20" fill="var(--signal)"/>
+<rect x="52" y="30" width="176" height="52" rx="12" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 4" opacity=".8"/>
+<circle cx="196" cy="56" r="10" fill="#fff" opacity=".9"/>
+<text class="z-klein" x="140" y="106" text-anchor="middle">gedruckt, weiche Hülle, Signal-Orange</text></svg>
+        <p class="e-nr mono">ENTSCHEIDUNG 10</p>
+        <h3>Woraus ist das Gehäuse?</h3>
+        <dl>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Gedruckt aus PETG oder ASA, mit weicher Hülle aus TPU, in Signal-Orange</dd>
+          <dt>WARUM</dt><dd>PETG und ASA sind zäh und halten Kälte viel besser aus als PLA. Ob unser gedrucktes Gehäuse in der Kälte hält, testen wir trotzdem. Die weiche Hülle dämpft Stöße, damit man sich weniger leicht verletzt. Orange findet man im Schnee sofort.</dd>
+          <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Ein gedrucktes Gehäuse ist größer und nicht so dicht wie ein gespritztes. Für den Test reicht es.</dd>
+        </dl>
+        <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
+        
+        <details class="genauer"><summary>Andere Möglichkeiten</summary>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>PLA (der häufigste Druck-Kunststoff)</td><td>Wird in der Kälte spröde und bricht.</td></tr><tr><td>Gespritztes Gehäuse</td><td>Kommt erst beim fertigen Chip. Die Form dafür ist für 5 Stück viel zu teuer.</td></tr></table>
+        </details>
+        <p class="quelle-zeile">Genauer in Kapitel 15 (Gehäuse)</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-prototyp">
+    <header>
+      <span class="mono">PROTOTYP UND FERTIGER CHIP</span>
+      <h2 id="h-prototyp">Was der Prototyp zeigen kann</h2>
+    </header>
+    <div class="text">
+      <p><strong>Der Prototyp sind die 5 Chips für den Test im Februar.</strong> Sie können schon die wichtigsten Dinge, die der fertige Chip können soll: Notruf, Gruppe rufen, leuchten, vibrieren, kabellos laden. Sie sind nur anders gebaut. Wir löten sie selbst aus fertigen Teilen zusammen. Darum sind sie größer.</p>
+    </div>
+
+    <figure class="bild p-groesse">
+      <svg viewBox="0 0 640 250" role="img" aria-labelledby="gt gd">
+        <title id="gt">Prototyp und fertiger Chip im gleichen Maßstab</title>
+        <desc id="gd">Der Prototyp misst mit Hülle 120 mal 60 Millimeter. Der fertige Chip soll etwa so groß wie eine Streichholzschachtel werden, ungefähr 50 mal 35 Millimeter. Daneben eine 1-Cent-Münze.</desc>
+        <rect x="20" y="30" width="360" height="180" rx="24" fill="var(--signal-flaeche)" stroke="var(--signal)" stroke-width="2.5"/>
+        <text class="z-text" x="200" y="120" text-anchor="middle">Prototyp</text>
+        <text class="z-klein" x="200" y="138" text-anchor="middle">120 × 60 mm</text>
+        <rect x="410" y="30" width="150" height="105" rx="12" fill="none" stroke="var(--tinte)" stroke-width="2" stroke-dasharray="6 5"/>
+        <text class="z-text" x="485" y="82.5" text-anchor="middle">fertiger Chip</text>
+        <text class="z-klein" x="485" y="100.5" text-anchor="middle">ca. 50 × 35 mm</text>
+        <circle cx="485" cy="200" r="24.4" fill="var(--raster)" stroke="var(--tinte)" stroke-width="1.2"/>
+        <text class="z-klein" x="521" y="204">1 Cent</text>
+      </svg>
+      <figcaption>Beide im gleichen Maßstab. Die Größe des fertigen Chips ist ein Ziel, noch keine Messung. <span class="stempel s-geschaetzt">Geschätzt</span></figcaption>
+    </figure>
+
+    <h3 class="p-titel">Warum nicht gleich den fertigen Chip?</h3>
+    <div class="text">
+      <p>Den kleinen, fertigen Chip baut später eine Fabrik. Dafür braucht es eine eigene <span class="wort" data-wort="Platine" data-erklaerung="Eine Platte, auf der Bauteile festgelötet und über Leiterbahnen verbunden sind.">Platine</span> und eine teure Form für das Gehäuse. Das kostet viel Geld und dauert Monate. Wenn beim Testen dann etwas nicht klappt, war das Geld weg.</p>
+      <p>Der Prototyp ist billig und schnell gebaut. Klappt etwas nicht, ändern wir es einfach. <strong>Erst wenn der Prototyp zeigt, dass die Idee funktioniert, lohnt sich der fertige Chip.</strong></p>
+    </div>
+
+    <h3 class="p-titel">Was wir mit dem Prototyp testen können</h3>
+    <div class="p-spalten">
+      <div class="p-spalte p-ja">
+        <p class="mono">✓ DAS TESTEN WIR JETZT SCHON RICHTIG</p>
+        <ul>
+          <li><strong>Kommt ein Notruf an,</strong> ohne Handy und ohne Handynetz?</li>
+          <li><strong>Kommt ein Gruppenruf an</strong> bei den anderen Chips?</li>
+          <li><strong>Verstehen Gäste die Bedienung</strong> mit einem Knopf?</li>
+          <li><strong>Hält der Akku einen ganzen Skitag?</strong> Der Prototyp braucht wahrscheinlich mehr Strom als der fertige Chip, weil auf den Modulen zusätzliche Teile sitzen. Die Laufzeit des fertigen Chips messen wir später noch einmal.</li>
+        </ul>
+      </div>
+      <div class="p-spalte p-spaeter">
+        <p class="mono">↻ DAS TESTEN WIR BEIM FERTIGEN CHIP NOCH EINMAL</p>
+        <ul>
+          <li><strong>Wie weit der Funk reicht.</strong> Die Antenne sitzt im fertigen Chip an einer anderen Stelle.</li>
+          <li><strong>Ob er bei Schnee dicht bleibt.</strong> Ein gedrucktes Gehäuse ist nicht so dicht wie eines aus der Fabrik.</li>
+          <li><strong>Wie klein und leicht er wird.</strong> Das zeigt erst die eigene Platine.</li>
+          <li><strong>Wie sicher der Funk ist.</strong> Der Prototyp verschlüsselt einfacher. Das reicht für den Test, aber nicht für den echten Verleih.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="merke">
+      <span class="mono">MERKEN</span>
+      <p>Der Prototyp zeigt, ob die Idee funktioniert. Der fertige Chip zeigt dann, ob sie auch klein, dicht und sicher funktioniert.</p>
+    </div>
+
+    <details class="genauer">
+      <summary>Genauer: Was genau beim Prototyp anders ist</summary>
+      <p><strong>Fertige Module statt eigener Platine.</strong> Jedes Teil sitzt auf einem eigenen kleinen Modul. Die Module kommen auf eine <span class="wort" data-wort="Lochraster" data-erklaerung="Eine Platine mit vielen Löchern in festem Abstand. Man steckt die Teile hinein und verbindet sie selbst mit Draht und Lötzinn.">Lochraster</span>-Platine und werden mit Drähten verbunden. Im fertigen Chip sitzt alles auf einer einzigen kleinen Platine.</p>
+      <p><strong>Antenne am Kabel.</strong> Beim Prototyp hängt die Funk-Antenne an einem kurzen Kabel. Im fertigen Chip ist sie fest eingebaut. Darum gilt die Reichweite aus dem Test nicht eins zu eins.</p>
+      <p><strong>Gehäuse gedruckt statt gespritzt.</strong> Der Prototyp kommt aus dem 3D-Drucker. Der fertige Chip bekommt ein gespritztes Gehäuse.</p>
+      <p><strong>Einfachere <span class="wort" data-wort="Verschlüsselung" data-erklaerung="Die Nachricht wird so verwürfelt, dass nur jemand mit dem richtigen Schlüssel sie lesen kann.">Verschlüsselung</span>.</strong> Der Prototyp nutzt ein selbst gebautes Verfahren. Aus der Rechnung SipHash-2-4 entsteht eine lange Reihe von Zufallszahlen, der Schlüsselstrom. Damit wird die Nachricht verwürfelt. Dazu kommt eine Prüfsumme, an der der Empfänger gefälschte oder veränderte Nachrichten erkennt. Alle 5 Chips teilen einen Schlüssel. Ob so ein selbst gebautes Verfahren wirklich sicher ist, hat niemand unabhängig geprüft. Für den Test reicht es. Für den Verleih kommt darum AES-CCM, ein geprüftes Standard-Verfahren, mit einem eigenen Schlüssel je Chip.</p>
+    </details>
+
+    <details class="genauer">
+      <summary>Genauer: Was das kostet</summary>
+      <p>Alle 5 Prototypen zusammen kosten etwa 560 €, also etwa 105 bis 112 € je Chip. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+      <p>Für den fertigen Chip braucht es eine eigene Platine und eine <span class="wort" data-wort="Spritzguss" data-erklaerung="Flüssiger Kunststoff wird in eine Metallform gepresst. Die Form ist teuer, jedes einzelne Teil danach aber sehr billig.">Spritzguss</span>-Form für das Gehäuse. So eine Form kostet schnell mehrere tausend Euro. Das lohnt sich erst, wenn klar ist, dass die Idee funktioniert, und wenn viele Chips gebaut werden. Danach ist jedes einzelne Gehäuse sehr billig. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+    </details>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-woerter">
+    <header>
+      <span class="mono">NACHSCHLAGEN</span>
+      <h2 id="h-woerter">Wörter in diesem Kapitel</h2>
+    </header>
+    <div class="text"><p>Alle Fachwörter dieses Kapitels. Im Text kannst du auf ein orange gepunktetes Wort tippen, dann erscheint die Erklärung direkt dort.</p></div>
+    <dl class="woerter"><div><dt>Arduino</dt><dd>Ein einfaches Programm am Computer, mit dem man Firmware schreibt und auf den Chip lädt.</dd></div><div><dt>Empfänger</dt><dd>Das Gerät von Lukas an der Bergstation. Es hört die Chips und schickt alles übers Internet zum Server.</dd></div><div><dt>Fehlalarm</dt><dd>Ein Notruf, den niemand wollte, zum Beispiel weil der Knopf aus Versehen gedrückt wurde.</dd></div><div><dt>Firmware</dt><dd>Das Programm, das im Funkmodul läuft und alles steuert.</dd></div><div><dt>Frequenz</dt><dd>Wie oft eine Funkwelle in einer Sekunde schwingt. 869,525 MHz heißt: etwa 870 Millionen Mal pro Sekunde. Jede Funkart hat ihren eigenen Bereich.</dd></div><div><dt>GPS</dt><dd>Ein Empfänger, der aus den Signalen von Satelliten ausrechnet, wo er gerade ist.</dd></div><div><dt>IP67</dt><dd>Ein Code für Dichtheit. Die 6 heißt staubdicht, die 7 heißt: hält kurzes Untertauchen aus.</dd></div><div><dt>Kriechströme</dt><dd>Kleine Ströme, die bei Nässe über die Oberfläche fließen, wo eigentlich keiner fließen soll.</dd></div><div><dt>Lochraster</dt><dd>Eine Platine mit vielen Löchern in festem Abstand. Man steckt die Teile hinein und verbindet sie selbst mit Draht und Lötzinn.</dd></div><div><dt>LoRa</dt><dd>Eine Funkart, die mit wenig Strom sehr weit kommt, dafür aber nur kleine Nachrichten schickt.</dd></div><div><dt>mAh</dt><dd>Milliamperestunden: wie viel Strom ein Akku speichert. 1000 mAh heißt zum Beispiel: 100 mA lang 10 Stunden.</dd></div><div><dt>Mikrocontroller</dt><dd>Ein kleiner Computer in einem einzigen Chip. Er führt die Firmware aus.</dd></div><div><dt>Modul</dt><dd>Eine kleine fertige Platine, auf der ein Chip mit allen Helfern schon aufgelötet ist. Man muss nur noch Drähte anlöten.</dd></div><div><dt>Platine</dt><dd>Eine Platte, auf der Bauteile festgelötet und über Leiterbahnen verbunden sind.</dd></div><div><dt>Prototyp</dt><dd>Ein erstes Muster, an dem man ausprobiert, ob eine Idee funktioniert. Er ist oft größer und einfacher gebaut als das fertige Gerät.</dd></div><div><dt>Qi</dt><dd>Ein weltweiter Standard für kabelloses Laden, wie bei vielen Handys.</dd></div><div><dt>Schutzschaltung</dt><dd>Eine kleine Platine am Akku. Sie trennt ihn ab, wenn er zu leer, zu voll oder kurzgeschlossen ist.</dd></div><div><dt>Spritzguss</dt><dd>Flüssiger Kunststoff wird in eine Metallform gepresst. Die Form ist teuer, jedes einzelne Teil danach aber sehr billig.</dd></div><div><dt>Spule</dt><dd>Ein aufgewickelter Draht. Fließt Strom hindurch, entsteht ein Magnetfeld. Ändert sich ein Magnetfeld in der Nähe, entsteht in der Spule Strom.</dd></div><div><dt>Verschlüsselung</dt><dd>Die Nachricht wird so verwürfelt, dass nur jemand mit dem richtigen Schlüssel sie lesen kann.</dd></div></dl>
+  </section>
+
+  <section class="abschnitt" id="ergebnis" aria-labelledby="h-ergebnis">
+    <header>
+      <span class="mono">KURZFASSUNG</span>
+      <h2 id="h-ergebnis">Das Ergebnis</h2>
+    </header>
+    <div class="ergebnis">
+      <ul>
+        <li>Der Chip funkt mit LoRa über eigene Empfänger. Er braucht kein Handynetz.</li>
+        <li>GPS ist dabei, weil die Bergbahn beim Notruf eine möglichst genaue Position braucht. Es braucht aber am meisten Strom.</li>
+        <li>Ein Knopf, LED und Vibration, kabellos laden, Akku mit 1000 mAh.</li>
+        <li>Der Prototyp hat dieselbe Technik, ist aber größer und einfacher gebaut. Er zeigt, ob die Idee funktioniert. Reichweite, Dichtheit, Größe und Gewicht prüfen wir beim fertigen Chip noch einmal.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-offen">
+    <header>
+      <span class="mono">NOCH NICHT GEKLÄRT</span>
+      <h2 id="h-offen">Was noch offen ist</h2>
+    </header>
+    <ul class="offen-liste">
+      <li><strong>GPS und Strom.</strong> Ob das GPS zwischendurch schlafen darf, ohne dass der Notruf zu lange auf eine Position wartet. Kommt in Kapitel 9 und 13.</li>
+      <li><strong>Empfang nur nach dem Senden.</strong> Der Chip soll so wenig Strom wie möglich brauchen. Ob er nur noch kurz nach dem eigenen Senden zuhört, klären wir mit Lukas (Kapitel 13).</li>
+      <li><strong>Funkregeln.</strong> Vor dem Test prüfen, ob in Österreich für 869,525 MHz noch dieselben Regeln gelten (500 mW, 10 % Sendezeit), und am echten Chip messen, wie lange eine Nachricht wirklich dauert.</li>
+      <li><strong>Kälte beim Funkmodul.</strong> Normale Ausführung bis −20&nbsp;°C. Am gekauften Modul nachschauen, welche Ausführung es ist.</li>
+      <li><strong>Verschlüsselung für die Serie.</strong> Prüfen, ob der RAK3172 AES-CCM und einen Ausleseschutz kann.</li>
+      <li><strong>Größe des fertigen Chips.</strong> Streichholzschachtel ist ein Ziel. Wie klein es wirklich geht, zeigt erst die eigene Platine.</li>
+    </ul>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-quellen">
+    <header>
+      <span class="mono">NACHWEISE</span>
+      <h2 id="h-quellen">Quellen</h2>
+    </header>
+    <ol class="quellen">
+      <li>Bisheriger Test-Bauplan <code>material/test-bauplan.html</code>: Teileliste, Akku 1000 statt 500 mAh, Gehäuse-Material, Frequenz, Kosten.</li>
+      <li>Firmware <code>material/firmware/skitag_chip</code>: Akku-Stand und „bewegt sich“ in jeder Nachricht, Knopf 3 s und 5 s.</li>
+      <li><a href="https://docs.rakwireless.com/product-categories/wisduo/rak3172-module/datasheet/">RAK3172 Datenblatt</a> (Chip STM32WLE5CC mit Funk und Mikrocontroller, Temperatur je Ausführung), <a href="https://docs.rakwireless.com/product-categories/wisduo/rak3272s-breakout-board/datasheet/">RAK3272S Datenblatt</a> (Adapter-Platine)</li>
+      <li>Firmware <code>proto.h</code>: Verschlüsselung mit SipHash-2-4 als Schlüsselstrom und Prüfsumme; <code>skitag_chip.ino</code>: „bewegt“ = Bewegung in den letzten 60 s.</li>
+      <li>Frequenz-Regeln für 869,40–869,65 MHz (500 mW, 10 % Sendezeit): bisheriger Test-Bauplan und europäische Empfehlung ERC/REC 70-03 der CEPT (Geräte mit kurzer Reichweite). Sendezeit 0,23 s je Nachricht und Abstände 20 s bzw. 4–8 s beim Notruf: Firmware.</li>
+      <li>Kapitel 2 (Anforderungen) und Kapitel 5 (Bauteile) dieses Buchs</li>
+      <li>Netzwerk-Buch von Lukas Eder: <a href="https://lukcoderc.github.io/SKI-TAG/">lukcoderc.github.io/SKI-TAG</a></li>
+    </ol>
+  </section>
+
+  <nav class="blaettern" aria-label="Blättern">
+    <a href="kapitel-05.html"><span class="mono">ZURÜCK</span><strong>05 Die Bauteile einzeln</strong></a>
+    <div class="weiter"><span class="mono">WEITER · KOMMT NOCH</span><strong>07 Schaltplan</strong></div>
+  </nav>
+
+  <footer class="fuss">
+    <span>SkiTag · Werkstattbuch · Blatt 06</span>
+    <span>2026</span>
+  </footer>
+</div>
