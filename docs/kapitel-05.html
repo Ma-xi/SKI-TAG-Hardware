@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kapitel 5 · Die Bauteile einzeln · SkiTag Werkstattbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="werkbank.css">
+<script src="thema.js"></script>
+<script src="sprung.js" defer></script>
+<script src="begriffe.js" defer></script>
+
+<div class="blatt">
+
+  <div class="kopf">
+    <div class="leiste">
+      <a class="marke mono" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="5" fill="var(--signal)"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#fff" stroke-width="2"/></svg>
+        SkiTag · Hardware-Buch
+      </a>
+      <button class="thema mono" type="button" hidden></button>
+    </div>
+    <div class="schriftfeld" aria-label="Angaben zu diesem Blatt">
+      <div>Blatt</div><div>05 · Die Bauteile einzeln</div>
+      <div>Bereich</div><div>Der Chip</div>
+      <div>Verfasser</div><div>Maximilian Joszt</div>
+      <div>Stand</div><div>08.11.2026</div>
+    </div>
+  </div>
+
+  <div class="kap-titel">
+    <div>
+      <p class="kap-nr">KAP. 05 · DER CHIP</p>
+      <h1>Die Bauteile einzeln</h1>
+      <p class="einstieg">Im Chip stecken 11 Teile. Wie solche Teile grundsätzlich funktionieren, steht in Kapitel 3. Hier geht es um genau die Teile in unserem Chip: wie sie aussehen, was sie machen und worauf du achten musst.</p>
+      <p class="lesezeit mono">Die Zahlen aus den Datenblättern stecken in den Kästen „Genauer“. Die brauchst du zum Verstehen nicht.</p>
+    </div>
+    <figure class="zeichnung">
+      <svg viewBox="0 0 460 400" role="img" aria-labelledby="zt zd">
+        <title id="zt">Explosionszeichnung des Chips, alle Bauteile dieses Kapitels hervorgehoben</title>
+        <desc id="zd">Die Schichten des Chips von oben nach unten. Orange sind alle Teile, die im Blockschaltbild vorkommen: Platine mit Modulen, Lade-Modul und Motor, Akku und Qi-Empfänger. Nur Knopf, Deckel und Gehäuse sind grau.</desc>
+        <line class="z-hilfe" x1="150" y1="18" x2="150" y2="372"/>
+        <g class="z-blass">
+          <rect class="z-modul" x="122" y="26" width="56" height="10" rx="5"/>
+          <rect class="z-flaeche" x="136" y="14" width="28" height="16" rx="4"/>
+          <path class="z-linie" d="M182 22 H 300"/>
+          <text class="z-nr" x="306" y="18">KAP. 11</text>
+          <text class="z-text" x="306" y="31">Knopf und Kragen</text>
+          <path class="z-flaeche" d="M48 66 H252 a10 10 0 0 1 10 10 V82 H38 V76 a10 10 0 0 1 10 -10 Z"/>
+          <rect class="z-flaeche" x="134" y="58" width="16" height="10" rx="2"/>
+          <circle cx="210" cy="74" r="4" fill="var(--tinte-3)"/>
+          <path class="z-linie" d="M262 74 H 300"/>
+          <text class="z-nr" x="306" y="70">KAP. 12, 15</text>
+          <text class="z-text" x="306" y="83">Deckel mit LED</text>
+        </g>
+        <rect class="z-signal" x="56" y="118" width="188" height="8" rx="1"/>
+        <rect class="z-weich" x="66" y="104" width="54" height="14"/>
+        <rect class="z-weich" x="130" y="98" width="46" height="20"/>
+        <rect class="z-weich" x="186" y="108" width="22" height="10"/>
+        <rect class="z-weich" x="214" y="108" width="22" height="10"/>
+        <text class="z-klein" x="70" y="114" style="fill:var(--signal-tinte)">RAK</text>
+        <text class="z-klein" x="140" y="112" style="fill:var(--signal-tinte)">GPS</text>
+        <path class="z-linie" d="M244 116 H 300"/>
+        <text class="z-nr aktiv" x="306" y="112">KAP. 4–8</text>
+        <text class="z-text" x="306" y="125">Platine mit Modulen</text>
+        <rect class="z-weich" x="70" y="160" width="40" height="12"/>
+        <rect class="z-weich" x="196" y="158" width="38" height="14" rx="7"/>
+        <path class="z-linie" d="M234 165 H 300"/>
+        <text class="z-nr aktiv" x="306" y="161">KAP. 10, 12</text>
+        <text class="z-text" x="306" y="174">Lade-Modul, Motor</text>
+        <rect class="z-weich" x="62" y="204" width="176" height="18" rx="3"/>
+        <text class="z-klein" x="122" y="217" style="fill:var(--signal-tinte)">LiPo 1000 mAh</text>
+        <path class="z-linie" d="M238 213 H 300"/>
+        <text class="z-nr aktiv" x="306" y="209">KAP. 9</text>
+        <text class="z-text" x="306" y="222">Akku</text>
+        <rect class="z-weich" x="78" y="254" width="144" height="10" rx="2"/>
+        <ellipse cx="150" cy="259" rx="44" ry="3" fill="none" stroke="var(--signal-tinte)" stroke-width="1.2"/>
+        <path class="z-linie" d="M222 259 H 300"/>
+        <text class="z-nr aktiv" x="306" y="255">KAP. 10</text>
+        <text class="z-text" x="306" y="268">Qi-Empfänger</text>
+        <g class="z-blass">
+          <path class="z-flaeche" d="M38 296 H262 V330 a12 12 0 0 1 -12 12 H50 a12 12 0 0 1 -12 -12 Z"/>
+          <path class="z-linie" d="M262 318 H 300"/>
+          <text class="z-nr" x="306" y="314">KAP. 15</text>
+          <text class="z-text" x="306" y="327">Unterteil und Hülle</text>
+        </g>
+        <path class="z-hilfe" d="M38 372 H262"/>
+        <path class="z-linie" d="M38 366 V378 M262 366 V378"/>
+        <text class="z-klein" x="118" y="392">120 mm mit Hülle</text>
+      </svg>
+      <figcaption><span>Orange: alle Bauteile in diesem Kapitel</span><span>nicht maßstäblich</span></figcaption>
+    </figure>
+
+  </div>
+
+  <section class="abschnitt" aria-labelledby="h-energie">
+    <header>
+      <span class="mono">BEREICH 1 · 5 TEILE</span>
+      <h2 id="h-energie">Energie</h2>
+    </header>
+    <div class="text"><p>Diese Teile sorgen dafür, dass der Chip Strom hat: laden, speichern und gleichmäßig verteilen.</p></div>
+    <div class="teile-raster">
+      <article class="teil-karte" id="teil-qi">
+        <figure class="foto"><img src="https://cdn-shop.adafruit.com/640x480/1901-00.jpg" alt="Foto: Qi-Empfänger" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').classList.add('fehlt')"><svg class="ersatz" viewBox="0 0 280 145" role="img" aria-label="Zeichnung: Qi-Empfänger"><rect class="z-flaeche" x="50" y="20" width="150" height="100" rx="6"/>
+<rect x="64" y="32" width="122" height="76" rx="30" fill="none" stroke="var(--signal)" stroke-width="3"/><rect x="78" y="44" width="94" height="52" rx="22" fill="none" stroke="var(--signal)" stroke-width="3"/><rect x="92" y="56" width="66" height="28" rx="12" fill="none" stroke="var(--signal)" stroke-width="3"/>
+<rect class="z-weich" x="210" y="56" width="44" height="30" rx="3"/><path class="z-linie" d="M200 70 H 210"/><text class="z-klein" x="125" y="136" text-anchor="middle">flache Spule</text></svg><figcaption class="bildnachweis">Genau unser Modul, hier auf einer Qi-Ladestation. Foto: Adafruit, nur angezeigt, nicht kopiert. <a href="https://www.adafruit.com/product/1901">Produktseite ↗</a></figcaption></figure>
+        <h3>Qi-Empfänger</h3>
+        <p class="modell">Adafruit 1901</p>
+        <dl>
+          <dt>MACHT</dt><dd>Holt die Energie kabellos aus der Ladebox.</dd>
+          <dt>VERGLEICH</dt><dd>Wie beim Handy, das man nur auf die Ladestation legt.</dd>
+          <dt class="achtung">ACHTUNG</dt><dd>Die <span class="wort" data-wort="Spule" data-erklaerung="Ein aufgewickelter Draht. Fließt Strom hindurch, entsteht ein Magnetfeld. Ändert sich ein Magnetfeld in der Nähe, entsteht in der Spule Strom.">Spule</span> muss zur Rückwand zeigen, sonst lädt nichts.</dd>
+          
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>In der Ladebox liegt unter jedem Platz eine Spule, durch die ständig wechselnder Strom fließt. Das erzeugt ein <span class="wort" data-wort="Magnetfeld" data-erklaerung="Die unsichtbare Kraft um einen Magneten oder um einen Draht, durch den Strom fließt.">Magnetfeld</span>, das sich dauernd ändert. Liegt die Spule des Chips genau darüber, entsteht in ihr wieder Strom. Ein kleiner Chip auf dem <span class="wort" data-wort="Modul" data-erklaerung="Eine kleine fertige Platine, auf der ein Chip mit allen Helfern schon aufgelötet ist. Man muss nur noch Drähte anlöten.">Modul</span> macht daraus gleichmäßige 5 V. Das klappt nur, wenn die beiden Spulen nah beieinander und genau übereinander liegen.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>V+</strong></td><td>5 V hinaus</td><td>zum Lade-Modul, Anschluss VBUS</td></tr><tr><td><strong><span class="wort" data-wort="GND" data-erklaerung="Der gemeinsame Minus-Anschluss aller Teile (Kapitel 3).">GND</span></strong></td><td>Minus</td><td>zum Lade-Modul, GND</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Die Spule klebt auf einer Metallfolie. Die Spulen-Seite muss zur Rückwand des Gehäuses zeigen, die Folie nach innen.</li><li>Nur zwei Drähte anlöten: V+ und GND.</li><li>Die Rückwand ist nur 1,2 mm dick, damit die Spule nah genug an der Ladebox ist. Nichts dazwischenkleben.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Liefert</td><td>5 V, bis 500 mA</td></tr><tr><td>Größe</td><td>48 × 32 mm</td></tr><tr><td>Zu weit weg</td><td>schaltet gar nicht ein</td></tr></table>
+          <p class="quelle-zeile">Quelle: <a href="https://www.adafruit.com/product/1901">Adafruit Produktseite 1901</a></p>
+        </details>
+      </article>
+      <article class="teil-karte" id="teil-lademodul">
+        <figure class="foto"><img src="https://cdn-shop.adafruit.com/640x480/4755-01.jpg" alt="Foto: Lade-Modul" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').classList.add('fehlt')"><svg class="ersatz" viewBox="0 0 280 145" role="img" aria-label="Zeichnung: Lade-Modul"><rect class="z-weich" x="60" y="30" width="160" height="84" rx="4"/><circle cx="72" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="88" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="104" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="120" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="136" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="152" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="168" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="184" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="200" cy="106" r="3" fill="var(--signal-tinte)"/><rect class="z-modul" x="40" y="54" width="24" height="18" rx="3"/><text class="z-klein" x="40" y="48">Strom rein</text>
+<rect class="z-modul" x="216" y="44" width="22" height="18" rx="2"/><rect class="z-modul" x="216" y="74" width="22" height="18" rx="2"/>
+<text class="z-klein" x="244" y="57">Akku</text><text class="z-klein" x="244" y="87">Chip</text><rect class="z-signal" x="120" y="50" width="34" height="34" rx="2"/><circle cx="90" cy="96" r="4" fill="var(--signal)"/></svg><figcaption class="bildnachweis">Genau unser Modul. Foto: Adafruit, nur angezeigt, nicht kopiert. <a href="https://www.adafruit.com/product/4755">Produktseite ↗</a></figcaption></figure>
+        <h3>Lade-Modul</h3>
+        <p class="modell">Adafruit BQ24074</p>
+        <dl>
+          <dt>MACHT</dt><dd>Lädt den Akku und versorgt gleichzeitig den Rest des Chips.</dd>
+          <dt>VERGLEICH</dt><dd>Wie ein Akku-Ladegerät, an dem das Gerät weiterlaufen darf.</dd>
+          <dt class="achtung">ACHTUNG</dt><dd>Ab Werk lädt es zu stark. Eine Lötstelle wird umgelötet (Kapitel 17).</dd>
+          
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>Das Modul lädt den Akku in Stufen: Ist er ganz leer, zuerst ganz sanft. Dann mit gleichbleibendem Strom (bei uns 0,5 A). Kurz vor voll hält es die Spannung bei 4,2 V und lässt den Strom langsam sinken, bis der Akku voll ist. Solange Strom vom Qi-Empfänger kommt, versorgt das Modul den Chip direkt daraus und schont so den Akku. Ein <span class="wort" data-wort="Temperaturfühler" data-erklaerung="Ein kleines Bauteil, dessen Widerstand sich mit der Temperatur ändert. So „spürt“ das Lade-Modul, wie warm der Akku ist. Fachwort: NTC.">Temperaturfühler</span> am Akku verhindert das Laden unter 0 °C.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>VBUS</strong></td><td>Strom hinein (5 V)</td><td>vom Qi-Empfänger</td></tr><tr><td><strong>LIPO</strong></td><td>Akku</td><td>zum Akku-Messer, weiter zum Akku</td></tr><tr><td><strong>OUT</strong></td><td>Strom hinaus für den Chip</td><td>zum Spannungsregler und zum Motor</td></tr><tr><td><strong>THERM</strong></td><td>Temperaturfühler</td><td>an den Fühler, der am Akku klebt</td></tr><tr><td><strong>PGOOD</strong></td><td>meldet: Strom ist da</td><td>zum Funkmodul („in der Ladebox“)</td></tr><tr><td><strong>CHG</strong></td><td>meldet: lädt gerade</td><td>zum Funkmodul</td></tr><tr><td><strong>GND</strong></td><td>Minus</td><td>gemeinsames Minus</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li><span class="wort" data-wort="Lötbrücke" data-erklaerung="Zwei winzige Kupferflächen auf der Platine, direkt nebeneinander. Mit einem Tropfen Lötzinn verbunden, sind sie wie ein eingeschalteter Schalter. Schneidet man die Verbindung durch, ist der Schalter aus. So stellt man am Modul etwas ein, zum Beispiel den Ladestrom.">Lötbrücke</span> „1.0A“ mit einem <span class="wort" data-wort="Cutter" data-erklaerung="Ein Bastelmesser mit einer scharfen, abbrechbaren Klinge.">Cutter</span> vorsichtig trennen und „0.5A“ zulöten. Dann lädt es mit 0,5 A.</li><li>Lötbrücke „THERM“ trennen, sonst wird der Temperaturfühler nicht beachtet.</li><li>Akku nie falsch herum anstecken. Das zerstört das Modul.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Laden und gleichzeitig versorgen</td><td>ja</td></tr><tr><td>Ladestrom</td><td>ab Werk 1,0 A, bei uns 0,5 A</td></tr><tr><td>Lädt nur zwischen</td><td>0 und 50 °C (mit Temperaturfühler)</td></tr><tr><td>Ausgang</td><td>höchstens 4,4 V</td></tr></table>
+          <p class="quelle-zeile">Quelle: <a href="https://www.ti.com/lit/ds/symlink/bq24074.pdf">TI Datenblatt BQ24074</a>, <a href="https://learn.adafruit.com/adafruit-bq24074-universal-usb-dc-solar-charger-breakout/pinouts">Adafruit Anleitung</a></p>
+        </details>
+      </article>
+      <article class="teil-karte" id="teil-akku">
+        <figure class="foto"><img src="https://cdn-shop.adafruit.com/640x480/258-02.jpg" alt="Foto: Akku" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').classList.add('fehlt')"><svg class="ersatz" viewBox="0 0 280 145" role="img" aria-label="Zeichnung: Akku"><rect class="z-weich" x="40" y="34" width="170" height="70" rx="8"/><text class="z-text" x="125" y="74" text-anchor="middle">1000 mAh</text>
+<path d="M210 58 H 240" stroke="var(--signal)" stroke-width="3"/><path d="M210 78 H 240" stroke="var(--tinte)" stroke-width="3"/><rect class="z-modul" x="240" y="52" width="22" height="32" rx="2"/>
+<text class="z-klein" x="216" y="50">+</text><text class="z-klein" x="216" y="96">−</text></svg><figcaption class="bildnachweis">Ähnlicher Akku (1200 mAh), unserer ist etwas kleiner. Foto: Adafruit, nur angezeigt, nicht kopiert. <a href="https://www.adafruit.com/product/258">Produktseite ↗</a></figcaption></figure>
+        <h3>Akku</h3>
+        <p class="modell">LiPo 1000 mAh, 50 × 34 × 5 mm</p>
+        <dl>
+          <dt>MACHT</dt><dd>Speichert die Energie für einen ganzen Skitag.</dd>
+          
+          <dt class="achtung">ACHTUNG</dt><dd>Nur mit <span class="wort" data-wort="Schutzschaltung" data-erklaerung="Eine kleine Schaltung am Akku, die ihn abschaltet, wenn etwas schiefgeht, zum Beispiel bei einem Kurzschluss.">Schutzschaltung</span> kaufen. Plus und Minus vor dem Einstecken messen (Kapitel 3, Thema 9).</dd>
+          <dt>GRUNDLAGEN</dt><dd><a href="kapitel-03.html#t4">Kapitel 3, Thema 4: Der Akku</a></dd>
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>Im Akku liegen dünne Schichten übereinander. Beim Laden wandern winzige Teilchen (<span class="wort" data-wort="Lithium-Ionen" data-erklaerung="Winzige elektrisch geladene Teilchen im Akku. Beim Laden wandern sie auf die eine Seite, beim Entladen zurück.">Lithium-Ionen</span>) von einer Schicht in die andere, beim Entladen wieder zurück. Je mehr auf der „vollen“ Seite sind, desto höher ist die Spannung. Darum zeigt die Spannung ungefähr, wie voll der Akku ist. Eine kleine Schutzschaltung am Rand schaltet ab, wenn etwas schiefgeht.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>Rotes Kabel</strong></td><td>Plus</td><td>in den Stecker am Akku-Messer</td></tr><tr><td><strong>Schwarzes Kabel</strong></td><td>Minus</td><td>in den Stecker am Akku-Messer</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Vor dem Einstecken mit dem Multimeter prüfen, wo Plus ist (Kapitel 3, Thema 9).</li><li>Nie knicken, nie anstechen, nicht an scharfe Kanten legen.</li><li>Der Temperaturfühler wird mit <span class="wort" data-wort="Kapton-Klebeband" data-erklaerung="Ein dünnes, gelb-braunes Klebeband für Elektronik. Es hält Hitze aus und leitet keinen Strom.">Kapton-Klebeband</span> an den Akku geklebt.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Kapazität</td><td>1000 mAh</td></tr><tr><td>Spannung</td><td>4,2 V voll, etwa 3,7 V normal</td></tr><tr><td><span class="wort" data-wort="Datenblatt" data-erklaerung="Die Gebrauchsanweisung des Herstellers zu einem Bauteil. Darin steht zum Beispiel, mit welcher Spannung es arbeitet und wie viel Strom es braucht.">Datenblatt</span></td><td>je nach Händler, beim Kauf prüfen</td></tr></table>
+          <p class="quelle-zeile">Quelle: bisheriger Test-Bauplan</p>
+        </details>
+      </article>
+      <article class="teil-karte" id="teil-akkumesser">
+        <figure class="foto"><img src="https://cdn-shop.adafruit.com/640x480/5580-00.jpg" alt="Foto: Akku-Messer" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').classList.add('fehlt')"><svg class="ersatz" viewBox="0 0 280 145" role="img" aria-label="Zeichnung: Akku-Messer"><rect class="z-weich" x="90" y="40" width="100" height="70" rx="4"/><circle cx="102" cy="102" r="3" fill="var(--signal-tinte)"/><circle cx="118" cy="102" r="3" fill="var(--signal-tinte)"/><circle cx="134" cy="102" r="3" fill="var(--signal-tinte)"/><circle cx="150" cy="102" r="3" fill="var(--signal-tinte)"/><circle cx="166" cy="102" r="3" fill="var(--signal-tinte)"/><rect class="z-modul" x="70" y="60" width="22" height="22" rx="2"/><rect class="z-modul" x="188" y="60" width="22" height="22" rx="2"/>
+<text class="z-klein" x="46" y="76" text-anchor="middle">Akku</text><text class="z-klein" x="240" y="76" text-anchor="middle">Lader</text>
+<path d="M115 70 a25 25 0 0 1 50 0" fill="none" stroke="var(--tinte)" stroke-width="2"/><path d="M140 70 L 156 54" stroke="var(--signal)" stroke-width="3"/><circle cx="140" cy="70" r="3" fill="var(--tinte)"/></svg><figcaption class="bildnachweis">Genau unser Modul. Foto: Adafruit, nur angezeigt, nicht kopiert. <a href="https://www.adafruit.com/product/5580">Produktseite ↗</a></figcaption></figure>
+        <h3>Akku-Messer</h3>
+        <p class="modell">Adafruit MAX17048</p>
+        <dl>
+          <dt>MACHT</dt><dd>Rechnet aus, wie viel Prozent noch im Akku sind.</dd>
+          
+          
+          <dt>GRUNDLAGEN</dt><dd><a href="kapitel-03.html#t4">Kapitel 3, Thema 4: Der Akku</a></dd>
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>Der Chip auf dem Modul misst laufend die Spannung des Akkus. Weil er „weiß“, wie sich LiPo-Akkus verhalten, rechnet er daraus die Prozent aus. Er merkt auch, wie schnell die Spannung sinkt. Das Funkmodul fragt ihn über <span class="wort" data-wort="I2C" data-erklaerung="Eine Verbindung mit nur zwei Drähten (SDA und SCL), an der mehrere Sensoren hängen. Jeder hat eine eigene Nummer, wie eine Hausnummer (Kapitel 3).">I2C</span>, wie voll der Akku ist.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>Akku-Stecker 1</strong></td><td>Akku hinein</td><td>vom Akku</td></tr><tr><td><strong>Akku-Stecker 2</strong></td><td>Akku hinaus</td><td>zum Lade-Modul, Anschluss LIPO</td></tr><tr><td><strong>VIN</strong></td><td>Strom für den Messer</td><td>3,3 V vom Regler</td></tr><tr><td><strong>GND</strong></td><td>Minus</td><td>gemeinsames Minus</td></tr><tr><td><strong>SDA, SCL</strong></td><td>I2C, die zwei Drähte</td><td>zum Funkmodul</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Die beiden Akku-Stecker sind gleich. Egal welcher wohin.</li><li>Das kurze Kabel zum Lade-Modul liegt dem Modul bei.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Misst</td><td>die Akku-Spannung, rechnet in Prozent um</td></tr><tr><td>I2C-Hausnummer</td><td>0x36</td></tr><tr><td>Anschluss</td><td>zwei gleiche Akku-Stecker</td></tr></table>
+          <p class="quelle-zeile">Quelle: <a href="https://learn.adafruit.com/adafruit-max17048-lipoly-liion-fuel-gauge-and-battery-monitor/pinouts">Adafruit Anleitung MAX17048</a></p>
+        </details>
+      </article>
+      <article class="teil-karte" id="teil-regler">
+        <figure class="foto"><img src="bilder/regler.jpg" alt="Foto: Spannungsregler" loading="lazy" style="object-fit:cover"><figcaption class="bildnachweis">Ein anderes Bauteil in derselben Form (TO-92). Unser MCP1700 sieht genauso aus, nur die Aufschrift ist anders. Foto: <a href="https://commons.wikimedia.org/wiki/File:TL431_(TI)_in_TO-92.jpg">Retired electrician</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>, verkleinert.</figcaption></figure>
+        <h3>Spannungsregler</h3>
+        <p class="modell">MCP1700-3302E</p>
+        <dl>
+          <dt>MACHT</dt><dd>Macht gleichmäßige 3,3 V für alle Module.</dd>
+          
+          
+          <dt>GRUNDLAGEN</dt><dd><a href="kapitel-03.html#t5">Kapitel 3, Thema 5: Der Spannungsregler</a></dd>
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>Der Regler lässt nur so viel Spannung durch, dass hinten genau 3,3 V herauskommen. Den Rest wandelt er in ein kleines bisschen Wärme um. Beispiel: voller Akku 4,2 V, hinaus 3,3 V, also 0,9 V zu viel. Bei 55 mA sind das 0,9 V × 0,055 A ≈ 0,05 W. So wenig, dass man es nicht spürt.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>links</strong></td><td>GND, Minus</td><td>gemeinsames Minus</td></tr><tr><td><strong>Mitte</strong></td><td>IN, Strom hinein</td><td>vom Lade-Modul, OUT</td></tr><tr><td><strong>rechts</strong></td><td>OUT, 3,3 V hinaus</td><td>zu allen Modulen</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Die Beine gelten so, wenn die flache Seite mit der Schrift zu dir zeigt.</li><li>Je ein 1-µF-Kondensator von IN nach GND und von OUT nach GND, möglichst nah am Regler.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Ausgang</td><td>3,3 V, bis 250 mA</td></tr><tr><td>Eingang</td><td>2,3 bis 6,0 V</td></tr><tr><td><span class="wort" data-wort="Kondensator" data-erklaerung="Ein Bauteil, das ganz kurz ein bisschen Strom speichert, wie ein kleiner Wassertank. Es gleicht kurze Schwankungen aus.">Kondensatoren</span></td><td>je 1 µF, passt zum Datenblatt</td></tr></table>
+          <p class="quelle-zeile">Quelle: <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Low-Quiescent-Current-LDO-20001826E.pdf">Microchip Datenblatt MCP1700</a></p>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-gehirn">
+    <header>
+      <span class="mono">BEREICH 2 · 3 TEILE</span>
+      <h2 id="h-gehirn">Gehirn und Sensoren</h2>
+    </header>
+    <div class="text"><p>Das Funkmodul denkt und funkt. GPS und Bewegungssensor sagen ihm, wo der Chip ist und ob er sich bewegt.</p></div>
+    <div class="teile-raster">
+      <article class="teil-karte" id="teil-funk">
+        <figure class="foto"><img src="https://images.docs.rakwireless.com/wisduo/rak3272s-breakout-board/rak3272s-breakout.png" alt="Foto: Funkmodul" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').classList.add('fehlt')"><svg class="ersatz" viewBox="0 0 280 145" role="img" aria-label="Zeichnung: Funkmodul"><rect class="z-weich" x="60" y="30" width="150" height="84" rx="4"/><circle cx="72" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="88" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="104" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="120" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="136" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="152" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="168" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="184" cy="106" r="3" fill="var(--signal-tinte)"/><rect class="z-signal" x="95" y="44" width="70" height="44" rx="3"/><text x="130" y="70" text-anchor="middle" style="font-family:var(--mono);font-size:11px;fill:#fff">RAK3172</text>
+<path class="z-linie" d="M210 50 C 230 50, 228 30, 246 30 L 262 30"/><circle cx="262" cy="30" r="4" class="z-flaeche"/><text class="z-klein" x="230" y="20">Antenne</text></svg><figcaption class="bildnachweis">Genau unser Modul. Foto: RAKwireless, nur angezeigt, nicht kopiert. <a href="https://docs.rakwireless.com/product-categories/wisduo/rak3272s-breakout-board/datasheet/">Produktseite ↗</a></figcaption></figure>
+        <h3>Funkmodul</h3>
+        <p class="modell">RAK3272S mit RAK3172</p>
+        <dl>
+          <dt>MACHT</dt><dd>Ist das Gehirn: führt das Programm aus und funkt mit dem Berg.</dd>
+          <dt>VERGLEICH</dt><dd>Wie ein kleines Funkgerät mit eingebautem Computer.</dd>
+          <dt class="achtung">ACHTUNG</dt><dd>Ist nur bis −20 °C gebaut. Das testen wir im Jänner.</dd>
+          
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>Auf dem Modul sitzt ein Chip, der zwei Dinge kann: Er ist ein kleiner Computer, der die <span class="wort" data-wort="Firmware" data-erklaerung="Das Programm, das im Funkmodul läuft und alles steuert.">Firmware</span> ausführt, und ein Funkgerät für <span class="wort" data-wort="LoRa" data-erklaerung="Eine Funkart, die mit wenig Strom sehr weit kommt, dafür aber nur kleine Nachrichten schickt.">LoRa</span>. LoRa schickt die Nachricht langsam und mit einem besonderen „Zwitscher“-Signal. Dadurch kommt sie mit wenig Strom sehr weit, aber es passen nur kleine Nachrichten hinein.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>3V3, GND</strong></td><td>Strom</td><td>vom Regler</td></tr><tr><td><strong>Antennen-Buchse</strong></td><td>Funk-Antenne</td><td>kleine Antenne mit Kabel</td></tr><tr><td><strong>PA4</strong></td><td>Knopf</td><td>zum Knopf</td></tr><tr><td><strong>PA5, PA6</strong></td><td>LED rot, grün</td><td>über je 150 Ω zur LED</td></tr><tr><td><strong>PA7</strong></td><td>Motor</td><td>über 1 kΩ zum <span class="wort" data-wort="Transistor" data-erklaerung="Ein elektronischer Schalter: Ein kleiner Strom schaltet einen großen (Kapitel 3).">Transistor</span></td></tr><tr><td><strong>PB6, PB7</strong></td><td>GPS</td><td>zum GPS-Modul (<span class="wort" data-wort="seriell" data-erklaerung="Eine Verbindung mit zwei Drähten: einer zum Sprechen (TX), einer zum Zuhören (RX). Sie werden gekreuzt (Kapitel 3).">seriell</span>)</td></tr><tr><td><strong>PA11, PA12</strong></td><td>I2C</td><td>zu Bewegungssensor und Akku-Messer</td></tr><tr><td><strong>PA13, PA14</strong></td><td>Meldungen vom Lade-Modul</td><td>über je 1 kΩ</td></tr><tr><td><strong>PA2, PA3, BOOT0, RST</strong></td><td>Programmieren</td><td>zum Programmier-Stecker</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Den 3,3-V-Anschluss am richtigen Stecker nehmen (steht in Kapitel 7).</li><li>Die Antenne innen oben an die Seitenwand kleben, weg vom Akku.</li><li>Die genaue Verdrahtung Draht für Draht kommt in Kapitel 7 und 17.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Spannung</td><td>2,0 bis 3,6 V</td></tr><tr><td>Strom beim Senden</td><td>87 mA (nur kurz)</td></tr><tr><td>Strom beim Zuhören</td><td>etwa 5 mA</td></tr><tr><td>Temperatur</td><td>−20 bis +85 °C</td></tr></table>
+          <p class="quelle-zeile">Quelle: <a href="https://docs.rakwireless.com/product-categories/wisduo/rak3272s-breakout-board/datasheet/">RAK3272S Datenblatt</a></p>
+        </details>
+      </article>
+      <article class="teil-karte" id="teil-gps">
+        <figure class="foto"><img src="https://files.seeedstudio.com/wiki/Seeeduino-XIAO-Expansion-Board/GPS_Module/L76K/1-L76K-GNSS-Module-for-Seeed-Studio-XIAO-45font.jpg" alt="Foto: GPS-Modul" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').classList.add('fehlt')"><svg class="ersatz" viewBox="0 0 280 145" role="img" aria-label="Zeichnung: GPS-Modul"><rect class="z-weich" x="40" y="40" width="130" height="74" rx="4"/><circle cx="52" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="68" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="84" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="100" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="116" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="132" cy="106" r="3" fill="var(--signal-tinte)"/><circle cx="148" cy="106" r="3" fill="var(--signal-tinte)"/><rect class="z-modul" x="60" y="52" width="40" height="28" rx="2"/><text class="z-klein" x="80" y="70" text-anchor="middle">L76K</text>
+<path class="z-linie" d="M170 60 C 195 60, 190 46, 210 46"/><rect class="z-signal" x="210" y="26" width="44" height="44" rx="3"/><rect x="220" y="36" width="24" height="24" rx="2" fill="#fff" opacity=".85"/><text class="z-klein" x="232" y="90" text-anchor="middle">Antenne</text></svg><figcaption class="bildnachweis">Genau unser Modul mit der Antenne. Foto: Seeed Studio, nur angezeigt, nicht kopiert. <a href="https://wiki.seeedstudio.com/get_start_l76k_gnss/">Produktseite ↗</a></figcaption></figure>
+        <h3>GPS-Modul</h3>
+        <p class="modell">Seeed L76K</p>
+        <dl>
+          <dt>MACHT</dt><dd>Findet heraus, wo der Chip gerade ist.</dd>
+          <dt>VERGLEICH</dt><dd>Wie das Navi im Auto, nur ohne Bildschirm.</dd>
+          <dt class="achtung">ACHTUNG</dt><dd>Braucht den meisten Strom im Chip. Hier lässt sich am meisten sparen (Kapitel 9).</dd>
+          
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>Jeder GPS-Satellit sendet ständig, wie spät es genau ist und wo er gerade ist. Das Modul empfängt das von mindestens vier Satelliten gleichzeitig. Aus den winzigen Zeitunterschieden rechnet es aus, wo es ist. Dafür braucht es freie Sicht zum Himmel. Unter Dächern oder dicken Schichten Schnee klappt es schlecht.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>3V3, GND</strong></td><td>Strom</td><td>vom Regler</td></tr><tr><td><strong>D6</strong></td><td>Befehle an das GPS</td><td>vom Funkmodul</td></tr><tr><td><strong>D7</strong></td><td>Position heraus</td><td>zum Funkmodul</td></tr><tr><td><strong>D0, D2</strong></td><td>müssen auf 3,3 V</td><td>je über 10 kΩ an 3,3 V, sonst läuft es nicht richtig</td></tr><tr><td><strong>Antennen-Buchse</strong></td><td>GPS-Antenne</td><td>kleines Kabel</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Die Antenne unter den Deckel kleben, mit der Keramik-Seite nach oben zum Deckel.</li><li>D0 und D2 nicht vergessen. Ohne die Widerstände leuchtet das grüne Licht dauernd und es kommt keine Position.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Strom</td><td>41 mA</td></tr><tr><td>Genauigkeit</td><td>etwa 2 m</td></tr><tr><td>Erste Position</td><td>nach etwa 30 Sekunden</td></tr></table>
+          <p class="quelle-zeile">Quelle: <a href="https://wiki.seeedstudio.com/get_start_l76k_gnss/">Seeed Wiki L76K</a></p>
+        </details>
+      </article>
+      <article class="teil-karte" id="teil-bewegung">
+        <figure class="foto"><img src="https://cdn-learn.adafruit.com/assets/assets/000/028/591/medium640/sensors_2809_top_ORIG.jpg" alt="Foto: Bewegungssensor" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').classList.add('fehlt')"><svg class="ersatz" viewBox="0 0 280 145" role="img" aria-label="Zeichnung: Bewegungssensor"><rect class="z-weich" x="90" y="40" width="100" height="70" rx="4"/><circle cx="102" cy="102" r="3" fill="var(--signal-tinte)"/><circle cx="118" cy="102" r="3" fill="var(--signal-tinte)"/><circle cx="134" cy="102" r="3" fill="var(--signal-tinte)"/><circle cx="150" cy="102" r="3" fill="var(--signal-tinte)"/><circle cx="166" cy="102" r="3" fill="var(--signal-tinte)"/><rect class="z-signal" x="128" y="58" width="24" height="24" rx="2"/>
+<path class="z-linie" d="M60 75 H 78 M72 69 L80 75 L72 81"/><path class="z-linie" d="M220 75 H 202 M208 69 L200 75 L208 81"/><path class="z-linie" d="M140 30 V 12 M134 18 L140 10 L146 18"/><text class="z-klein" x="140" y="130" text-anchor="middle">spürt jede Richtung</text></svg><figcaption class="bildnachweis">Genau unser Modul. Foto: Adafruit, nur angezeigt, nicht kopiert. <a href="https://www.adafruit.com/product/2809">Produktseite ↗</a></figcaption></figure>
+        <h3>Bewegungssensor</h3>
+        <p class="modell">Adafruit LIS3DH</p>
+        <dl>
+          <dt>MACHT</dt><dd>Merkt, ob sich der Chip bewegt.</dd>
+          <dt>VERGLEICH</dt><dd>Wie im Handy, das merkt, wenn man es dreht.</dd>
+          
+          <dt>GRUNDLAGEN</dt><dd><a href="kapitel-03.html#t7">Kapitel 3, Thema 7: I2C, die Straße mit Hausnummern</a></dd>
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>Im Sensor sitzt eine winzige Struktur, die sich bei jeder Bewegung ein kleines bisschen verbiegt, wie ein Gewicht an einer Feder. Das misst der Sensor elektrisch, in alle drei Richtungen. Weil auch die Erdanziehung zieht, weiß er sogar, wo unten ist.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>VIN, GND</strong></td><td>Strom</td><td>vom Regler</td></tr><tr><td><strong>SDA, SCL</strong></td><td>I2C, die zwei Drähte</td><td>zum Funkmodul</td></tr><tr><td><strong>SDO</strong></td><td>Hausnummer</td><td>offen lassen, dann ist es 0x18</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>SDO nicht an 3,3 V löten, sonst ändert sich die Hausnummer auf 0x19 und die Firmware findet den Sensor nicht.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Strom</td><td>fast nichts (2 bis 11 µA)</td></tr><tr><td>Kälte</td><td>bis −40 °C</td></tr><tr><td>I2C-Hausnummer</td><td>0x18</td></tr></table>
+          <p class="quelle-zeile">Quelle: <a href="https://cdn-shop.adafruit.com/datasheets/LIS3DH.pdf">LIS3DH Datenblatt</a>, <a href="https://learn.adafruit.com/adafruit-lis3dh-triple-axis-accelerometer-breakout/pinouts">Adafruit Anleitung</a></p>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-bedienung">
+    <header>
+      <span class="mono">BEREICH 3 · 3 TEILE</span>
+      <h2 id="h-bedienung">Bedienung</h2>
+    </header>
+    <div class="text"><p>Das sind die Teile, die der Gast drückt, sieht und spürt.</p></div>
+    <div class="teile-raster">
+      <article class="teil-karte" id="teil-knopf">
+        <figure class="foto"><svg viewBox="0 0 280 145" role="img" aria-label="Zeichnung: Knopf"><circle cx="140" cy="70" r="52" fill="var(--signal-flaeche)" stroke="var(--signal-tinte)" stroke-width="2"/><circle cx="140" cy="70" r="30" class="z-signal"/><circle cx="140" cy="70" r="30" fill="none" stroke="#fff" stroke-width="1" opacity=".4"/>
+<text class="z-klein" x="215" y="40">weicher</text><text class="z-klein" x="215" y="54">Kragen</text><text class="z-klein" x="140" y="136" text-anchor="middle">16 mm, von oben</text></svg><figcaption class="bildnachweis">Zeichnung. Ein Foto folgt, sobald wir das Teil haben (Jänner).</figcaption></figure>
+        <h3>Knopf</h3>
+        <p class="modell">Taster 16 mm, wasserdicht (IP67)</p>
+        <dl>
+          <dt>MACHT</dt><dd>Kurz drücken ruft die Gruppe, 3 Sekunden halten ruft Hilfe.</dd>
+          <dt>VERGLEICH</dt><dd>Wie eine Klingel.</dd>
+          
+          <dt>GRUNDLAGEN</dt><dd><a href="kapitel-03.html#t7">Kapitel 3, Thema 7: Wie die Teile miteinander reden</a></dd>
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>Unter dem Knopf liegen zwei Metall-Kontakte. Drückt man, berühren sie sich, und der Strom kann fließen. Lässt man los, drückt eine Feder sie wieder auseinander. Eine Gummidichtung hält Wasser draußen.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>Bein 1</strong></td><td>Signal</td><td>zum Funkmodul, PA4</td></tr><tr><td><strong>Bein 2</strong></td><td>Minus</td><td>GND</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Kein <span class="wort" data-wort="Widerstand" data-erklaerung="Ein Bauteil, das den Strom bremst. Gemessen in Ohm (Ω) (Kapitel 3).">Widerstand</span> nötig, das Funkmodul hat einen eingebaut (<span class="wort" data-wort="Pull-up" data-erklaerung="Ein Widerstand im Funkmodul, der einen Anschluss auf 3,3 V „hochzieht“, solange nichts anderes passiert (Kapitel 3).">Pull-up</span>, Kapitel 3).</li><li>Der weiche Kragen kommt außen auf das Loch, dann den Knopf von außen durchstecken und innen festschrauben.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Größe</td><td>16 mm</td></tr><tr><td>Dichtheit</td><td>IP67 laut Händler</td></tr><tr><td>Mehr dazu</td><td>Kapitel 11</td></tr></table>
+          <p class="quelle-zeile">Quelle: bisheriger Test-Bauplan</p>
+        </details>
+      </article>
+      <article class="teil-karte" id="teil-led">
+        <figure class="foto"><img src="bilder/led.jpg" alt="Foto: LED" loading="lazy" style="object-fit:contain"><figcaption class="bildnachweis">Eine zweifarbige LED mit drei Beinen, wie unsere. Foto: <a href="https://commons.wikimedia.org/wiki/File:Two_Color_LED.jpg">Namazu-tron</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, verkleinert.</figcaption></figure>
+        <h3>LED</h3>
+        <p class="modell">rot und grün in einem, 5 mm</p>
+        <dl>
+          <dt>MACHT</dt><dd>Zeigt mit Farben, was der Chip gerade macht.</dd>
+          
+          <dt class="achtung">ACHTUNG</dt><dd>Das Bein in der Mitte ist das gemeinsame Minus.</dd>
+          <dt>GRUNDLAGEN</dt><dd><a href="kapitel-03.html#t3">Kapitel 3, Thema 3: Warum die LED einen Widerstand braucht</a></dd>
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>In der LED stecken zwei winzige Leucht-Chips, ein roter und ein grüner. Fließt Strom durch den roten, leuchtet sie rot. Fließt er durch beide, mischt sich das Licht zu Gelb.</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>Bein in der Mitte</strong></td><td>gemeinsames Minus</td><td>GND</td></tr><tr><td><strong>Bein außen</strong></td><td>rot</td><td>über 150 Ω zum Funkmodul, PA5</td></tr><tr><td><strong>Bein außen</strong></td><td>grün</td><td>über 150 Ω zum Funkmodul, PA6</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Welches äußere Bein rot ist, mit dem Multimeter auf <span class="wort" data-wort="Diode" data-erklaerung="Ein Bauteil, das Strom nur in eine Richtung durchlässt. Die Seite mit dem Ring ist die Richtung, in die der Strom hinausfließt.">Dioden</span>-Test herausfinden: Dann leuchtet die LED kurz schwach.</li><li>Jede Farbe braucht ihren eigenen 150-Ω-Widerstand.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Vorwiderstand</td><td>je 150 Ω</td></tr><tr><td>Modell laut Bauplan</td><td>Kingbright L-59EGW</td></tr><tr><td>Datenblatt</td><td>noch nicht gelesen</td></tr></table>
+          <p class="quelle-zeile">Quelle: bisheriger Test-Bauplan</p>
+        </details>
+      </article>
+      <article class="teil-karte" id="teil-motor">
+        <figure class="foto"><img src="https://cdn-shop.adafruit.com/640x480/1201-01.jpg" alt="Foto: Vibrationsmotor" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').classList.add('fehlt')"><svg class="ersatz" viewBox="0 0 280 145" role="img" aria-label="Zeichnung: Vibrationsmotor"><circle cx="100" cy="70" r="40" class="z-weich"/><circle cx="100" cy="70" r="28" fill="none" stroke="var(--signal-tinte)" stroke-width="1.5"/>
+<path d="M50 70 q-8 -8 0 -16 M150 70 q8 -8 0 -16 M50 86 q-8 -8 0 -16 M150 86 q8 -8 0 -16" stroke="var(--signal)" stroke-width="2" fill="none"/>
+<rect class="z-flaeche" x="190" y="40" width="30" height="34" rx="12"/><text class="z-klein" x="205" y="92" text-anchor="middle">Transistor</text>
+<rect class="z-modul" x="230" y="100" width="34" height="10" rx="5"/><rect x="252" y="100" width="4" height="10" fill="var(--tinte)"/><text class="z-klein" x="247" y="128" text-anchor="middle">Diode</text></svg><figcaption class="bildnachweis">Ähnlicher Münz-Motor wie unserer. Foto: Adafruit, nur angezeigt, nicht kopiert. <a href="https://www.adafruit.com/product/1201">Produktseite ↗</a></figcaption></figure>
+        <h3>Vibrationsmotor</h3>
+        <p class="modell">Münz-Motor 10 mm, 3 V, mit Transistor und Diode</p>
+        <dl>
+          <dt>MACHT</dt><dd>Brummt bei Gruppenruf und Notruf.</dd>
+          <dt>VERGLEICH</dt><dd>Wie der Vibrationsalarm im Handy.</dd>
+          <dt class="achtung">ACHTUNG</dt><dd>Ist für 3 V gebaut, bekommt aber bis 4 V. Das testen wir am echten Motor.</dd>
+          <dt>GRUNDLAGEN</dt><dd><a href="kapitel-03.html#t8">Kapitel 3, Thema 8: Der Motor braucht einen Helfer</a></dd>
+        </dl>
+        <details class="genauer">
+          <summary>Genau erklärt: Funktion, Anschlüsse, Bauen</summary>
+          <p class="genau-titel">So funktioniert es</p><p>In dem flachen Motor dreht sich ein kleines Gewicht, das nicht in der Mitte sitzt. Durch die <span class="wort" data-wort="Unwucht" data-erklaerung="Ein Gewicht, das nicht genau in der Mitte sitzt. Dreht es sich, wackelt alles, wie eine Waschmaschine beim Schleudern.">Unwucht</span> wackelt der ganze Motor, so wie eine Waschmaschine beim Schleudern. Weil er mehr Strom braucht, als das Funkmodul liefern darf, schaltet ihn ein Transistor (Kapitel 3).</p><p class="genau-titel">Anschlüsse</p><table class="anschluss"><tr><th>Beschriftung</th><th>Was</th><th>Geht zu</th></tr><tr><td><strong>Motor rot</strong></td><td>Plus</td><td>vom Lade-Modul, OUT</td></tr><tr><td><strong>Motor blau/schwarz</strong></td><td>Minus</td><td>zum Transistor, <span class="wort" data-wort="Kollektor" data-erklaerung="Ein Bein des Transistors. Hier fließt der große Strom hinein, beim Motor kommt es vom Motor-Minus.">Kollektor</span></td></tr><tr><td><strong>Transistor links</strong></td><td>Kollektor</td><td>zum Motor-Minus</td></tr><tr><td><strong>Transistor Mitte</strong></td><td><span class="wort" data-wort="Basis" data-erklaerung="Das Steuer-Bein des Transistors. Ein kleiner Strom hier schaltet den Transistor ein.">Basis</span></td><td>über 1 kΩ zum Funkmodul, PA7</td></tr><tr><td><strong>Transistor rechts</strong></td><td><span class="wort" data-wort="Emitter" data-erklaerung="Das Bein des Transistors, aus dem der Strom wieder hinausfließt, zum Minus (GND).">Emitter</span></td><td>GND</td></tr><tr><td><strong>Diode</strong></td><td>Schutz</td><td>quer über den Motor, Ring zum Plus</td></tr></table><p class="genau-titel">Beim Bauen</p><ul class="bau-liste"><li>Transistor: flache Seite zu dir, dann links Kollektor, Mitte Basis, rechts Emitter.</li><li>Diode richtig herum: Die Seite mit dem Ring kommt an Plus.</li><li>Den Motor mit <span class="wort" data-wort="Schaumklebeband" data-erklaerung="Dickes, weiches, beidseitig klebendes Band. Es hält Teile fest und dämpft Vibrationen.">Schaumklebeband</span> an die Seitenwand kleben.</li></ul>
+          <p class="genau-titel">Die Zahlen</p>
+          <table><tr><td>Spannung</td><td>3 V laut Bauplan</td></tr><tr><td>Diode 1N4148</td><td>verträgt 300 mA</td></tr><tr><td>Strom des Motors</td><td>noch messen</td></tr></table>
+          <p class="quelle-zeile">Quelle: <a href="https://www.vishay.com/docs/81857/1n4148.pdf">Vishay Datenblatt 1N4148</a>, bisheriger Test-Bauplan</p>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-gefunden">
+    <header>
+      <span class="mono">NACHGESCHAUT</span>
+      <h2 id="h-gefunden">Das haben wir in den Datenblättern gefunden</h2>
+    </header>
+    <div class="text">
+      <p>Wir haben jedes Teil mit dem Datenblatt des Herstellers verglichen. <strong>Fast alles passt zusammen.</strong> Vier Dinge muss man wissen:</p>
+    </div>
+    <ol class="rechnung">
+      <li><strong>Kälte:</strong> Das Funkmodul ist nur bis −20 °C gebaut. Das ist genau unser Ziel aus Kapitel 2. Beim Test im Jänner schauen wir, ob es reicht. <span class="stempel s-offen">Offen</span></li>
+      <li><strong>Laden:</strong> Das Lade-Modul lädt zwischen 0 und 50 °C. Im alten Bauplan stand 45 °C. Wichtig ist sowieso nur: Unter 0 °C wird nicht geladen. <span class="stempel s-fest">Fest</span></li>
+      <li><strong>Motor:</strong> Er ist für 3 V gebaut, bekommt bei vollem Akku aber bis 4 V. Ob er das aushält, testen wir am echten Motor. <span class="stempel s-offen">Offen</span></li>
+      <li><strong>Ladestrom:</strong> Ab Werk lädt das Lade-Modul mit 1 A, das ist zu viel. Eine kleine Lötstelle wird umgelötet, dann sind es 0,5 A. Das zeigt die Bauanleitung. <span class="stempel s-entschieden">Entschieden</span></li>
+    </ol>
+    <details class="genauer">
+      <summary>Genauer: Strom und Spannung am Ende des Akkus</summary>
+      <p><strong>Der Strom reicht bis zum Schluss.</strong> Der Spannungsregler verliert immer ein kleines bisschen Spannung (Kapitel 3). Wenn der Akku „leer“ meldet (3,30 V), kommen bei den Modulen noch mindestens etwa 3,2 V an, beim kurzen Senden im schlechtesten Fall etwa 3,1 V. Das Funkmodul arbeitet ab 2,0 V, der Bewegungssensor ab 1,71 V. Beides passt. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+      <p>So gerechnet: Im Betrieb fließen etwa 55 mA (GPS 41 mA, Funkmodul 5 mA, LED etwa 9 mA), beim Senden etwa 140 mA. Laut Datenblatt verliert der Regler bei 250 mA höchstens 0,35 V, bei weniger Strom entsprechend weniger: bei 55 mA unter 0,1 V, bei 140 mA etwa 0,2 V.</p>
+    </details>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-woerter">
+    <header>
+      <span class="mono">NACHSCHLAGEN</span>
+      <h2 id="h-woerter">Wörter in diesem Kapitel</h2>
+    </header>
+    <div class="text"><p>Alle Fachwörter dieses Kapitels. Im Text kannst du auf ein orange gepunktetes Wort tippen, dann erscheint die Erklärung direkt dort.</p></div>
+    <dl class="woerter"><div><dt>Basis</dt><dd>Das Steuer-Bein des Transistors. Ein kleiner Strom hier schaltet den Transistor ein.</dd></div><div><dt>Cutter</dt><dd>Ein Bastelmesser mit einer scharfen, abbrechbaren Klinge.</dd></div><div><dt>Datenblatt</dt><dd>Die Gebrauchsanweisung des Herstellers zu einem Bauteil. Darin steht zum Beispiel, mit welcher Spannung es arbeitet und wie viel Strom es braucht.</dd></div><div><dt>Diode</dt><dd>Ein Bauteil, das Strom nur in eine Richtung durchlässt. Die Seite mit dem Ring ist die Richtung, in die der Strom hinausfließt.</dd></div><div><dt>Dioden-Test</dt><dd>Eine Einstellung am Multimeter, meistens mit dem Zeichen ▶|. Damit kann man prüfen, ob eine Diode oder LED in Ordnung ist und wie herum sie gehört.</dd></div><div><dt>Emitter</dt><dd>Das Bein des Transistors, aus dem der Strom wieder hinausfließt, zum Minus (GND).</dd></div><div><dt>Firmware</dt><dd>Das Programm, das im Funkmodul läuft und alles steuert.</dd></div><div><dt>GND</dt><dd>Der gemeinsame Minus-Anschluss aller Teile (Kapitel 3).</dd></div><div><dt>I2C</dt><dd>Eine Verbindung mit nur zwei Drähten (SDA und SCL), an der mehrere Sensoren hängen. Jeder hat eine eigene Nummer, wie eine Hausnummer (Kapitel 3).</dd></div><div><dt>Kapton-Klebeband</dt><dd>Ein dünnes, gelb-braunes Klebeband für Elektronik. Es hält Hitze aus und leitet keinen Strom.</dd></div><div><dt>Kollektor</dt><dd>Ein Bein des Transistors. Hier fließt der große Strom hinein, beim Motor kommt es vom Motor-Minus.</dd></div><div><dt>Kondensator</dt><dd>Ein Bauteil, das ganz kurz ein bisschen Strom speichert, wie ein kleiner Wassertank. Es gleicht kurze Schwankungen aus.</dd></div><div><dt>Lithium-Ionen</dt><dd>Winzige elektrisch geladene Teilchen im Akku. Beim Laden wandern sie auf die eine Seite, beim Entladen zurück.</dd></div><div><dt>LoRa</dt><dd>Eine Funkart, die mit wenig Strom sehr weit kommt, dafür aber nur kleine Nachrichten schickt.</dd></div><div><dt>Lötbrücke</dt><dd>Zwei winzige Kupferflächen auf der Platine, direkt nebeneinander. Mit einem Tropfen Lötzinn verbunden, sind sie wie ein eingeschalteter Schalter. Schneidet man die Verbindung durch, ist der Schalter aus. So stellt man am Modul etwas ein, zum Beispiel den Ladestrom.</dd></div><div><dt>Lötzinn</dt><dd>Ein weiches Metall in Drahtform. Mit dem heißen Lötkolben geschmolzen, verbindet es Drähte und Anschlüsse fest und leitend.</dd></div><div><dt>Magnetfeld</dt><dd>Die unsichtbare Kraft um einen Magneten oder um einen Draht, durch den Strom fließt.</dd></div><div><dt>Modul</dt><dd>Eine kleine fertige Platine, auf der ein Chip mit allen Helfern schon aufgelötet ist. Man muss nur noch Drähte anlöten.</dd></div><div><dt>Pull-up</dt><dd>Ein Widerstand im Funkmodul, der einen Anschluss auf 3,3 V „hochzieht“, solange nichts anderes passiert (Kapitel 3).</dd></div><div><dt>Schaumklebeband</dt><dd>Dickes, weiches, beidseitig klebendes Band. Es hält Teile fest und dämpft Vibrationen.</dd></div><div><dt>Schutzschaltung</dt><dd>Eine kleine Schaltung am Akku, die ihn abschaltet, wenn etwas schiefgeht, zum Beispiel bei einem Kurzschluss.</dd></div><div><dt>seriell</dt><dd>Eine Verbindung mit zwei Drähten: einer zum Sprechen (TX), einer zum Zuhören (RX). Sie werden gekreuzt (Kapitel 3).</dd></div><div><dt>Spule</dt><dd>Ein aufgewickelter Draht. Fließt Strom hindurch, entsteht ein Magnetfeld. Ändert sich ein Magnetfeld in der Nähe, entsteht in der Spule Strom.</dd></div><div><dt>Temperaturfühler</dt><dd>Ein kleines Bauteil, dessen Widerstand sich mit der Temperatur ändert. So „spürt“ das Lade-Modul, wie warm der Akku ist. Fachwort: NTC.</dd></div><div><dt>Transistor</dt><dd>Ein elektronischer Schalter: Ein kleiner Strom schaltet einen großen (Kapitel 3).</dd></div><div><dt>Unwucht</dt><dd>Ein Gewicht, das nicht genau in der Mitte sitzt. Dreht es sich, wackelt alles, wie eine Waschmaschine beim Schleudern.</dd></div><div><dt>Widerstand</dt><dd>Ein Bauteil, das den Strom bremst. Gemessen in Ohm (Ω) (Kapitel 3).</dd></div></dl>
+  </section>
+
+  <section class="abschnitt" id="ergebnis" aria-labelledby="h-ergebnis">
+    <header>
+      <span class="mono">KURZFASSUNG</span>
+      <h2 id="h-ergebnis">Das Ergebnis</h2>
+    </header>
+    <div class="ergebnis">
+      <ul>
+        <li>Im Chip stecken 11 Teile in drei Bereichen: Energie, Gehirn und Sensoren, Bedienung.</li>
+        <li>Die Teile passen laut Datenblättern zusammen.</li>
+        <li>Das GPS braucht am meisten Strom. Dort lässt sich am meisten sparen.</li>
+        <li>Kälte beim Funkmodul und Spannung am Motor testen wir im Jänner.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-offen">
+    <header>
+      <span class="mono">NOCH NICHT GEKLÄRT</span>
+      <h2 id="h-offen">Was noch offen ist</h2>
+    </header>
+    <ul class="offen-liste">
+      <li><strong>Motor und Transistor.</strong> Wie viel Strom der Motor braucht und ob er 4 V aushält. Messen, sobald er da ist.</li>
+      <li><strong>LED.</strong> Datenblatt lesen und nachrechnen, wie hell Rot und Grün leuchten.</li>
+      <li><strong>Akku.</strong> Beim Kauf prüfen, ob er eine Schutzschaltung hat.</li>
+      <li><strong>Fehlende Datenblätter.</strong> Transistor BC337 und Akku-Messer: Die Seiten der Hersteller ließen sich nicht abrufen.</li>
+    </ul>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-quellen">
+    <header>
+      <span class="mono">NACHWEISE</span>
+      <h2 id="h-quellen">Quellen</h2>
+    </header>
+    <ol class="quellen">
+      <li><a href="https://docs.rakwireless.com/product-categories/wisduo/rak3272s-breakout-board/datasheet/">RAK3272S Datenblatt</a></li><li><a href="https://wiki.seeedstudio.com/get_start_l76k_gnss/">Seeed Wiki L76K</a></li><li><a href="https://cdn-shop.adafruit.com/datasheets/LIS3DH.pdf">LIS3DH Datenblatt</a>, <a href="https://learn.adafruit.com/adafruit-lis3dh-triple-axis-accelerometer-breakout/pinouts">Adafruit Anleitung</a></li><li><a href="https://learn.adafruit.com/adafruit-max17048-lipoly-liion-fuel-gauge-and-battery-monitor/pinouts">Adafruit Anleitung MAX17048</a></li><li><a href="https://www.ti.com/lit/ds/symlink/bq24074.pdf">TI Datenblatt BQ24074</a>, <a href="https://learn.adafruit.com/adafruit-bq24074-universal-usb-dc-solar-charger-breakout/pinouts">Adafruit Anleitung</a></li><li><a href="https://www.adafruit.com/product/1901">Adafruit Produktseite 1901</a></li><li><a href="https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Low-Quiescent-Current-LDO-20001826E.pdf">Microchip Datenblatt MCP1700</a></li><li><a href="https://www.vishay.com/docs/81857/1n4148.pdf">Vishay Datenblatt 1N4148</a></li>
+      <li>Bisheriger Test-Bauplan <code>material/test-bauplan.html</code>: Akku, Knopf, LED, Motor, Lötbrücke am Lade-Modul.</li>
+    </ol>
+  </section>
+
+  <nav class="blaettern" aria-label="Blättern">
+    <a href="kapitel-04.html"><span class="mono">ZURÜCK</span><strong>04 Blockschaltbild</strong></a>
+    <div class="weiter"><span class="mono">WEITER · KOMMT NOCH</span><strong>06 Entscheidungen</strong></div>
+  </nav>
+
+  <footer class="fuss">
+    <span>SkiTag · Werkstattbuch · Blatt 05</span>
+    <span>2026</span>
+  </footer>
+</div>
