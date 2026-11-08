@@ -353,3 +353,5 @@ svg.zeige-sig .b-strom { opacity: .2; }
   #b-motor.brummt .s-led { animation: none; fill: var(--signal); }
   .s-wellen.an path { animation: none; opacity: 1; }
 }
+.quelle-zeile { font-size: 14px; color: var(--tinte-3); }
+.quelle-zeile a { color: var(--tinte-2); }
