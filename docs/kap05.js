@@ -6,10 +6,10 @@
     var svg = g.ownerSVGElement;
     var dx = 0, dy = 0, start = null;
     var vb = svg.viewBox.baseVal;
-    // Grenzen, damit das Lineal im Bild bleibt (Lineal ist 428 x 36, steht bei 6/540, Griff-Text darüber)
+    // Grenzen, damit das Lineal im Bild bleibt (Lineal ist 452 x 36, steht bei 6/540)
     function begrenzen() {
-      dx = Math.max(-6, Math.min(vb.width - 434, dx));
-      dy = Math.max(-520, Math.min(vb.height - 576, dy));
+      dx = Math.max(-6, Math.min(vb.width - 458, dx));
+      dy = Math.max(-540, Math.min(vb.height - 576, dy));
     }
     function setzen() {
       begrenzen();
