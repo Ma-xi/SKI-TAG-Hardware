@@ -380,3 +380,14 @@ svg.zeige-sig .b-strom { opacity: .2; }
 .teil-karte .foto .ersatz { display: none; }
 .teil-karte .foto.fehlt img { display: none; }
 .teil-karte .foto.fehlt .ersatz { display: block; }
+.teil-karte details.genauer > p { font-size: 15px; }
+.teil-karte .genau-titel { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--signal-tinte); margin-top: 12px; text-transform: uppercase; }
+.teil-karte table.anschluss th { text-align: left; font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--tinte-3); padding: 4px 6px 4px 0; border-bottom: 1px solid var(--linie); }
+.teil-karte table.anschluss td { padding: 5px 6px 5px 0; }
+.teil-karte table.anschluss td:first-child { color: var(--tinte); }
+.teil-karte .bau-liste { padding-left: 1.1em; display: grid; gap: 4px; font-size: 15px; margin: 4px 0 0; }
+/* Aufgeklappte Karte nimmt die ganze Breite ein, damit die Tabellen Platz haben */
+.teil-karte:has(details[open]) { grid-column: 1 / -1; }
+.teil-karte:has(details[open]) .foto { max-width: 420px; }
+.teil-karte table.anschluss { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.teil-karte table.anschluss td, .teil-karte table.anschluss th { overflow-wrap: anywhere; }
