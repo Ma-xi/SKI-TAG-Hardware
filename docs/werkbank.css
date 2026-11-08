@@ -372,3 +372,7 @@ svg.zeige-sig .b-strom { opacity: .2; }
 .teil-karte details.genauer td:first-child { color: var(--tinte-2); padding-right: 10px; }
 .teil-karte details.genauer tr:last-child td { border-bottom: 0; }
 .teil-karte .quelle-zeile { margin-top: 6px; }
+.teil-karte .foto { margin: 0; display: grid; gap: 4px; }
+.teil-karte .foto img { display: block; width: 100%; aspect-ratio: 280 / 145; object-fit: cover; border: 1px solid var(--linie); background: var(--papier); }
+.teil-karte .bildnachweis { font-size: 11.5px; color: var(--tinte-3); line-height: 1.4; }
+.teil-karte .bildnachweis a { color: var(--tinte-3); }
