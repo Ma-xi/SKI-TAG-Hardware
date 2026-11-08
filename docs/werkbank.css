@@ -390,4 +390,14 @@ svg.zeige-sig .b-strom { opacity: .2; }
 .teil-karte:has(details[open]) { grid-column: 1 / -1; }
 .teil-karte:has(details[open]) .foto { max-width: 420px; }
 .teil-karte table.anschluss { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.teil-karte table.anschluss td, .teil-karte table.anschluss th { overflow-wrap: anywhere; }
+.teil-karte table.anschluss td, .teil-karte table.anschluss th { overflow-wrap: break-word; hyphens: auto; }
+
+/* Fachwort-Erklärung zum Antippen (begriffe.js) */
+.wort[data-erklaerung] { cursor: help; }
+.wort[data-erklaerung]:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.begriff-box { position: absolute; z-index: 30; max-width: min(320px, calc(100vw - 16px)); background: var(--karte); color: var(--tinte); border: 1.5px solid var(--tinte); border-left: 4px solid var(--signal); padding: 10px 12px; font-size: 15px; line-height: 1.45; box-shadow: 0 6px 20px rgba(0,0,0,.18); display: grid; gap: 4px; }
+.begriff-box strong { font-family: var(--display); font-size: 16px; font-variation-settings: "wdth" 108; }
+.woerter { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 0 28px; margin: 0; }
+.woerter div { padding: 10px 0; border-bottom: 1px solid var(--linie); }
+.woerter dt { font-family: var(--display); font-weight: 700; font-size: 17px; font-variation-settings: "wdth" 108; }
+.woerter dd { margin: 2px 0 0; color: var(--tinte-2); font-size: 15.5px; }
