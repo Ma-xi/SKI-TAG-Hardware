@@ -376,3 +376,7 @@ svg.zeige-sig .b-strom { opacity: .2; }
 .teil-karte .foto img { display: block; width: 100%; aspect-ratio: 280 / 145; object-fit: cover; border: 1px solid var(--linie); background: var(--papier); }
 .teil-karte .bildnachweis { font-size: 11.5px; color: var(--tinte-3); line-height: 1.4; }
 .teil-karte .bildnachweis a { color: var(--tinte-3); }
+.teil-karte .foto img { background: #fff; object-fit: cover; }
+.teil-karte .foto .ersatz { display: none; }
+.teil-karte .foto.fehlt img { display: none; }
+.teil-karte .foto.fehlt .ersatz { display: block; }
