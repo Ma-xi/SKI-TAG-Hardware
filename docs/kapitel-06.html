@@ -106,7 +106,7 @@
         </g>
         <path class="z-hilfe" d="M38 372 H262"/>
         <path class="z-linie" d="M38 366 V378 M262 366 V378"/>
-        <text class="z-klein" x="118" y="392">120 mm mit Hülle</text>
+        <text class="z-klein" x="118" y="392">98 mm mit Hülle</text>
       </svg>
       <figcaption><span>Orange: Teile, über die hier entschieden wird</span><span>nicht maßstäblich</span></figcaption>
     </figure>
@@ -124,7 +124,7 @@
     </div>
     <table class="tabelle e-tabelle">
       <thead><tr><th>Frage</th><th>Gewählt</th></tr></thead>
-      <tbody><tr><th><a href="#e-funk">Wie funkt der Chip?</a></th><td data-label="GEWÄHLT">LoRa auf 869,525 MHz, mit eigenen Empfängern an der Bergstation</td></tr><tr><th><a href="#e-rak">Welches Funkmodul?</a></th><td data-label="GEWÄHLT">Das Funkmodul RAK3172</td></tr><tr><th><a href="#e-gps">GPS: ja oder nein?</a></th><td data-label="GEWÄHLT">Ja, mit dem GPS-Modul L76K</td></tr><tr><th><a href="#e-bewegung">Braucht es einen Bewegungssensor?</a></th><td data-label="GEWÄHLT">Ja, den LIS3DH</td></tr><tr><th><a href="#e-akku">Welcher Akku?</a></th><td data-label="GEWÄHLT">Flacher LiPo-Akku mit 1000 mAh und Schutzschaltung</td></tr><tr><th><a href="#e-qi">Wie wird geladen?</a></th><td data-label="GEWÄHLT">Kabellos mit Qi, in der Ladebox</td></tr><tr><th><a href="#e-messer">Wie weiß der Chip, wie voll der Akku ist?</a></th><td data-label="GEWÄHLT">Mit einem eigenen Akku-Messer, dem MAX17048</td></tr><tr><th><a href="#e-knopf">Wie viele Knöpfe?</a></th><td data-label="GEWÄHLT">Ein einziger Knopf, 16 mm groß und wasserdicht (IP67)</td></tr><tr><th><a href="#e-zeigen">Wie zeigt der Chip etwas an?</a></th><td data-label="GEWÄHLT">Mit einer zweifarbigen LED und Vibration</td></tr><tr><th><a href="#e-gehaeuse">Woraus ist das Gehäuse?</a></th><td data-label="GEWÄHLT">Gedruckt aus PETG oder ASA, mit weicher Hülle aus TPU, in Signal-Orange</td></tr></tbody>
+      <tbody><tr><th><a href="#e-funk">Wie funkt der Chip?</a></th><td data-label="GEWÄHLT">LoRa auf 869,525 MHz, mit eigenen Empfängern an der Bergstation</td></tr><tr><th><a href="#e-rak">Welches Funkmodul?</a></th><td data-label="GEWÄHLT">Das Funkmodul RAK3172</td></tr><tr><th><a href="#e-gps">GPS: ja oder nein?</a></th><td data-label="GEWÄHLT">Ja, mit dem GPS-Modul L76K</td></tr><tr><th><a href="#e-bewegung">Braucht es einen Bewegungssensor?</a></th><td data-label="GEWÄHLT">Ja, den LIS3DH</td></tr><tr><th><a href="#e-akku">Welcher Akku?</a></th><td data-label="GEWÄHLT">Flacher LiPo-Akku mit 1000 mAh und Schutzschaltung</td></tr><tr><th><a href="#e-qi">Wie wird geladen?</a></th><td data-label="GEWÄHLT">Kabellos mit Qi, in der Ladebox</td></tr><tr><th><a href="#e-messer">Wie weiß der Chip, wie voll der Akku ist?</a></th><td data-label="GEWÄHLT">Mit einem eigenen Akku-Messer, dem MAX17048</td></tr><tr><th><a href="#e-knopf">Wie viele Knöpfe?</a></th><td data-label="GEWÄHLT">Ein einziger Knopf, 16 mm groß und wasserdicht (IP67)</td></tr><tr><th><a href="#e-zeigen">Wie zeigt der Chip etwas an?</a></th><td data-label="GEWÄHLT">Mit einer zweifarbigen LED und Vibration</td></tr><tr><th><a href="#e-gehaeuse">Woraus ist das Gehäuse?</a></th><td data-label="GEWÄHLT">Gedruckt aus PETG oder ASA in Schwarz, mit weicher oranger Hülle aus TPU</td></tr></tbody>
     </table>
   </section>
 
@@ -334,15 +334,16 @@
         <p class="quelle-zeile">Genauer in Kapitel 12 (LED und Vibration)</p>
       </article>
       <article class="teil-karte entscheid" id="e-gehaeuse">
-        <svg viewBox="0 0 280 110" aria-hidden="true"><rect x="40" y="20" width="200" height="72" rx="20" fill="var(--signal)"/>
-<rect x="52" y="30" width="176" height="52" rx="12" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 4" opacity=".8"/>
-<circle cx="196" cy="56" r="10" fill="#fff" opacity=".9"/>
-<text class="z-klein" x="140" y="106" text-anchor="middle">gedruckt, weiche Hülle, Signal-Orange</text></svg>
+        <svg viewBox="0 0 280 110" aria-hidden="true"><rect x="96" y="8" width="88" height="94" rx="16" fill="var(--signal)"/>
+<rect x="104" y="16" width="72" height="78" rx="9" fill="#262626"/>
+<circle cx="140" cy="42" r="12" fill="var(--signal)"/><circle cx="140" cy="42" r="8" fill="#262626" stroke="#888" stroke-width="1"/>
+<circle cx="140" cy="23" r="2.5" fill="#7ad36b"/>
+<text class="z-klein" x="196" y="40">schwarz,</text><text class="z-klein" x="196" y="56">Rand orange</text></svg>
         <p class="e-nr mono">ENTSCHEIDUNG 10</p>
         <h3>Woraus ist das Gehäuse?</h3>
         <dl>
-          <dt>GEWÄHLT</dt><dd class="e-wahl">Gedruckt aus PETG oder ASA, mit weicher Hülle aus TPU, in Signal-Orange</dd>
-          <dt>WARUM</dt><dd>PETG und ASA sind zäh und halten Kälte viel besser aus als PLA. Ob unser gedrucktes Gehäuse in der Kälte hält, testen wir trotzdem. Die weiche Hülle dämpft Stöße, damit man sich weniger leicht verletzt. Orange findet man im Schnee sofort.</dd>
+          <dt>GEWÄHLT</dt><dd class="e-wahl">Gedruckt aus PETG oder ASA in Schwarz, mit weicher oranger Hülle aus TPU</dd>
+          <dt>WARUM</dt><dd>PETG und ASA sind zäh und halten Kälte viel besser aus als PLA. Ob unser gedrucktes Gehäuse in der Kälte hält, testen wir trotzdem. Die weiche Hülle dämpft Stöße, damit man sich weniger leicht verletzt. Schwarz mit orangem Rand fällt im weißen Schnee gut auf.</dd>
           <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Ein gedrucktes Gehäuse ist größer und nicht so dicht wie ein gespritztes. Für den Test reicht es.</dd>
         </dl>
         <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
@@ -365,17 +366,19 @@
     </div>
 
     <figure class="bild p-groesse">
-      <svg viewBox="0 0 640 250" role="img" aria-labelledby="gt gd">
+      <svg viewBox="0 0 520 340" role="img" aria-labelledby="gt gd">
         <title id="gt">Prototyp und fertiger Chip im gleichen Maßstab</title>
-        <desc id="gd">Der Prototyp misst mit Hülle 120 mal 60 Millimeter. Der fertige Chip soll etwa so groß wie eine Streichholzschachtel werden, ungefähr 50 mal 35 Millimeter. Daneben eine 1-Cent-Münze.</desc>
-        <rect x="20" y="30" width="360" height="180" rx="24" fill="var(--signal-flaeche)" stroke="var(--signal)" stroke-width="2.5"/>
-        <text class="z-text" x="200" y="120" text-anchor="middle">Prototyp</text>
-        <text class="z-klein" x="200" y="138" text-anchor="middle">120 × 60 mm</text>
-        <rect x="410" y="30" width="150" height="105" rx="12" fill="none" stroke="var(--tinte)" stroke-width="2" stroke-dasharray="6 5"/>
-        <text class="z-text" x="485" y="82.5" text-anchor="middle">fertiger Chip</text>
-        <text class="z-klein" x="485" y="100.5" text-anchor="middle">ca. 50 × 35 mm</text>
-        <circle cx="485" cy="200" r="24.4" fill="var(--raster)" stroke="var(--tinte)" stroke-width="1.2"/>
-        <text class="z-klein" x="521" y="204">1 Cent</text>
+        <desc id="gd">Der Prototyp misst mit Hülle 98 mal 74 Millimeter und steht hochkant. Der fertige Chip soll etwa so groß wie eine Streichholzschachtel werden, ungefähr 50 mal 35 Millimeter. Daneben eine 1-Cent-Münze.</desc>
+        <rect x="22" y="22" width="222" height="294" rx="26" fill="var(--signal)"/>
+        <rect x="28" y="28" width="210" height="282" rx="20" fill="#262626"/>
+        <text class="z-text" x="133" y="169" text-anchor="middle" style="fill:#f4f1ea">Prototyp</text>
+        <text class="z-klein" x="133" y="187" text-anchor="middle" style="fill:#f4f1ea">98 × 74 mm</text>
+        <rect x="300" y="22" width="105" height="150" rx="12" fill="none" stroke="var(--tinte)" stroke-width="2" stroke-dasharray="6 5"/>
+        <text class="z-text" x="352.5" y="97" text-anchor="middle">fertiger</text>
+        <text class="z-text" x="352.5" y="113" text-anchor="middle">Chip</text>
+        <text class="z-klein" x="352.5" y="192" text-anchor="middle">ca. 50 × 35 mm</text>
+        <circle cx="352.5" cy="270" r="24.4" fill="var(--raster)" stroke="var(--tinte)" stroke-width="1.2"/>
+        <text class="z-klein" x="386.5" y="274">1 Cent</text>
       </svg>
       <figcaption>Beide im gleichen Maßstab. Die Größe des fertigen Chips ist ein Ziel, noch keine Messung. <span class="stempel s-geschaetzt">Geschätzt</span></figcaption>
     </figure>
