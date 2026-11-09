@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<title>SkiTag Chip in 3D</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  /* Werkbank wie im Buch: Millimeterpapier, Schriftfeld, Signal-Orange. Links Werkzeug, rechts Bühne mit dem Modell. */
+  :root {
+    --papier: #f1eee7; --raster: #e3ded3; --karte: #faf8f4;
+    --tinte: #23221f; --tinte-2: #57534a; --tinte-3: #85806f; --linie: #cbc4b4;
+    --signal: #e0521d; --signal-tinte: #a33a10; --signal-flaeche: #fbe4d8;
+    --buehne: #e9e5dc;
+    --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+    --text: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+    --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --papier: #1a1b19; --raster: #262824; --karte: #222420;
+      --tinte: #edebe4; --tinte-2: #b3afa3; --tinte-3: #888476; --linie: #3c3e38;
+      --signal: #f0672f; --signal-tinte: #ff9364; --signal-flaeche: #3a241a;
+      --buehne: #2a2c28; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --papier: #1a1b19; --raster: #262824; --karte: #222420;
+    --tinte: #edebe4; --tinte-2: #b3afa3; --tinte-3: #888476; --linie: #3c3e38;
+    --signal: #f0672f; --signal-tinte: #ff9364; --signal-flaeche: #3a241a;
+    --buehne: #2a2c28; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background-color: var(--papier);
+    background-image: linear-gradient(var(--raster) 1px, transparent 1px), linear-gradient(90deg, var(--raster) 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: var(--tinte); font-family: var(--text); font-size: 16px; line-height: 1.5;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 24px 40px;
+  }
+  .blatt { max-width: 1240px; margin: 0 auto; display: grid; gap: 20px; }
+  header.kopf { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: end; }
+  .kopf .mono { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--signal-tinte); text-transform: uppercase; }
+  h1 { font-family: var(--display); font-variation-settings: "wdth" 112; font-weight: 800; font-size: clamp(30px, 5vw, 48px); line-height: 1.05; margin: 4px 0 0; text-wrap: balance; }
+  .schriftfeld { font-family: var(--mono); font-size: 12px; border: 1.5px solid var(--tinte); background: var(--karte); display: grid; grid-template-columns: auto auto; }
+  .schriftfeld div { padding: 4px 10px; border-bottom: 1px solid var(--linie); }
+  .schriftfeld div:nth-child(odd) { color: var(--tinte-3); border-right: 1px solid var(--linie); }
+  .schriftfeld div:nth-last-child(-n+2) { border-bottom: 0; }
+
+  .reiter { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1.5px solid var(--tinte); }
+  .reiter button { font-family: var(--display); font-variation-settings: "wdth" 108; font-weight: 700; font-size: 18px; padding: 10px 18px; background: transparent; color: var(--tinte-2); border: 1.5px solid transparent; border-bottom: 0; margin-bottom: -1.5px; cursor: pointer; }
+  .reiter button[aria-selected="true"] { background: var(--karte); color: var(--tinte); border-color: var(--tinte); }
+  .reiter button:focus-visible, .schalter:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .werkbank { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; align-items: start; }
+  .buehne { position: relative; background: var(--buehne); border: 1.5px solid var(--tinte); aspect-ratio: 4 / 3; max-width: 100%; min-width: 0; overflow: hidden; touch-action: none; }
+  .buehne canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+  .buehne canvas:active { cursor: grabbing; }
+  .buehne .hinweis { position: absolute; left: 10px; bottom: 8px; font-family: var(--mono); font-size: 11.5px; color: var(--tinte-3); pointer-events: none; }
+  .buehne .lade[hidden], .buehne .name[hidden] { display: none; }
+  .buehne .name { position: absolute; left: 10px; top: 8px; font-family: var(--mono); font-size: 13px; color: var(--tinte); background: var(--karte); border: 1.5px solid var(--signal); padding: 3px 10px; max-width: calc(100% - 200px); }
+  .buehne .lade { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--mono); font-size: 13px; color: var(--tinte-2); }
+  .buehne .mass { position: absolute; right: 10px; top: 8px; font-family: var(--mono); font-size: 12px; color: var(--tinte-2); background: var(--karte); border: 1px solid var(--linie); padding: 2px 8px; }
+
+  .seite { display: grid; gap: 16px; min-width: 0; }
+  .feld { background: var(--karte); border: 1.5px solid var(--tinte); padding: 14px 16px; display: grid; gap: 10px; }
+  .feld h2 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; color: var(--tinte-3); margin: 0; text-transform: uppercase; }
+  .feld p { margin: 0; }
+  .schalter-reihe { display: flex; flex-wrap: wrap; gap: 8px; }
+  .schalter { font-family: var(--mono); font-size: 13px; padding: 7px 12px; border: 1.5px solid var(--tinte); border-radius: 3px; background: var(--karte); color: var(--tinte); cursor: pointer; }
+  .schalter:hover { background: var(--signal-flaeche); }
+  .schalter[aria-pressed="true"] { background: var(--signal); border-color: var(--signal); color: #fff; }
+  .schalter[hidden] { display: none; }
+  dl.teile { margin: 0; display: grid; gap: 6px; }
+  dl.teile div { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 8px; align-items: start; font-size: 14.5px; }
+  dl.teile i { width: 14px; height: 14px; margin-top: 4px; border: 1px solid var(--linie); }
+  dl.teile dt { font-weight: 600; display: inline; }
+  dl.teile dd { margin: 0; display: inline; color: var(--tinte-2); }
+  .zahlen { font-family: var(--mono); font-size: 13px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-variant-numeric: tabular-nums; }
+  .zahlen span:nth-child(odd) { color: var(--tinte-3); }
+  .stempel { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; border: 1.5px solid currentColor; padding: 1px 6px; display: inline-block; transform: rotate(-2deg); color: var(--signal-tinte); }
+  .fuss { font-family: var(--mono); font-size: 12px; color: var(--tinte-3); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; border-top: 1px solid var(--linie); padding-top: 10px; }
+
+  @media (max-width: 900px) {
+    .werkbank { grid-template-columns: minmax(0, 1fr); }
+    header.kopf { grid-template-columns: minmax(0, 1fr); }
+    .buehne { aspect-ratio: 1 / 1; }
+  }
+</style>
+
+<div class="blatt">
+  <header class="kopf">
+    <div>
+      <div class="mono">SkiTag · Werkstattbuch · 3D-Modelle</div>
+      <h1>Der Chip in 3D</h1>
+    </div>
+    <div class="schriftfeld" aria-label="Angaben zu diesem Blatt">
+      <div>Blatt</div><div>3D · Gehäuse</div>
+      <div>Verfasser</div><div>Maximilian Joszt</div>
+      <div>Stand</div><div>09.11.2026</div>
+    </div>
+  </header>
+
+  <div class="reiter" role="tablist" aria-label="Modell wählen">
+    <button role="tab" id="tab-proto" aria-selected="true" aria-controls="werkbank">Prototyp</button>
+    <button role="tab" id="tab-fertig" aria-selected="false" aria-controls="werkbank">Fertiger Chip</button>
+  </div>
+
+  <div class="werkbank" id="werkbank" role="tabpanel">
+    <div class="buehne" id="buehne">
+      <div class="lade" id="lade">Modell wird geladen …</div>
+      <div class="mass" id="mass"></div>
+      <div class="hinweis">Ziehen: drehen · Scrollen oder zwei Finger: zoomen · Antippen: Name des Teils</div>
+      <div class="name" id="name" hidden></div>
+    </div>
+
+    <aside class="seite">
+      <section class="feld">
+        <h2>Ansicht</h2>
+        <div class="schalter-reihe">
+          <button class="schalter" type="button" id="b-auseinander" aria-pressed="false">Auseinandernehmen</button>
+          <button class="schalter" type="button" id="b-innen" aria-pressed="false">Innen zeigen</button>
+        </div>
+        <div class="schalter-reihe">
+          <button class="schalter" type="button" data-blick="vorne">Vorne</button>
+          <button class="schalter" type="button" data-blick="schraeg">Schräg</button>
+          <button class="schalter" type="button" data-blick="seite">Seite</button>
+          <button class="schalter" type="button" data-blick="hinten">Hinten</button>
+        </div>
+      </section>
+
+      <section class="feld" id="info"></section>
+
+      <section class="feld">
+        <h2>Teile</h2>
+        <dl class="teile" id="teile"></dl>
+      </section>
+    </aside>
+  </div>
+
+  <div class="fuss">
+    <span>Maße in mm · Modelle aus OpenSCAD (material/scad)</span>
+    <span id="fuss-hinweis">Die Bauteile innen sind vereinfachte Platzhalter in echter Größe.</span>
+  </div>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { STLLoader } from "three/addons/loaders/STLLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { toCreasedNormals, mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
+
+const buehne = document.getElementById("buehne");
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+buehne.prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+
+const kamera = new THREE.PerspectiveCamera(32, 4 / 3, 1, 3000);
+const steuer = new OrbitControls(kamera, renderer.domElement);
+steuer.enableDamping = true; steuer.dampingFactor = 0.08;
+
+const sonne = new THREE.DirectionalLight(0xffffff, 1.4);
+sonne.position.set(120, 220, 140); sonne.castShadow = true;
+sonne.shadow.mapSize.set(2048, 2048);
+Object.assign(sonne.shadow.camera, { left: -150, right: 150, top: 150, bottom: -150, near: 10, far: 600 });
+sonne.shadow.radius = 6; sonne.shadow.bias = -0.0005;
+scene.add(sonne, new THREE.HemisphereLight(0xffffff, 0x8a8478, 0.35));
+
+const boden = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.ShadowMaterial({ opacity: 0.18 }));
+boden.rotation.x = -Math.PI / 2; boden.receiveShadow = true; scene.add(boden);
+
+// ---------- feine Struktur (wie gestrahlter Kunststoff) ----------
+const struktur = (() => {
+  const c = document.createElement("canvas"); c.width = c.height = 256;
+  const x = c.getContext("2d"), d = x.createImageData(256, 256);
+  for (let i = 0; i < d.data.length; i += 4) { const v = 110 + Math.random() * 60; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+  x.putImageData(d, 0, 0);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+})();
+// ---------- Materialien ----------
+const M = {
+  schwarz: () => new THREE.MeshPhysicalMaterial({ color: 0x1c1c1c, roughness: 0.62, metalness: 0, clearcoat: 0.08, bumpMap: struktur, bumpScale: 0.35 }),
+  tpu: () => new THREE.MeshPhysicalMaterial({ color: 0xe0521d, roughness: 0.68, metalness: 0, sheen: 0.5, sheenColor: 0xffb08a, clearcoat: 0.1, bumpMap: struktur, bumpScale: 0.2 }),
+  knopf: () => new THREE.MeshPhysicalMaterial({ color: 0x2c2c2c, roughness: 0.4, clearcoat: 0.5 }),
+  led: () => new THREE.MeshStandardMaterial({ color: 0x7dff6a, emissive: 0x3bdc2a, emissiveIntensity: 1.2, roughness: 0.2 }),
+  dichtung: () => new THREE.MeshStandardMaterial({ color: 0xc8461a, roughness: 0.8 }),
+  kupfer: () => new THREE.MeshStandardMaterial({ color: 0xc27a3a, roughness: 0.35, metalness: 0.9 }),
+  ferrit: () => new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.8 }),
+  akku: () => new THREE.MeshStandardMaterial({ color: 0xbfc3c8, roughness: 0.3, metalness: 0.6 }),
+  pcb: () => new THREE.MeshStandardMaterial({ color: 0x1f5a3c, roughness: 0.5 }),
+  blech: () => new THREE.MeshStandardMaterial({ color: 0xd4d7db, roughness: 0.25, metalness: 0.9 }),
+  keramik: () => new THREE.MeshStandardMaterial({ color: 0xc9b28a, roughness: 0.7 }),
+  silber: () => new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.2, metalness: 0.9 }),
+  ic: () => new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.45 }),
+  weiss: () => new THREE.MeshStandardMaterial({ color: 0xf2f2f2, roughness: 0.5 }),
+  metall: () => new THREE.MeshStandardMaterial({ color: 0x9a9da2, roughness: 0.3, metalness: 0.9 }),
+  dunkel: () => new THREE.MeshStandardMaterial({ color: 0x3a3a3a, roughness: 0.5 }),
+  lichtleiter: () => new THREE.MeshPhysicalMaterial({ color: 0x8dff7a, emissive: 0x3bdc2a, emissiveIntensity: 0.9, roughness: 0.1, transmission: 0.3 }),
+  teil: (c, r = 0.6, m = 0) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m }),
+};
+
+// ---------- Modelle (Koordinaten wie in OpenSCAD: z = Dicke, x = Höhe hochkant, y = Breite) ----------
+const P = { wand: 2, hoehe: 27.2, gesamt: 30.8 };
+const MODELLE = {
+  proto: {
+    titel: "Prototyp",
+    mass: "100 × 76 × 32 mm",
+    groesse: [100, 76, 32.3],
+    mitte: [47, 35, 16],
+    info: `<h2>Prototyp für den Test</h2>
+      <p>So bauen wir die 5 Chips für den Test. Fertige Module auf einer Lochraster-Platine, gedrucktes Gehäuse.</p>
+      <div class="zahlen"><span>Außen</span><span>ca. 100 × 76 × 32 mm mit Hülle</span><span>Innen</span><span>90 × 66 × 26 mm</span><span>Rückwand</span><span>1,2 mm (dort lädt er)</span><span>Schrauben</span><span>4 × M2, unter den Stoßecken</span></div>
+      <p>Gleiches Design wie der fertige Chip: Stoßecken, schmales Band in der Mitte, schwarze Griffstücke an den Seiten.</p>
+      <p><span class="stempel">Entschieden</span> Form und Farbe, Maxus am 09.11.2026</p>`,
+    teile: [
+      ["#1f1f1f", "Unterteil und Deckel", "PETG oder ASA, schwarz"],
+      ["#e0521d", "Hülle und Kragen", "TPU 95A, weich, orange, Stoßecken wie beim fertigen Chip"],
+      ["#1f1f1f", "Griffstücke", "am Unterteil, mit schrägen Rippen"],
+      ["#c8461a", "Dichtung", "TPU, zwischen Unterteil und Deckel"],
+      ["#3b6fd4", "Funkmodul", "RAK3272S"],
+      ["#111111", "GPS", "L76K, Antenne unter dem Deckel (beige)"],
+      ["#8a8a8a", "Sensoren", "Bewegung und Akku-Messer"],
+      ["#2f7d4f", "Lochraster-Platine", "48 × 64 mm"],
+      ["#c7c9cc", "Akku", "1000 mAh, liegt auf dem Qi-Empfänger"],
+      ["#d98b2b", "Qi-Empfänger", "an der Rückwand"],
+      ["#7a3d8f", "Lade-Modul", "BQ24074, unter dem Knopf"],
+    ],
+    dateien: [
+      ["proto3_unterteil", "schwarz", "gehaeuse", 0],
+      ["proto3_deckel", "schwarz", "deckel", [0, 0, P.hoehe + 0.6]],
+      ["proto3_dichtung", "dichtung", "dichtung", [0, 0, P.hoehe + 0.6 - 1.2]],
+      ["proto3_huelle", "tpu", "huelle", 0],
+      ["proto3_kragen", "tpu", "kragen", [P.wand + 68, P.wand + 33, P.gesamt]],
+    ],
+    durchsicht: ["huelle", "deckel", "dichtung"],
+    explode: { gehaeuse: 0, innen: 18, dichtung: 46, deckel: 58, kragen: 78, knopf: 72, huelle: -40 },
+    innen: () => {
+      const w = P.wand, g = [];
+      const box = (x, y, z, l, b, h, c, r, m, n) => g.push(["box", [w + x, w + y, z], [l, b, h], c, r, m, n]);
+      box(26 - 16, 33 - 24, 1.2, 32, 48, 2, 0xd98b2b, 0.5, 0, "Qi-Empfänger (Adafruit 1901)");
+      box(26 - 17, 33 - 25, 3.2, 34, 50, 5.5, 0xc7c9cc, 0.35, 0.5, "Akku 1000 mAh");
+      box(2, 1, 11.2, 48, 64, 1.6, 0x2f7d4f, 0.6, 0, "Lochraster-Platine");
+      box(4, 4, 15.2, 25.4, 32.3, 1.6, 0x3b6fd4, 0.5, 0, "Funkmodul RAK3272S");
+      box(31, 4, 15.2, 18, 21, 3, 0x111111, 0.4, 0, "GPS-Modul L76K");
+      box(4, 41, 15.2, 17.8, 21, 1.6, 0x8a8a8a, 0.5, 0, "Bewegungssensor LIS3DH");
+      box(25, 41, 15.2, 23, 18, 1.6, 0x8a8a8a, 0.5, 0, "Akku-Messer MAX17048");
+      box(55, 15, 1.2, 24, 36, 7, 0x7a3d8f, 0.6, 0, "Lade-Modul BQ24074");
+      box(27, 40, 21.2, 22, 22, 5, 0xcdb48a, 0.7, 0, "GPS-Antenne");
+      g.push(["zyl", [w + 82, w + 0.2 + 1.35, 13.2], 5, 2.7, 0x9a9a9a, "Vibrationsmotor"]);
+      return g;
+    },
+    knopf: { pos: [P.wand + 68, P.wand + 33], z: P.gesamt - 1, d: 15.4, h: 3.5, koerper: { z: 10.2, h: 20, d: 19 } },
+    led: { pos: [P.wand + 86, P.wand + 33], z: P.hoehe - 6, d: 5, h: P.gesamt - (P.hoehe - 6) + 0.3 },
+    blick: { vorne: [0, 0.04, 1], schraeg: [0.85, 0.45, 1], seite: [1, 0.12, 0.04], hinten: [0, 0.04, -1] },
+  },
+  fertig: {
+    titel: "Fertiger Chip",
+    mass: "ca. 54 × 38 × 17 mm",
+    groesse: [54, 37.5, 17],
+    mitte: [27, 18.75, 8.5],
+    info: `<h2>Fertiger Chip (Konzept)</h2>
+      <p>So könnte der Chip für den echten Verleih aussehen, nach dem Wunschbild. Innen eine eigene kleine Platine. Die Bauteile haben ihre echte Größe aus den Datenblättern, ihre Lage ist ein Vorschlag.</p>
+      <div class="zahlen"><span>Außen</span><span>ca. 54 × 38 × 17 mm</span><span>Gehäuse</span><span>2 schwarze Schalen, weicher oranger Rand mit Stoßecken</span><span>Akku</span><span>ca. 37 × 25 × 5 mm, etwa 400–500 mAh</span><span>Laden</span><span>kabellos, Spule an der Rückseite</span></div>
+      <p><span class="stempel">Geschätzt</span> Konzept, noch kein Bauplan. Der Akku ist nur halb so groß wie beim Prototyp, darum muss der fertige Chip Strom sparen (Kapitel 9).</p>`,
+    teile: [
+      ["#1f1f1f", "Vorder- und Rückschale", "hart, schwarz, hinten 4 Schrauben"],
+      ["#e0521d", "Rand und Knopfring", "weich, orange, an den Ecken breit, in der Mitte schmal"],
+      ["#262626", "Griffstück", "schwarz, mit schrägen Rippen, an beiden Seiten"],
+      ["#2c2c2c", "Knopf", "rund, drückt auf einen Taster"],
+      ["#8dff7a", "LED mit Lichtleiter", "vorne ein runder Lichtpunkt"],
+      ["#d4d7db", "Funkmodul RAK3172", "15 × 15,5 × 2,5 mm"],
+      ["#e6e8eb", "GPS L76K", "10,1 × 9,7 × 2,4 mm"],
+      ["#c9b28a", "GPS-Antenne", "15 × 15 × 4 mm, schaut nach vorne"],
+      ["#f2f2f2", "LoRa-Antenne", "kleine Chip-Antenne oben rechts"],
+      ["#151515", "kleine Chips", "Bewegung, Akku-Messer, Laden, Regler"],
+      ["#9a9da2", "Motor", "Münzmotor 8 × 2,7 mm"],
+      ["#1f5a3c", "Platine", "eigene Platine, 1 mm dick"],
+      ["#bfc3c8", "Akku", "flach, unter der Platine"],
+      ["#c27a3a", "Qi-Spule", "28 mm, an der Rückwand"],
+    ],
+    dateien: [
+      ["fertig3_rueckschale", "schwarz", "rueck"], ["fertig3_schrauben", "metall", "schrauben"],
+      ["fertig3_qi_ferrit", "ferrit", "qi"], ["fertig3_qi_spule", "kupfer", "qi"],
+      ["fertig3_akku", "akku", "akku"],
+      ["fertig3_platine", "pcb", "platine"], ["fertig3_rak3172", "blech", "platine"], ["fertig3_l76k", "blech", "platine"],
+      ["fertig3_patch", "keramik", "platine"], ["fertig3_patch_oben", "silber", "platine"], ["fertig3_taster", "dunkel", "platine"],
+      ["fertig3_motor", "metall", "platine"], ["fertig3_lora_antenne", "weiss", "platine"], ["fertig3_klein", "ic", "platine"],
+      ["fertig3_led_smd", "led", "platine"], ["fertig3_ledstab", "lichtleiter", "front"],
+      ["fertig3_vorderschale", "schwarz", "front"], ["fertig3_kappe", "knopf", "front"], ["fertig3_ring", "tpu", "front"],
+      ["fertig3_rand", "tpu", "rand"],
+    ],
+    durchsicht: ["front", "rand"],
+    explode: { schrauben: -16, rueck: 0, qi: 7, akku: 15, platine: 25, front: 42, rand: 62 },
+    innen: null,
+    blick: { vorne: [0, 0.04, 1], schraeg: [0.85, 0.45, 1], seite: [1, 0.12, 0.04], hinten: [0, 0.04, -1] },
+  },
+};
+
+const NAMEN = {"proto3_unterteil": "Unterteil (PETG/ASA)", "proto3_deckel": "Deckel (PETG/ASA)", "proto3_dichtung": "Dichtung (TPU)", "proto3_huelle": "Hülle (TPU, weich)", "proto3_kragen": "Kragen um den Knopf (TPU)", "fertig3_rueckschale": "Rückschale", "fertig3_schrauben": "Schrauben M1,6", "fertig3_qi_ferrit": "Ferritfolie hinter der Qi-Spule", "fertig3_qi_spule": "Qi-Spule (kabellos laden)", "fertig3_akku": "Akku (flach)", "fertig3_platine": "Platine", "fertig3_rak3172": "Funkmodul RAK3172", "fertig3_l76k": "GPS-Modul L76K", "fertig3_patch": "GPS-Antenne", "fertig3_patch_oben": "GPS-Antenne", "fertig3_taster": "Taster unter dem Knopf", "fertig3_motor": "Vibrationsmotor", "fertig3_lora_antenne": "LoRa-Antenne", "fertig3_klein": "kleine Chips: Bewegung, Akku-Messer, Laden, Regler", "fertig3_led_smd": "LED (rot/grün)", "fertig3_ledstab": "Lichtleiter zur Front", "fertig3_vorderschale": "Vorderschale", "fertig3_kappe": "Knopf", "fertig3_ring": "Knopfring (weich)", "fertig3_rand": "weicher Rand mit Stoßecken (TPU)"};
+const loader = new STLLoader();
+const geoCache = {};
+function ladeGeo(name) {
+  // STL-Dateien liegen als Base64 in JSON (Artifacts liefern .stl nicht aus)
+  if (!geoCache[name]) geoCache[name] = fetch(`modelle/${name}.json`).then(r => {
+    if (!r.ok) throw new Error(name);
+    return r.json();
+  }).then(j => {
+    const bin = Uint8Array.from(atob(j.stl), c => c.charCodeAt(0));
+    let g = loader.parse(bin.buffer);
+    g.deleteAttribute("normal");
+    g = mergeVertices(g, 1e-3);
+    g = toCreasedNormals(g, THREE.MathUtils.degToRad(32));
+    // UVs je nach Flächenrichtung, damit die feine Oberflächenstruktur überall gleich groß ist
+    const pos = g.attributes.position, nor = g.attributes.normal, uv = new Float32Array(pos.count * 2);
+    for (let i = 0; i < pos.count; i++) {
+      const ax = Math.abs(nor.getX(i)), ay = Math.abs(nor.getY(i)), az = Math.abs(nor.getZ(i));
+      const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+      const [u, v] = az >= ax && az >= ay ? [x, y] : ax >= ay ? [y, z] : [x, z];
+      uv[2 * i] = u / 9; uv[2 * i + 1] = v / 9;
+    }
+    g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+    return g;
+  });
+  return geoCache[name];
+}
+
+let aktiv = null, wurzel = null, auseinander = 0, ziel = 0, innenSicht = false;
+
+function mesh(geo, mat) { const m = new THREE.Mesh(geo, mat); m.castShadow = true; m.receiveShadow = true; return m; }
+
+async function zeige(key) {
+  const def = MODELLE[key]; aktiv = def;
+  document.getElementById("lade").hidden = false;
+  if (wurzel) scene.remove(wurzel);
+  wurzel = new THREE.Group(); wurzel.rotation.z = Math.PI / 2;   // hochkant aufstellen: OpenSCAD x (Höhe) → oben, z (Vorderseite) → zur Kamera
+  const inhalt = new THREE.Group(); wurzel.add(inhalt);
+  inhalt.position.set(-def.mitte[0], -def.mitte[1], -def.mitte[2]);
+  const gruppen = {};
+  const gruppe = n => gruppen[n] || (gruppen[n] = Object.assign(new THREE.Group(), { userData: { rolle: n } }), inhalt.add(gruppen[n]), gruppen[n]);
+
+  const geos = await Promise.all(def.dateien.map(d => ladeGeo(d[0])));
+  def.dateien.forEach((d, i) => {
+    const m = mesh(geos[i], M[d[1]]());
+    if (Array.isArray(d[3])) m.position.set(...d[3]);
+    m.userData.durchsicht = (def.durchsicht || []).includes(d[2]);
+    m.userData.name = NAMEN[d[0]] || "";
+    gruppe(d[2]).add(m);
+  });
+  if (def.knopf) {
+    const k = def.knopf;
+    const kappe = mesh(new THREE.CylinderGeometry(k.d / 2, k.d / 2, k.h, 64), M.knopf());
+    kappe.userData.name = "Knopf (16 mm, wasserdicht)"; kappe.rotation.x = Math.PI / 2; kappe.position.set(k.pos[0], k.pos[1], k.z + k.h / 2); gruppe("knopf").add(kappe);
+    const koerper = mesh(new THREE.CylinderGeometry(k.koerper.d / 2, k.koerper.d / 2, k.koerper.h, 48), M.teil(0x3a3a3a, 0.5));
+    koerper.userData.name = "Knopf von unten (Gewinde und Mutter)"; koerper.rotation.x = Math.PI / 2; koerper.position.set(k.pos[0], k.pos[1], k.koerper.z + k.koerper.h / 2); gruppe("innen").add(koerper);
+  }
+  if (def.led) {
+    const l = def.led;
+    const led = mesh(new THREE.CylinderGeometry(l.d / 2, l.d / 2, l.h, 32), M.led());
+    led.userData.name = "LED rot/grün"; led.rotation.x = Math.PI / 2; led.position.set(l.pos[0], l.pos[1], l.z + l.h / 2); gruppe("innen").add(led);
+  }
+  if (def.innen) for (const t of def.innen()) {
+    let m;
+    if (t[0] === "box") { m = mesh(new THREE.BoxGeometry(...t[2]), M.teil(t[3], t[4], t[5] || 0)); m.position.set(t[1][0] + t[2][0] / 2, t[1][1] + t[2][1] / 2, t[1][2] + t[2][2] / 2); m.userData.name = t[6] || ""; }
+    else { m = mesh(new THREE.CylinderGeometry(t[2], t[2], t[3], 40), M.teil(t[4], 0.4, 0.6)); m.position.set(...t[1]); m.userData.name = t[5]; }
+    gruppe("innen").add(m);
+  }
+  wurzel.userData.gruppen = gruppen;
+  scene.add(wurzel);
+  document.getElementById("lade").hidden = true;
+  document.getElementById("mass").textContent = def.mass;
+  document.getElementById("name").hidden = true; markiert = null;
+  document.getElementById("info").innerHTML = def.info;
+  document.getElementById("teile").innerHTML = def.teile.map(t => `<div><i style="background:${t[0]}"></i><span><dt>${t[1]}</dt> <dd>${t[2]}</dd></span></div>`).join("");
+  document.getElementById("b-innen").hidden = !def.durchsicht;
+  document.getElementById("fuss-hinweis").textContent = def.innen ? "Die Bauteile innen sind vereinfachte Platzhalter in echter Größe." : "Konzept: Bauteile in echter Größe, Lage ist ein Vorschlag.";
+  boden.position.y = -def.groesse[0] / 2 - 0.2;
+  setzeInnen(innenSicht && !!def.durchsicht);
+  blick("schraeg", true);
+}
+
+function setzeInnen(an) {
+  innenSicht = an;
+  document.getElementById("b-innen").setAttribute("aria-pressed", String(an));
+  if (!wurzel) return;
+  wurzel.traverse(o => {
+    if (o.isMesh && o.userData.durchsicht) { o.material.transparent = an; o.material.opacity = an ? 0.22 : 1; o.material.depthWrite = !an; o.castShadow = !an; o.material.needsUpdate = true; }
+  });
+}
+
+function blick(name, sofort) {
+  const r = aktiv.blick[name];
+  const groesse = Math.max(...aktiv.groesse);
+  const abstand = groesse * 2.4 + (ziel > 0.5 ? groesse * 0.9 : 0);
+  const v = new THREE.Vector3(...r).normalize().multiplyScalar(abstand);
+  ziel_kamera = v; ziel_mitte = new THREE.Vector3(0, 0, 0);
+  if (sofort) { kamera.position.copy(v); steuer.target.copy(ziel_mitte); ziel_kamera = null; }
+}
+let ziel_kamera = null, ziel_mitte = new THREE.Vector3();
+
+function groesseAnpassen() {
+  const r = buehne.getBoundingClientRect();
+  renderer.setSize(r.width, r.height, false);
+  kamera.aspect = r.width / r.height; kamera.updateProjectionMatrix();
+}
+new ResizeObserver(groesseAnpassen).observe(buehne);
+
+const ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function schleife() {
+  requestAnimationFrame(schleife);
+  if (wurzel && aktiv) {
+    auseinander += (ziel - auseinander) * (ruhig ? 1 : 0.1);
+    const g = wurzel.userData.gruppen;
+    for (const n in g) g[n].position.z = (aktiv.explode[n] || 0) * auseinander;
+  }
+  if (ziel_kamera) {
+    kamera.position.lerp(ziel_kamera, ruhig ? 1 : 0.12); steuer.target.lerp(ziel_mitte, ruhig ? 1 : 0.12);
+    if (kamera.position.distanceTo(ziel_kamera) < 0.3) ziel_kamera = null;
+  }
+  steuer.update();
+  renderer.render(scene, kamera);
+}
+
+function farbeHintergrund() {
+  const c = getComputedStyle(document.documentElement).getPropertyValue("--buehne").trim() || "#e9e5dc";
+  scene.background = new THREE.Color(c);
+}
+farbeHintergrund();
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", farbeHintergrund);
+new MutationObserver(farbeHintergrund).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+// ---------- Teil antippen: Name zeigen und kurz aufleuchten ----------
+const strahl = new THREE.Raycaster(), zeiger = new THREE.Vector2();
+let runter = null, markiert = null;
+renderer.domElement.addEventListener("pointerdown", e => { runter = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener("pointerup", e => {
+  if (!runter || Math.hypot(e.clientX - runter[0], e.clientY - runter[1]) > 6 || !wurzel) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  zeiger.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  strahl.setFromCamera(zeiger, kamera);
+  const ziele = []; wurzel.traverse(o => { if (o.isMesh && !(o.material.transparent && o.material.opacity < 0.5)) ziele.push(o); });
+  const treffer = strahl.intersectObjects(ziele, false)[0];
+  const feld = document.getElementById("name");
+  if (markiert) { markiert.material.emissive && markiert.material.emissive.setHex(markiert.userData.alt || 0); markiert = null; }
+  if (treffer && treffer.object.userData.name) {
+    feld.textContent = treffer.object.userData.name; feld.hidden = false;
+    markiert = treffer.object;
+    if (markiert.material.emissive) { markiert.userData.alt = markiert.material.emissive.getHex(); markiert.material.emissive.setHex(0x5a2a10); }
+  } else feld.hidden = true;
+});
+
+// ---------- Bedienung ----------
+const tabs = { proto: document.getElementById("tab-proto"), fertig: document.getElementById("tab-fertig") };
+for (const k in tabs) tabs[k].addEventListener("click", () => {
+  for (const j in tabs) tabs[j].setAttribute("aria-selected", String(j === k));
+  try { localStorage.setItem("skitag-3d", k); } catch (e) {}
+  zeige(k);
+});
+document.getElementById("b-auseinander").addEventListener("click", e => {
+  ziel = ziel ? 0 : 1; e.currentTarget.setAttribute("aria-pressed", String(!!ziel));
+  e.currentTarget.textContent = ziel ? "Zusammenbauen" : "Auseinandernehmen";
+  if (ziel) setTimeout(() => { if (!ziel_kamera) blick("schraeg"); }, 0);
+});
+document.getElementById("b-innen").addEventListener("click", () => setzeInnen(!innenSicht));
+document.querySelectorAll("[data-blick]").forEach(b => b.addEventListener("click", () => blick(b.dataset.blick)));
+
+let start = "proto";
+try { if (localStorage.getItem("skitag-3d") === "fertig") start = "fertig"; } catch (e) {}
+for (const j in tabs) tabs[j].setAttribute("aria-selected", String(j === start));
+groesseAnpassen();
+zeige(start).catch(() => { document.getElementById("lade").textContent = "Das Modell konnte nicht geladen werden. Seite neu laden."; });
+schleife();
+</script>
