@@ -218,6 +218,7 @@
     </div>
     <div class="text">
       <p><strong>GND:</strong> Den Minus-Anschluss nennt man in der Elektronik <span class="wort">GND</span> (englisch „Ground“, sprich „Graund“). Alle Teile im Chip hängen am selben GND, wie Häuser an einem gemeinsamen Abfluss. Fehlt bei einem Modul der GND-Draht, funktioniert es nicht.</p>
+      <p><strong>Wohin führt GND?</strong> GND ist kein Ort, an dem der Strom verschwindet. Es ist der Rückweg zum Minus des Akkus. Der Akku drückt den Strom am Plus hinaus, er fließt durch die Teile und über GND zurück zum Akku. In echt ist GND auf der Platine ein durchgehender Kupferstreifen, die GND-Leiste. Von jedem Modul führt ein Draht dorthin (Kapitel 8).</p>
       <p><strong>Polung:</strong> Plus muss an Plus, Minus an Minus. Falsch herum gehen viele Teile sofort kaputt. Beim Akku ist das besonders wichtig, denn bei gleichen Steckern sind Plus und Minus nicht immer gleich belegt. Darum messen wir jeden Akku, bevor wir ihn einstecken (Thema 9). <span class="stempel s-entschieden">Entschieden</span></p>
     </div>
   </section>
@@ -283,6 +284,13 @@
     <details class="genauer">
       <summary>Genauer: Warum nur „geschätzt“?</summary>
       <p>Die 2 V sind ein typischer Wert für rote LEDs. Unsere LED kann etwas abweichen. Den genauen Wert lesen wir in Kapitel 5 im Datenblatt nach. Die grüne Farbe der LED ist genauso angeschlossen, nur an einem anderen Pin. Grüne LEDs „schlucken“ meist etwas mehr Spannung als rote. Mit demselben Widerstand fließt durch Grün darum etwas weniger Strom. Auch das prüfen wir in Kapitel 5.</p>
+    </details>
+    <details class="genauer">
+      <summary>Genauer: Warum bei viel Strom Spannung verloren geht</summary>
+      <p><strong>Spannung ist der Druck.</strong> Der Akku macht zum Beispiel 4 V Druck. Auf dem Weg durch Kabel und Akku geht ein kleines Stück davon verloren, weil auch sie den Strom ein bisschen bremsen. Sie haben einen kleinen Widerstand, wie ein langer, dünner Strohhalm.</p>
+      <p><strong>Je mehr Strom fließt, desto mehr Druck geht unterwegs verloren.</strong> Das ist wieder das Ohmsche Gesetz, nur umgestellt: Verlust = Widerstand × Strom. Wie beim Gartenschlauch: Dreht man den Hahn weiter auf, kommt am Ende des Schlauchs weniger Druck an.</p>
+      <p>Ein Beispiel: Haben Akku und Kabel zusammen 0,5 Ω, gehen beim Senden (etwa 90 mA) 0,5 Ω × 0,09 A = 0,045 V verloren. Von 4 V kommen am Ende also etwa 3,95 V an. Bei uns ist der Verlust winzig. Die 0,5 Ω sind nur ein Beispiel, den echten Wert messen wir beim Bauen. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+      <p>In der Kälte bremst ein Akku stärker. Dann geht bei gleich viel Strom mehr Druck verloren. Darum geht es in Kapitel 9.</p>
     </details>
   </section>
 
@@ -376,6 +384,13 @@
     <details class="genauer">
       <summary>Genauer: welcher Regler?</summary>
       <p>Unser Regler heißt MCP1700-3302E. Die „33“ im Namen steht für 3,3 V. Neben ihm sitzen laut Bauplan zwei kleine Kondensatoren mit je 1 µF, einer am Eingang und einer am Ausgang. Sie helfen, die Spannung ruhig zu halten. Einen zu schwachen Akku können sie nicht ersetzen. Ob Größe und Art der Kondensatoren zum Regler passen, prüfen wir in Kapitel 5 im Datenblatt. <span class="stempel s-entschieden">Entschieden</span></p>
+    </details>
+    <details class="genauer">
+      <summary>Genauer: Wie ein Kondensator funktioniert</summary>
+      <p><strong>Ein kleiner Zwischenspeicher.</strong> Innen liegen zwei Metallflächen ganz nah beieinander, aber sie berühren sich nicht. Legt man Spannung an, sammeln sich auf der einen Fläche Elektronen, auf der anderen fehlen welche. So hält der Kondensator selbst eine Spannung, wie ein kleines Wasserbecken, das hoch oben hängt.</p>
+      <p><strong>Wozu wir ihn brauchen.</strong> Wenn das Funkmodul zu senden anfängt, braucht es in einem Augenblick fast 20-mal so viel Strom wie vorher. Der Regler braucht einen winzigen Moment, bis er nachkommt. In diesem Moment würde die Spannung kurz einbrechen. Der Kondensator sitzt direkt daneben, wie ein voller Eimer neben dem Wasserhahn, und gibt sofort seinen Vorrat ab. Sobald der Regler nachgekommen ist, füllt er den Kondensator wieder auf.</p>
+      <p><strong>Wie viel er speichert.</strong> Sehr wenig. 1 µF reicht nur für Millionstel Sekunden. Genau so lange braucht der Regler zum Nachregeln. Den Akku kann ein Kondensator nicht ersetzen.</p>
+      <p><strong>In echt.</strong> Ein kleines Bauteil mit zwei Beinchen, oft gelb oder blau. Unsere Kondensatoren (Keramik, 1 µF) haben kein Plus und Minus, man kann sie nicht falsch herum einbauen. Aufgedruckt ist meist „105“: 10 mit 5 Nullen, also 1 000 000 Pikofarad = 1 µF.</p>
     </details>
   </section>
 
