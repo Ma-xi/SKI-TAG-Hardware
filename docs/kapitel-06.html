@@ -273,13 +273,13 @@
         <h3>Wie weiß der Chip, wie voll der Akku ist?</h3>
         <dl>
           <dt>GEWÄHLT</dt><dd class="e-wahl">Mit einem eigenen Akku-Messer, dem MAX17048</dd>
-          <dt>WARUM</dt><dd>Er rechnet den Akku-Stand in Prozent aus und schickt ihn über die Firmware mit jeder Nachricht mit. So sieht der Verleih, welcher Chip bald leer ist. Nur die Spannung zu messen wäre ungenauer, weil sie lange fast gleich bleibt und sich in der Kälte verschiebt.</dd>
+          <dt>WARUM</dt><dd>Er misst die Spannung des Akkus und rechnet mit einem eingebauten Modell, wie sich LiPo-Akkus verhalten, den Stand in Prozent aus. Die Firmware schickt ihn mit jeder Nachricht mit. So sieht der Verleih, welcher Chip bald leer ist. Das ist genauer, als wenn das Funkmodul die Spannung nur mit festen Grenzen vergleicht, weil sie lange fast gleich bleibt und sich in der Kälte verschiebt.</dd>
           <dt class="achtung">DAFÜR NEHMEN WIR IN KAUF</dt><dd>Noch ein kleines Modul. Ob die Prozent in der Kälte stimmen, sehen wir erst beim Test.</dd>
         </dl>
         <p class="e-stempel"><span class="stempel s-entschieden">Entschieden</span></p>
         
         <details class="genauer"><summary>Andere Möglichkeiten</summary>
-          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Nur die Spannung messen</td><td>Billiger, aber zwischen „fast voll“ und „halb leer“ ändert sich die Spannung kaum.</td></tr></table>
+          <table class="anschluss"><tr><th>Möglichkeit</th><th>Warum nicht</th></tr><tr><td>Spannung nur mit dem Funkmodul messen</td><td>Billiger, aber ohne Akku-Modell ungenau: Zwischen „fast voll“ und „halb leer“ ändert sich die Spannung kaum.</td></tr></table>
         </details>
         <p class="quelle-zeile">Genauer in Kapitel 9 (Laufzeit)</p>
       </article>
