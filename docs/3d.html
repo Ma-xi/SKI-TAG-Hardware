@@ -226,7 +226,7 @@ const MODELLE = {
     mitte: [47, 35, 16],
     info: `<h2>Prototyp für den Test</h2>
       <p>So bauen wir die 5 Chips für den Test. Fertige Module auf einer Lochraster-Platine, gedrucktes Gehäuse.</p>
-      <div class="zahlen"><span>Außen</span><span>ca. 100 × 76 × 32 mm mit Hülle</span><span>Innen</span><span>90 × 66 × 26 mm</span><span>Rückwand</span><span>1,2 mm (dort lädt er)</span><span>Schrauben</span><span>4 × M2, unter den Stoßecken</span></div>
+      <div class="zahlen"><span>Außen</span><span>ca. 100 × 76 × 32 mm mit Hülle</span><span>Innen</span><span>90 × 66 × 26 mm</span><span>Rückwand</span><span>1,2 mm (dort lädt er)</span><span>Schrauben</span><span>4 × M2, unter den Stoßecken</span><span>Knopf</span><span>25 mm, wasserdicht (IP67)</span></div>
       <p>Gleiches Design wie der fertige Chip: Stoßecken, schmales Band in der Mitte, schwarze Griffstücke an den Seiten.</p>
       <p><span class="stempel">Entschieden</span> Form und Farbe, Maxus am 09.11.2026</p>`,
     teile: [
@@ -244,10 +244,10 @@ const MODELLE = {
     ],
     dateien: [
       ["proto3_unterteil", "schwarz", "gehaeuse", 0],
-      ["proto3_deckel", "schwarz", "deckel", [0, 0, P.hoehe + 0.6]],
+      ["proto4_deckel", "schwarz", "deckel", [0, 0, P.hoehe + 0.6]],
       ["proto3_dichtung", "dichtung", "dichtung", [0, 0, P.hoehe + 0.6 - 1.2]],
       ["proto3_huelle", "tpu", "huelle", 0],
-      ["proto3_kragen", "tpu", "kragen", [P.wand + 68, P.wand + 33, P.gesamt]],
+      ["proto4_kragen", "tpu", "kragen", [P.wand + 65, P.wand + 33, P.gesamt]],
     ],
     durchsicht: ["huelle", "deckel", "dichtung"],
     explode: { gehaeuse: 0, innen: 18, dichtung: 46, deckel: 58, kragen: 78, knopf: 72, huelle: -40 },
@@ -266,25 +266,25 @@ const MODELLE = {
       g.push(["zyl", [w + 82, w + 0.2 + 1.35, 13.2], 5, 2.7, 0x9a9a9a, "Vibrationsmotor"]);
       return g;
     },
-    knopf: { pos: [P.wand + 68, P.wand + 33], z: P.gesamt - 1, d: 15.4, h: 3.5, koerper: { z: 10.2, h: 20, d: 19 } },
+    knopf: { pos: [P.wand + 65, P.wand + 33], z: P.gesamt - 1, d: 25, h: 3.2, koerper: { z: 10.2, h: 20, d: 28 } },
     led: { pos: [P.wand + 86, P.wand + 33], z: P.hoehe - 6, d: 5, h: P.gesamt - (P.hoehe - 6) + 0.3 },
     blick: { vorne: [0, 0.04, 1], schraeg: [0.85, 0.45, 1], seite: [1, 0.12, 0.04], hinten: [0, 0.04, -1] },
   },
   fertig: {
     titel: "Fertiger Chip",
-    mass: "ca. 54 × 38 × 17 mm",
-    groesse: [54, 37.5, 17],
-    mitte: [27, 18.75, 8.5],
+    mass: "ca. 66 × 46 × 18 mm",
+    groesse: [66, 46, 18],
+    mitte: [33, 23, 9],
     info: `<h2>Fertiger Chip (Konzept)</h2>
       <p>So könnte der Chip für den echten Verleih aussehen, nach dem Wunschbild. Innen eine eigene kleine Platine. Die Bauteile haben ihre echte Größe aus den Datenblättern, ihre Lage ist ein Vorschlag.</p>
-      <div class="zahlen"><span>Außen</span><span>ca. 54 × 38 × 17 mm</span><span>Gehäuse</span><span>2 schwarze Schalen, weicher oranger Rand mit Stoßecken</span><span>Akku</span><span>ca. 37 × 25 × 5 mm, etwa 400–500 mAh</span><span>Laden</span><span>kabellos, Spule an der Rückseite</span></div>
-      <p><span class="stempel">Geschätzt</span> Konzept, noch kein Bauplan. Der Akku ist nur halb so groß wie beim Prototyp, darum muss der fertige Chip Strom sparen (Kapitel 9).</p>`,
+      <div class="zahlen"><span>Außen</span><span>ca. 66 × 46 × 18 mm</span><span>Knopf</span><span>25 mm, so groß wie eine 2-Euro-Münze</span><span>Gehäuse</span><span>2 schwarze Schalen, weicher oranger Rand mit Stoßecken</span><span>Akku</span><span>ca. 48 × 30 × 5 mm, etwa 800 mAh</span><span>Laden</span><span>kabellos, Spule an der Rückseite</span></div>
+      <p><span class="stempel">Geschätzt</span> Konzept, noch kein Bauplan. Der Akku hat etwas weniger als beim Prototyp (1000 mAh), darum muss der fertige Chip Strom sparen (Kapitel 9).</p>`,
     teile: [
       ["#1f1f1f", "Vorder- und Rückschale", "hart, schwarz, hinten 4 Schrauben"],
       ["#e0521d", "Rand und Knopfring", "weich, orange, an den Ecken breit, in der Mitte schmal"],
       ["#262626", "Griffstück", "schwarz, mit schrägen Rippen, an beiden Seiten"],
-      ["#2c2c2c", "Knopf", "rund, drückt auf einen Taster"],
-      ["#8dff7a", "LED mit Lichtleiter", "vorne ein runder Lichtpunkt"],
+      ["#2c2c2c", "Knopf", "rund, 25 mm, mit Handschuh und durch die Jacke zu drücken"],
+      ["#8dff7a", "LED mit Lichtleiter", "vorne ein runder Lichtpunkt über dem Knopf"],
       ["#d4d7db", "Funkmodul RAK3172", "15 × 15,5 × 2,5 mm"],
       ["#e6e8eb", "GPS L76K", "10,1 × 9,7 × 2,4 mm"],
       ["#c9b28a", "GPS-Antenne", "15 × 15 × 4 mm, schaut nach vorne"],
@@ -292,19 +292,19 @@ const MODELLE = {
       ["#151515", "kleine Chips", "Bewegung, Akku-Messer, Laden, Regler"],
       ["#9a9da2", "Motor", "Münzmotor 8 × 2,7 mm"],
       ["#1f5a3c", "Platine", "eigene Platine, 1 mm dick"],
-      ["#bfc3c8", "Akku", "flach, unter der Platine"],
-      ["#c27a3a", "Qi-Spule", "28 mm, an der Rückwand"],
+      ["#bfc3c8", "Akku", "flach, 48 × 30 × 5 mm, unter der Platine"],
+      ["#c27a3a", "Qi-Spule", "30 mm, an der Rückwand"],
     ],
     dateien: [
-      ["fertig3_rueckschale", "schwarz", "rueck"], ["fertig3_schrauben", "metall", "schrauben"],
-      ["fertig3_qi_ferrit", "ferrit", "qi"], ["fertig3_qi_spule", "kupfer", "qi"],
-      ["fertig3_akku", "akku", "akku"],
-      ["fertig3_platine", "pcb", "platine"], ["fertig3_rak3172", "blech", "platine"], ["fertig3_l76k", "blech", "platine"],
-      ["fertig3_patch", "keramik", "platine"], ["fertig3_patch_oben", "silber", "platine"], ["fertig3_taster", "dunkel", "platine"],
-      ["fertig3_motor", "metall", "platine"], ["fertig3_lora_antenne", "weiss", "platine"], ["fertig3_klein", "ic", "platine"],
-      ["fertig3_led_smd", "led", "platine"], ["fertig3_ledstab", "lichtleiter", "front"],
-      ["fertig3_vorderschale", "schwarz", "front"], ["fertig3_kappe", "knopf", "front"], ["fertig3_ring", "tpu", "front"],
-      ["fertig3_rand", "tpu", "rand"],
+      ["fertig4_rueckschale", "schwarz", "rueck"], ["fertig4_schrauben", "metall", "schrauben"],
+      ["fertig4_qi_ferrit", "ferrit", "qi"], ["fertig4_qi_spule", "kupfer", "qi"],
+      ["fertig4_akku", "akku", "akku"],
+      ["fertig4_platine", "pcb", "platine"], ["fertig4_rak3172", "blech", "platine"], ["fertig4_l76k", "blech", "platine"],
+      ["fertig4_patch", "keramik", "platine"], ["fertig4_patch_oben", "silber", "platine"], ["fertig4_taster", "dunkel", "platine"],
+      ["fertig4_motor", "metall", "platine"], ["fertig4_lora_antenne", "weiss", "platine"], ["fertig4_klein", "ic", "platine"],
+      ["fertig4_led_smd", "led", "platine"], ["fertig4_ledstab", "lichtleiter", "front"],
+      ["fertig4_vorderschale", "schwarz", "front"], ["fertig4_kappe", "knopf", "front"], ["fertig4_ring", "tpu", "front"],
+      ["fertig4_rand", "tpu", "rand"],
     ],
     durchsicht: ["front", "rand"],
     explode: { schrauben: -16, rueck: 0, qi: 7, akku: 15, platine: 25, front: 42, rand: 62 },
@@ -313,7 +313,7 @@ const MODELLE = {
   },
 };
 
-const NAMEN = {"proto3_unterteil": "Unterteil (PETG/ASA)", "proto3_deckel": "Deckel (PETG/ASA)", "proto3_dichtung": "Dichtung (TPU)", "proto3_huelle": "Hülle (TPU, weich)", "proto3_kragen": "Kragen um den Knopf (TPU)", "fertig3_rueckschale": "Rückschale", "fertig3_schrauben": "Schrauben M1,6", "fertig3_qi_ferrit": "Ferritfolie hinter der Qi-Spule", "fertig3_qi_spule": "Qi-Spule (kabellos laden)", "fertig3_akku": "Akku (flach)", "fertig3_platine": "Platine", "fertig3_rak3172": "Funkmodul RAK3172", "fertig3_l76k": "GPS-Modul L76K", "fertig3_patch": "GPS-Antenne", "fertig3_patch_oben": "GPS-Antenne", "fertig3_taster": "Taster unter dem Knopf", "fertig3_motor": "Vibrationsmotor", "fertig3_lora_antenne": "LoRa-Antenne", "fertig3_klein": "kleine Chips: Bewegung, Akku-Messer, Laden, Regler", "fertig3_led_smd": "LED (rot/grün)", "fertig3_ledstab": "Lichtleiter zur Front", "fertig3_vorderschale": "Vorderschale", "fertig3_kappe": "Knopf", "fertig3_ring": "Knopfring (weich)", "fertig3_rand": "weicher Rand mit Stoßecken (TPU)"};
+const NAMEN = {"proto3_unterteil": "Unterteil (PETG/ASA)", "proto4_deckel": "Deckel (PETG/ASA)", "proto3_dichtung": "Dichtung (TPU)", "proto3_huelle": "Hülle (TPU, weich)", "proto4_kragen": "Kragen um den Knopf (TPU)", "fertig4_rueckschale": "Rückschale", "fertig4_schrauben": "Schrauben M1,6", "fertig4_qi_ferrit": "Ferritfolie hinter der Qi-Spule", "fertig4_qi_spule": "Qi-Spule (kabellos laden)", "fertig4_akku": "Akku (flach)", "fertig4_platine": "Platine", "fertig4_rak3172": "Funkmodul RAK3172", "fertig4_l76k": "GPS-Modul L76K", "fertig4_patch": "GPS-Antenne", "fertig4_patch_oben": "GPS-Antenne", "fertig4_taster": "Taster unter dem Knopf", "fertig4_motor": "Vibrationsmotor", "fertig4_lora_antenne": "LoRa-Antenne", "fertig4_klein": "kleine Chips: Bewegung, Akku-Messer, Laden, Regler", "fertig4_led_smd": "LED (rot/grün)", "fertig4_ledstab": "Lichtleiter zur Front", "fertig4_vorderschale": "Vorderschale", "fertig4_kappe": "Knopf", "fertig4_ring": "Knopfring (weich)", "fertig4_rand": "weicher Rand mit Stoßecken (TPU)"};
 const loader = new STLLoader();
 const geoCache = {};
 function ladeGeo(name) {
@@ -366,7 +366,7 @@ async function zeige(key) {
   if (def.knopf) {
     const k = def.knopf;
     const kappe = mesh(new THREE.CylinderGeometry(k.d / 2, k.d / 2, k.h, 64), M.knopf());
-    kappe.userData.name = "Knopf (16 mm, wasserdicht)"; kappe.rotation.x = Math.PI / 2; kappe.position.set(k.pos[0], k.pos[1], k.z + k.h / 2); gruppe("knopf").add(kappe);
+    kappe.userData.name = "Knopf 25 mm (wasserdicht, so groß wie eine 2-Euro-Münze)"; kappe.rotation.x = Math.PI / 2; kappe.position.set(k.pos[0], k.pos[1], k.z + k.h / 2); gruppe("knopf").add(kappe);
     const koerper = mesh(new THREE.CylinderGeometry(k.koerper.d / 2, k.koerper.d / 2, k.koerper.h, 48), M.teil(0x3a3a3a, 0.5));
     koerper.userData.name = "Knopf von unten (Gewinde und Mutter)"; koerper.rotation.x = Math.PI / 2; koerper.position.set(k.pos[0], k.pos[1], k.koerper.z + k.koerper.h / 2); gruppe("innen").add(koerper);
   }
