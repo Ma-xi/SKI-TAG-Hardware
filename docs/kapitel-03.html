@@ -292,6 +292,17 @@
       <p>Ein Beispiel: Haben Akku und Kabel zusammen 0,5 Ω, gehen beim Senden (etwa 90 mA) 0,5 Ω × 0,09 A = 0,045 V verloren. Von 4 V kommen am Ende also etwa 3,95 V an. Bei uns ist der Verlust winzig. Die 0,5 Ω sind nur ein Beispiel, den echten Wert messen wir beim Bauen. <span class="stempel s-geschaetzt">Geschätzt</span></p>
       <p>In der Kälte bremst ein Akku stärker. Dann geht bei gleich viel Strom mehr Druck verloren. Darum geht es in Kapitel 9.</p>
     </details>
+    <details class="genauer">
+      <summary>Genauer: Hintereinander und nebeneinander (Reihe und parallel)</summary>
+      <p><strong>Jeder Weg geht von Plus zu GND und verliert dabei die ganze Spannung.</strong> Wie beim Skifahren: Von der Bergstation ins Tal gibt es verschiedene Pisten. Eine ist durchgehend steil, eine hat erst einen flachen Teil und dann einen steilen Hang. Egal welche du fährst, unten hast du die gleichen Höhenmeter verloren, weil Start und Ziel gleich sind. Nur die Aufteilung unterwegs ist anders.</p>
+      <p><strong>Hintereinander (in Reihe):</strong> Ein einziger Weg mit mehreren Teilen nacheinander, wie unsere LED mit Widerstand. Die Teile teilen sich die Spannung. Bei der roten LED: 1,3 V am Widerstand und 2 V an der LED sind zusammen genau die 3,3 V vom Funkchip. Der Strom ist dabei überall gleich groß. Wasser kann ja unterwegs nicht verschwinden: Was vorne in den Schlauch hineingeht, kommt hinten auch heraus. Am Widerstand fällt also der Druck, aber der Strom bleibt gleich.</p>
+      <p><strong>Nebeneinander (parallel):</strong> Der Weg teilt sich in mehrere Äste. Jeder Ast bekommt die volle Spannung, weil alle am selben Plus anfangen und am selben GND enden. Der Strom teilt sich dagegen auf, und die Ströme der Äste zählen zusammen. Bei unserem Chip hängen alle Module nebeneinander an den 3,3 V vom Regler. Jedes Modul bekommt 3,3 V. Braucht zum Beispiel das GPS 41 mA und das Funkmodul 6 mA, muss der Regler zusammen 47 mA liefern. <span class="stempel s-fest">Fest</span></p>
+      <div class="merke">
+        <span class="mono">MERKE</span>
+        <p>Hintereinander: gleicher Strom, die Spannung teilt sich. Nebeneinander: gleiche Spannung, der Strom teilt sich.</p>
+      </div>
+      <p>In der Schule heißen diese zwei Regeln Maschenregel und Knotenregel (nach Kirchhoff). Die Maschenregel ist das mit den Pisten: Auf jedem Weg von Plus nach GND wird die ganze Spannung aufgebraucht. Die Knotenregel sagt: Wo sich ein Draht teilt, geht kein Strom verloren. Was hineinfließt, fließt auf den Ästen zusammen wieder hinaus.</p>
+    </details>
   </section>
 
   <!-- 4 Akku -->
@@ -595,6 +606,24 @@
     <div class="text">
       <p>Neben dem Motor sitzt außerdem eine <span class="wort">Diode</span>. Sie lässt Strom nur in eine Richtung durch und schützt den Transistor. Bei Dioden ist die Richtung wichtig: Eine Seite ist mit einem Ring markiert. Wie herum sie eingelötet wird, zeigt Kapitel 17. <span class="stempel s-fest">Fest</span></p>
     </div>
+    <details class="genauer">
+      <summary>Genauer: Wie ein Transistor funktioniert</summary>
+      <p><strong>Ein Transistor ist ein Schalter ohne Finger.</strong> Statt dass jemand drückt, schaltet ihn ein kleiner Strom. Wie ein dickes Wasserrohr mit einem schweren Schieber: Fließt durch ein dünnes Röhrchen daneben ein bisschen Wasser, drückt es den Schieber auf. Dann rauscht durch das dicke Rohr viel Wasser.</p>
+      <p><strong>Er hat drei Beine:</strong></p>
+      <ul>
+        <li><strong>Basis (B):</strong> das dünne Röhrchen. Hier kommt der kleine Strom vom Funkmodul an.</li>
+        <li><strong>Kollektor (C):</strong> hier kommt der große Strom vom Motor herein.</li>
+        <li><strong>Emitter (E):</strong> hier fließt alles hinaus zu GND.</li>
+      </ul>
+      <p>Der Weg für den Motor ist also: Akku → Motor → Kollektor → Emitter → GND. Diesen Weg macht der kleine Strom von der Basis zum Emitter auf. Schaltet das Funkmodul ihn ab, geht der Weg zu, und der Motor steht. Der große Strom kommt direkt aus dem Akku, nicht aus dem Funkmodul. Darum geht der Pin des Funkmoduls nicht kaputt.</p>
+      <p><strong>Warum der Widerstand vor der Basis?</strong> Ohne ihn wäre die Basis fast ein Kurzschluss, und der Pin würde viel zu viel Strom liefern. Der Pin gibt 3,3 V. Zwischen Basis und Emitter fallen immer etwa 0,7 V ab, die braucht der Transistor. Am Widerstand fällt der Rest ab: 3,3 V − 0,7 V = 2,6 V. Mit 1 kΩ fließen dann 2,6 V ÷ 1000&nbsp;Ω = 2,6&nbsp;mA in die Basis. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+      <p><strong>Ganz oder halb offen:</strong> Ein Transistor ist eher ein Wasserhahn als ein Lichtschalter. Er kann auch nur halb aufgehen. Kommt genug Strom in die Basis, ist er ganz offen: Der Motor bekommt fast die volle Spannung, und der Transistor bleibt kühl. Kommt zu wenig, ist er nur halb offen: Der Motor läuft schwach, und der Transistor wird warm, weil er bremst.</p>
+      <div class="merke">
+        <span class="mono">FAUSTREGEL</span>
+        <p>Motorstrom höchstens 10-mal so groß wie der Strom in die Basis. 2,6 mA reichen also für etwa 26 mA Motorstrom.</p>
+      </div>
+      <p>Braucht unser Motor mehr, nehmen wir einen kleineren Widerstand vor der Basis. Dann fließt mehr Strom hinein. Das steht in Kapitel 7.</p>
+    </details>
     <details class="genauer">
       <summary>Genauer: Wovor schützt die Diode?</summary>
       <p>Im Motor steckt eine Drahtspule. Wenn man den Motor ausschaltet, erzeugt die Spule ganz kurz eine Spannung in die falsche Richtung. Die Diode leitet diese Spitze ab, bevor sie den Transistor beschädigt. Unser Transistor heißt BC337, die Diode 1N4148. Zwischen Funkmodul und Transistor sitzt ein Widerstand mit 1 kΩ (1000 Ω), damit nicht zu viel Strom aus dem Pin fließt. Ob Transistor, Widerstand und Diode zu unserem Motor passen, hängt davon ab, wie viel Strom der Motor braucht, besonders beim Anlaufen. Das rechnen wir in Kapitel 5 nach. <span class="stempel s-entschieden">Entschieden</span></p>
