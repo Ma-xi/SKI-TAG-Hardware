@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kapitel 7 · Schaltplan · SkiTag Werkstattbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="werkbank.css">
+<script src="thema.js"></script>
+<script src="sprung.js" defer></script>
+<script src="begriffe.js" defer></script>
+<script src="kap07.js" defer></script>
+
+
+<style>
+  .sp-figur .rollen { overflow-x: auto; }
+  svg.sp { display: block; width: 100%; min-width: 920px; height: auto; background: var(--karte); }
+  .sp-draht { fill: none; stroke: var(--tinte); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .sp-punkt { fill: var(--tinte); }
+  .sp-anschluss { fill: var(--karte); stroke: var(--tinte); stroke-width: 1.4; }
+  .sp-modul { fill: var(--papier); stroke: var(--tinte); stroke-width: 2; }
+  .sp-bauteil { fill: var(--karte); stroke: var(--tinte); stroke-width: 1.8; }
+  .sp-led { fill: var(--signal); stroke: var(--tinte); stroke-width: 1.4; }
+  .sp-led.sp-gruen { fill: #3fa34d; }
+  .sp-name { font-family: var(--text); font-weight: 600; font-size: 14px; fill: var(--tinte); }
+  .sp-sub { font-family: var(--mono); font-size: 11px; fill: var(--tinte-3); }
+  .sp-pin { font-family: var(--mono); font-size: 11px; fill: var(--tinte-2); }
+  .sp-wert { font-family: var(--mono); font-size: 11px; fill: var(--tinte-2); }
+  .sp-netz { font-family: var(--mono); font-size: 11px; fill: var(--signal-tinte); }
+  .sp-hinweis { font-family: var(--mono); font-size: 10.5px; fill: var(--tinte-3); }
+  .sp-fahne { fill: var(--signal-flaeche); stroke: var(--signal); stroke-width: 1.4; }
+  .sp-fahne-t { font-family: var(--mono); font-size: 11px; fill: var(--signal-tinte); }
+  .sp-teil { cursor: pointer; }
+  .sp-teil:hover .sp-modul, .sp-teil:focus-visible .sp-modul { stroke: var(--signal); }
+  .sp-teil:focus { outline: none; }
+  svg.sp.fokus g[data-g] { opacity: .18; transition: opacity .2s; }
+  svg.sp.fokus g[data-g].an { opacity: 1; }
+  svg.sp.fokus g.an .sp-draht { stroke: var(--signal); stroke-width: 2.6; }
+  svg.sp.fokus g.an .sp-punkt { fill: var(--signal); }
+  .sp-info { min-height: 3em; }
+  .zeichen-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr)); gap: 12px; }
+  .zeichen svg { width: 100%; height: auto; max-height: 90px; }
+  .zeichen figcaption { font-size: 14.5px; }
+  .sp-bereich h3 { font-size: 20px; }
+  .sp-bereich p { margin: 0; }
+  .hinweis-klein { display: block; font-size: 13px; color: var(--tinte-3); }
+  svg.sp.schritte g[data-g] { opacity: 0; pointer-events: none; transition: opacity .35s; }
+  svg.sp.schritte g[data-g].da { opacity: 1; pointer-events: auto; }
+  svg.sp.schritte g.neu .sp-draht { stroke: var(--signal); stroke-width: 2.8; }
+  svg.sp.schritte g.neu .sp-punkt { fill: var(--signal); }
+  svg.sp.schritte g.neu .sp-modul, svg.sp.schritte g.neu .sp-bauteil { stroke: var(--signal); stroke-width: 2.6; }
+  .s-steuer { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .s-punkte { display: flex; gap: 5px; flex-wrap: wrap; }
+  .s-punkte i { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--tinte-3); }
+  .s-punkte i.da { background: var(--tinte-3); }
+  .s-punkte i.jetzt { background: var(--signal); border-color: var(--signal); }
+  .s-liste { list-style: none; padding: 0; margin: 0; max-width: 52em; }
+  .schritt[hidden] { display: none; }
+  .schritt { background: var(--karte); border: 1.5px solid var(--tinte); border-left: 6px solid var(--signal); padding: 14px 18px; display: grid; gap: 10px; }
+  .schritt h3 { font-size: 22px; font-weight: 750; margin: 0; }
+  .schritt p { margin: 0; }
+  .s-kopf { font-size: 12px; letter-spacing: .08em; color: var(--signal-tinte); }
+  .s-teile { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 14px; }
+  .s-teile dt { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--tinte-3); padding-top: 3px; }
+  .s-teile dd { margin: 0; }
+  .s-zeichen { margin: 0; display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 12px; align-items: center; border-top: 1px dashed var(--linie); padding-top: 10px; }
+  .s-zeichen svg { width: 120px; height: auto; background: var(--papier); border: 1px solid var(--linie); }
+  .s-zeichen .mono { font-size: 11.5px; color: var(--tinte-3); letter-spacing: .06em; }
+  @media (max-width: 560px) { .s-teile { grid-template-columns: minmax(0, 1fr); gap: 2px; } .s-teile dd { margin-bottom: 6px; } .s-zeichen { grid-template-columns: 90px minmax(0, 1fr); } .s-zeichen svg { width: 90px; } }
+  @media (prefers-reduced-motion: reduce) { svg.sp.fokus g[data-g], svg.sp.schritte g[data-g] { transition: none; } }
+</style>
+
+<div class="blatt">
+
+  <div class="kopf">
+    <div class="leiste">
+      <a class="marke mono" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="5" fill="var(--signal)"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#fff" stroke-width="2"/></svg>
+        SkiTag · Hardware-Buch
+      </a>
+      <button class="thema mono" type="button" hidden></button>
+    </div>
+    <div class="schriftfeld" aria-label="Angaben zu diesem Blatt">
+      <div>Blatt</div><div>07 · Schaltplan</div>
+      <div>Bereich</div><div>Der Chip</div>
+      <div>Verfasser</div><div>Maximilian Joszt</div>
+      <div>Stand</div><div>10.11.2026</div>
+    </div>
+  </div>
+
+  <div class="kap-titel">
+    <div>
+      <p class="kap-nr">KAP. 07 · DER CHIP</p>
+      <h1>Schaltplan</h1>
+      <p class="einstieg">Das Blockschaltbild in Kapitel 4 hat gezeigt, welche Teile zusammengehören. Der <span class="wort" data-wort="Schaltplan" data-erklaerung="Eine Zeichnung, die zeigt, welcher Anschluss mit welchem Anschluss verbunden ist. Wie die Teile wirklich liegen, zeigt sie nicht.">Schaltplan</span> zeigt jetzt jeden einzelnen Draht: welcher Anschluss mit welchem Anschluss verbunden ist. Nach diesem Plan wird später gelötet.</p>
+      <p class="lesezeit mono">Eilig? Die Kurzfassung steht unten unter <a href="#ergebnis">„Das Ergebnis“</a>.</p>
+    </div>
+    <figure class="zeichnung">
+      <svg viewBox="0 0 460 400" role="img" aria-labelledby="zt zd">
+        <title id="zt">Explosionszeichnung des Chips, Platine und Module hervorgehoben</title>
+        <desc id="zd">Die Schichten des Chips. Orange sind alle Teile, die im Schaltplan miteinander verbunden werden.</desc>
+        <line class="z-hilfe" x1="150" y1="18" x2="150" y2="372"/>
+        <g class="z-blass">
+          <rect class="z-modul" x="122" y="26" width="56" height="10" rx="5"/>
+          <rect class="z-flaeche" x="136" y="14" width="28" height="16" rx="4"/>
+          <path class="z-linie" d="M182 22 H 300"/>
+          <text class="z-nr" x="306" y="18">KAP. 11</text>
+          <text class="z-text" x="306" y="31">Knopf und Kragen</text>
+          <path class="z-flaeche" d="M48 66 H252 a10 10 0 0 1 10 10 V82 H38 V76 a10 10 0 0 1 10 -10 Z"/>
+          <rect class="z-flaeche" x="134" y="58" width="16" height="10" rx="2"/>
+          <circle cx="210" cy="74" r="4" fill="var(--tinte-3)"/>
+          <path class="z-linie" d="M262 74 H 300"/>
+          <text class="z-nr" x="306" y="70">KAP. 12, 15</text>
+          <text class="z-text" x="306" y="83">Deckel mit LED</text>
+        </g>
+        <rect class="z-signal" x="56" y="118" width="188" height="8" rx="1"/>
+        <rect class="z-weich" x="66" y="104" width="54" height="14"/>
+        <rect class="z-weich" x="130" y="98" width="46" height="20"/>
+        <rect class="z-weich" x="186" y="108" width="22" height="10"/>
+        <rect class="z-weich" x="214" y="108" width="22" height="10"/>
+        <text class="z-klein" x="70" y="114" style="fill:var(--signal-tinte)">RAK</text>
+        <text class="z-klein" x="140" y="112" style="fill:var(--signal-tinte)">GPS</text>
+        <path class="z-linie" d="M244 116 H 300"/>
+        <text class="z-nr aktiv" x="306" y="112">KAP. 4–8</text>
+        <text class="z-text" x="306" y="125">Platine mit Modulen</text>
+        <rect class="z-weich" x="70" y="160" width="40" height="12"/>
+        <rect class="z-weich" x="196" y="158" width="38" height="14" rx="7"/>
+        <path class="z-linie" d="M234 165 H 300"/>
+        <text class="z-nr aktiv" x="306" y="161">KAP. 10, 12</text>
+        <text class="z-text" x="306" y="174">Lade-Modul, Motor</text>
+        <rect class="z-weich" x="62" y="204" width="176" height="18" rx="3"/>
+        <text class="z-klein" x="122" y="217" style="fill:var(--signal-tinte)">LiPo 1000 mAh</text>
+        <path class="z-linie" d="M238 213 H 300"/>
+        <text class="z-nr aktiv" x="306" y="209">KAP. 9</text>
+        <text class="z-text" x="306" y="222">Akku</text>
+        <rect class="z-weich" x="78" y="254" width="144" height="10" rx="2"/>
+        <ellipse cx="150" cy="259" rx="44" ry="3" fill="none" stroke="var(--signal-tinte)" stroke-width="1.2"/>
+        <path class="z-linie" d="M222 259 H 300"/>
+        <text class="z-nr aktiv" x="306" y="255">KAP. 10</text>
+        <text class="z-text" x="306" y="268">Qi-Empfänger</text>
+        <g class="z-blass">
+          <path class="z-flaeche" d="M38 296 H262 V330 a12 12 0 0 1 -12 12 H50 a12 12 0 0 1 -12 -12 Z"/>
+          <path class="z-linie" d="M262 318 H 300"/>
+          <text class="z-nr" x="306" y="314">KAP. 15</text>
+          <text class="z-text" x="306" y="327">Unterteil und Hülle</text>
+        </g>
+        <path class="z-hilfe" d="M38 372 H262"/>
+        <path class="z-linie" d="M38 366 V378 M262 366 V378"/>
+        <text class="z-klein" x="118" y="392">100 mm mit Hülle</text>
+      </svg>
+      <figcaption><span>Orange: alles, was im Schaltplan verbunden wird</span><span>nicht maßstäblich</span></figcaption>
+    </figure>
+
+  </div>
+
+  <section class="abschnitt" aria-labelledby="h-plan">
+    <header>
+      <span class="mono">SCHRITT FÜR SCHRITT</span>
+      <h2 id="h-plan">Der Schaltplan, Stück für Stück</h2>
+    </header>
+    <div class="text">
+      <p>Ein Schaltplan zeigt jeden Draht als Linie und jedes Bauteil als Zeichen. Auf einmal ist das zu viel. Darum bauen wir ihn hier Stück für Stück auf. Drück auf „Weiter“: Bei jedem Schritt kommt ein Teil dazu, orange markiert. Unter dem Plan steht, was neu ist, wozu es da ist, warum es genau dieser Anschluss sein muss und wie es in echt aussieht.</p>
+    </div>
+    <div class="s-steuer">
+      <button class="schalter" type="button" id="s-zurueck">← Zurück</button>
+      <span class="s-punkte" id="s-punkte" aria-hidden="true"></span>
+      <button class="schalter voll" type="button" id="s-weiter">Weiter →</button>
+    </div>
+    <figure class="gross sp-figur">
+      <div class="rollen" id="sp-rollen"><svg class="sp" viewBox="0 0 1200 710" role="img" aria-labelledby="spt spd"><title id="spt">Schaltplan des Prototyps</title><desc id="spd">Links die Energie: Qi-Empfänger, Lade-Modul, Akku über den Akku-Messer, Regler auf 3,3 Volt. Darunter Akku-Messer und Bewegungssensor an den Leitungen SDA und SCL. In der Mitte das Funkmodul. Rechts GPS, Knopf, LED, Motor mit Transistor und Diode, Antenne. Unten der Programmier-Stecker.</desc><g data-g="laden" class="sp-teil" tabindex="0" role="button" data-info="Qi-Empfänger: holt kabellos 5 V aus der Ladebox. 5V geht zum Lade-Modul (VBUS), GND an die Masse."><rect class="sp-modul" x="20" y="40" width="120" height="80" rx="4"/><text class="sp-name" x="80.0" y="62" text-anchor="middle">Qi-Empfänger</text><text class="sp-sub" x="80.0" y="77" text-anchor="middle">Adafruit 1901</text><text class="sp-pin" x="135" y="104" text-anchor="end">5V</text><circle class="sp-anschluss" cx="140" cy="100" r="2.4"/><text class="sp-pin" x="80" y="114" text-anchor="middle">GND</text><circle class="sp-anschluss" cx="80" cy="120" r="2.4"/></g><g data-g="laden"><path class="sp-draht" d="M80 120 V130 M70 130 H90 M74 134 H86 M77.5 138 H82.5"/></g><g data-g="laden" class="sp-teil" tabindex="0" role="button" data-info="Lade-Modul: lädt den Akku und versorgt den Chip. OUT liefert die Spannung für Regler und Motor, PGOOD und CHG melden „in der Ladebox“ und „lädt“."><rect class="sp-modul" x="190" y="40" width="150" height="200" rx="4"/><text class="sp-name" x="265.0" y="62" text-anchor="middle">Lade-Modul</text><text class="sp-sub" x="265.0" y="77" text-anchor="middle">BQ24074</text><text class="sp-pin" x="195" y="104">VBUS</text><circle class="sp-anschluss" cx="190" cy="100" r="2.4"/><text class="sp-pin" x="195" y="134">GND</text><circle class="sp-anschluss" cx="190" cy="130" r="2.4"/><text class="sp-pin" x="195" y="194">THERM</text><circle class="sp-anschluss" cx="190" cy="190" r="2.4"/><text class="sp-pin" x="335" y="104" text-anchor="end">OUT</text><circle class="sp-anschluss" cx="340" cy="100" r="2.4"/><text class="sp-pin" x="335" y="164" text-anchor="end">PGOOD</text><circle class="sp-anschluss" cx="340" cy="160" r="2.4"/><text class="sp-pin" x="335" y="194" text-anchor="end">CHG</text><circle class="sp-anschluss" cx="340" cy="190" r="2.4"/><text class="sp-pin" x="265" y="234" text-anchor="middle">LIPO</text><circle class="sp-anschluss" cx="265" cy="240" r="2.4"/></g><g data-g="laden"><path class="sp-draht" d="M140 100 L190 100"/></g><g data-g="laden"><path class="sp-draht" d="M190 130 L170 130"/></g><g data-g="laden"><path class="sp-draht" d="M170 130 V140 M160 140 H180 M164 144 H176 M167.5 148 H172.5"/></g><g data-g="ntc"><path class="sp-draht" d="M190 190 H160 V198 M160 230 V244"/><rect class="sp-bauteil" x="154" y="198" width="12" height="32"/><path class="sp-draht" d="M146 236 L174 192"/><text class="sp-wert" x="96" y="210">NTC</text><text class="sp-wert" x="86" y="224">10 kΩ</text><text class="sp-hinweis" x="60" y="282">klebt am Akku</text></g><g data-g="ntc"><path class="sp-draht" d="M160 244 V254 M150 254 H170 M154 258 H166 M157.5 262 H162.5"/></g><g data-g="regler" class="sp-teil" tabindex="0" role="button" data-info="Spannungsregler MCP1700: macht aus der Akku-Spannung gleichmäßige 3,3 V für alle Module. Je 1 µF am Eingang und Ausgang halten die Spannung ruhig."><rect class="sp-modul" x="410" y="40" width="100" height="80" rx="4"/><text class="sp-name" x="460.0" y="62" text-anchor="middle">Regler</text><text class="sp-sub" x="460.0" y="77" text-anchor="middle">MCP1700</text><text class="sp-pin" x="415" y="104">IN</text><circle class="sp-anschluss" cx="410" cy="100" r="2.4"/><text class="sp-pin" x="505" y="104" text-anchor="end">OUT</text><circle class="sp-anschluss" cx="510" cy="100" r="2.4"/><text class="sp-pin" x="460" y="114" text-anchor="middle">GND</text><circle class="sp-anschluss" cx="460" cy="120" r="2.4"/></g><g data-g="regler"><path class="sp-draht" d="M460 120 V130 M450 130 H470 M454 134 H466 M457.5 138 H462.5"/></g><g data-g="regler"><path class="sp-draht" d="M340 100 L410 100"/><circle class="sp-punkt" cx="356" cy="100" r="3.6"/><circle class="sp-punkt" cx="380" cy="100" r="3.6"/></g><g data-g="regler"><path class="sp-draht" d="M380 100 V117.0 M369 117.0 H391 M369 125.0 H391 M380 125.0 V142"/><text class="sp-wert" x="366" y="125.0" text-anchor="end">1 µF</text></g><g data-g="regler"><path class="sp-draht" d="M380 142 V152 M370 152 H390 M374 156 H386 M377.5 160 H382.5"/></g><g data-g="regler"><path class="sp-draht" d="M510 100 L580 100"/><circle class="sp-punkt" cx="545" cy="100" r="3.6"/></g><g data-g="regler"><path class="sp-draht" d="M545 100 V117.0 M534 117.0 H556 M534 125.0 H556 M545 125.0 V142"/><text class="sp-wert" x="559" y="125.0">1 µF</text></g><g data-g="regler"><path class="sp-draht" d="M545 142 V152 M535 152 H555 M539 156 H551 M542.5 160 H547.5"/></g><g data-g="regler"><path class="sp-fahne" d="M580 100 L588 91 H632.0 V109 H588 Z"/><text class="sp-fahne-t" x="610.0" y="104" text-anchor="middle">3,3 V</text></g><g data-g="regler"><path class="sp-draht" d="M356 100 V70"/></g><g data-g="regler"><path class="sp-fahne" d="M356 70 L347 62 V46 H365 V62 Z"/><text class="sp-fahne-t" x="356" y="41" text-anchor="middle">OUT</text></g><g data-g="akku" class="sp-teil" tabindex="0" role="button" data-info="Akku-Messer MAX17048: misst die Spannung des Akkus und rechnet daraus den Stand in Prozent. Seine zwei Akku-Stecker sind innen einfach verbunden. Über SDA und SCL fragt das Funkmodul den Akku-Stand ab (Adresse 0x36)."><rect class="sp-modul" x="190" y="320" width="150" height="100" rx="4"/><text class="sp-name" x="265.0" y="342" text-anchor="middle">Akku-Messer</text><text class="sp-sub" x="265.0" y="357" text-anchor="middle">MAX17048</text><text class="sp-pin" x="271" y="314">Akku 2</text><circle class="sp-anschluss" cx="265" cy="320" r="2.4"/><text class="sp-pin" x="265" y="414" text-anchor="middle">Akku 1</text><circle class="sp-anschluss" cx="265" cy="420" r="2.4"/><text class="sp-pin" x="335" y="374" text-anchor="end">VIN</text><circle class="sp-anschluss" cx="340" cy="370" r="2.4"/><text class="sp-pin" x="335" y="394" text-anchor="end">SDA</text><circle class="sp-anschluss" cx="340" cy="390" r="2.4"/><text class="sp-pin" x="335" y="414" text-anchor="end">SCL</text><circle class="sp-anschluss" cx="340" cy="410" r="2.4"/><text class="sp-pin" x="195" y="394">GND</text><circle class="sp-anschluss" cx="190" cy="390" r="2.4"/></g><g data-g="akku"><path class="sp-draht" d="M265 240 L265 320"/></g><g data-g="akku"><path class="sp-draht" d="M190 390 L170 390"/></g><g data-g="akku"><path class="sp-draht" d="M170 390 V400 M160 400 H180 M164 404 H176 M167.5 408 H172.5"/></g><g data-g="akku"><path class="sp-draht" d="M265 420 V446 M245 446 H285 M253 454 H277 M245 462 H285 M253 470 H277 M265 470 V482"/><text class="sp-wert" x="291" y="452">+</text><text class="sp-name" x="300" y="464">Akku</text><text class="sp-sub" x="300" y="478">1000 mAh</text></g><g data-g="akku"><path class="sp-draht" d="M265 482 V492 M255 492 H275 M259 496 H271 M262.5 500 H267.5"/></g><g data-g="i2c"><path class="sp-draht" d="M340 370 H362"/></g><g data-g="i2c"><path class="sp-fahne" d="M362 370 L370 361 H414.0 V379 H370 Z"/><text class="sp-fahne-t" x="392.0" y="374" text-anchor="middle">3,3 V</text></g><g data-g="i2c" class="sp-teil" tabindex="0" role="button" data-info="Bewegungssensor LIS3DH: merkt Bewegung. Hängt an denselben zwei Leitungen SDA und SCL wie der Akku-Messer, hat aber eine andere Adresse (0x18)."><rect class="sp-modul" x="190" y="540" width="150" height="90" rx="4"/><text class="sp-name" x="265.0" y="562" text-anchor="middle">Bewegungssensor</text><text class="sp-sub" x="265.0" y="577" text-anchor="middle">LIS3DH</text><text class="sp-pin" x="335" y="584" text-anchor="end">VIN</text><circle class="sp-anschluss" cx="340" cy="580" r="2.4"/><text class="sp-pin" x="335" y="604" text-anchor="end">SDA</text><circle class="sp-anschluss" cx="340" cy="600" r="2.4"/><text class="sp-pin" x="335" y="624" text-anchor="end">SCL</text><circle class="sp-anschluss" cx="340" cy="620" r="2.4"/><text class="sp-pin" x="195" y="604">GND</text><circle class="sp-anschluss" cx="190" cy="600" r="2.4"/></g><g data-g="i2c"><path class="sp-draht" d="M190 600 L170 600"/></g><g data-g="i2c"><path class="sp-draht" d="M170 600 V610 M160 610 H180 M164 614 H176 M167.5 618 H172.5"/></g><g data-g="i2c"><path class="sp-draht" d="M340 580 H362"/></g><g data-g="i2c"><path class="sp-fahne" d="M362 580 L370 571 H414.0 V589 H370 Z"/><text class="sp-fahne-t" x="392.0" y="584" text-anchor="middle">3,3 V</text></g><g data-g="i2c"><path class="sp-draht" d="M340 390 L520 390 L520 440 L630 440"/><circle class="sp-punkt" cx="520" cy="440" r="3.6"/></g><g data-g="i2c"><path class="sp-draht" d="M340 600 L520 600 L520 440"/></g><g data-g="i2c"><path class="sp-draht" d="M340 410 L545 410 L545 465 L630 465"/><circle class="sp-punkt" cx="545" cy="465" r="3.6"/></g><g data-g="i2c"><path class="sp-draht" d="M340 620 L545 620 L545 465"/></g><g data-g="i2c"><text class="sp-netz" x="500" y="530" text-anchor="end">SDA</text><text class="sp-netz" x="551" y="550">SCL</text></g><g data-g="rak" class="sp-teil" tabindex="0" role="button" data-info="Funkmodul RAK3272S: das Gehirn. Jeder Pin hat einen Namen wie PA4. Strom bekommt es nur über 3V3 an Steckleiste J5, Stift 9."><rect class="sp-modul" x="630" y="170" width="170" height="420" rx="4"/><text class="sp-name" x="715.0" y="192" text-anchor="middle">Funkmodul</text><text class="sp-sub" x="715.0" y="207" text-anchor="middle">RAK3272S</text><text class="sp-pin" x="635" y="224">3V3</text><circle class="sp-anschluss" cx="630" cy="220" r="2.4"/><text class="sp-pin" x="635" y="249">GND</text><circle class="sp-anschluss" cx="630" cy="245" r="2.4"/><text class="sp-pin" x="635" y="294">PA13</text><circle class="sp-anschluss" cx="630" cy="290" r="2.4"/><text class="sp-pin" x="635" y="324">PA14</text><circle class="sp-anschluss" cx="630" cy="320" r="2.4"/><text class="sp-pin" x="635" y="444">PA11</text><circle class="sp-anschluss" cx="630" cy="440" r="2.4"/><text class="sp-pin" x="635" y="469">PA12</text><circle class="sp-anschluss" cx="630" cy="465" r="2.4"/><text class="sp-pin" x="795" y="224" text-anchor="end">PB6</text><circle class="sp-anschluss" cx="800" cy="220" r="2.4"/><text class="sp-pin" x="795" y="249" text-anchor="end">PB7</text><circle class="sp-anschluss" cx="800" cy="245" r="2.4"/><text class="sp-pin" x="795" y="304" text-anchor="end">PA4</text><circle class="sp-anschluss" cx="800" cy="300" r="2.4"/><text class="sp-pin" x="795" y="354" text-anchor="end">PA5</text><circle class="sp-anschluss" cx="800" cy="350" r="2.4"/><text class="sp-pin" x="795" y="384" text-anchor="end">PA6</text><circle class="sp-anschluss" cx="800" cy="380" r="2.4"/><text class="sp-pin" x="795" y="464" text-anchor="end">PA7</text><circle class="sp-anschluss" cx="800" cy="460" r="2.4"/><text class="sp-pin" x="795" y="569" text-anchor="end">ANT</text><circle class="sp-anschluss" cx="800" cy="565" r="2.4"/><text class="sp-pin" x="652" y="584" text-anchor="middle">PA2</text><circle class="sp-anschluss" cx="652" cy="590" r="2.4"/><text class="sp-pin" x="684" y="584" text-anchor="middle">PA3</text><circle class="sp-anschluss" cx="684" cy="590" r="2.4"/><text class="sp-pin" x="716" y="584" text-anchor="middle">RST</text><circle class="sp-anschluss" cx="716" cy="590" r="2.4"/><text class="sp-pin" x="752" y="584" text-anchor="middle">BOOT0</text><circle class="sp-anschluss" cx="752" cy="590" r="2.4"/></g><g data-g="rak"><path class="sp-draht" d="M630 220 H612 V204"/></g><g data-g="rak"><path class="sp-fahne" d="M612 204 L603 196 V180 H621 V196 Z"/><text class="sp-fahne-t" x="612" y="175" text-anchor="middle">3,3 V</text></g><g data-g="rak"><path class="sp-draht" d="M630 245 L612 245"/></g><g data-g="rak"><path class="sp-draht" d="M612 245 V255 M602 255 H622 M606 259 H618 M609.5 263 H614.5"/></g><g data-g="meldung"><path class="sp-draht" d="M340 160 L390 160"/></g><g data-g="meldung"><path class="sp-draht" d="M390 160 H404.0 M436.0 160 H450"/><rect class="sp-bauteil" x="404.0" y="154" width="32" height="12"/><text class="sp-wert" x="420.0" y="149" text-anchor="middle">1 kΩ</text></g><g data-g="meldung"><path class="sp-draht" d="M450 160 L588 160 L588 290 L630 290"/></g><g data-g="meldung"><path class="sp-draht" d="M340 190 L390 190"/></g><g data-g="meldung"><path class="sp-draht" d="M390 190 H404.0 M436.0 190 H450"/><rect class="sp-bauteil" x="404.0" y="184" width="32" height="12"/><text class="sp-wert" x="420.0" y="211" text-anchor="middle">1 kΩ</text></g><g data-g="meldung"><path class="sp-draht" d="M450 190 L566 190 L566 320 L630 320"/></g><g data-g="gps" class="sp-teil" tabindex="0" role="button" data-info="GPS-Modul L76K: schickt die Position über eine serielle Leitung. PB6 sendet zum GPS (D6), PB7 empfängt vom GPS (D7). D0 und D2 werden über 10 kΩ auf 3,3 V gezogen."><rect class="sp-modul" x="900" y="160" width="140" height="110" rx="4"/><text class="sp-name" x="970.0" y="182" text-anchor="middle">GPS</text><text class="sp-sub" x="970.0" y="197" text-anchor="middle">L76K</text><text class="sp-pin" x="905" y="199">3V3</text><circle class="sp-anschluss" cx="900" cy="195" r="2.4"/><text class="sp-pin" x="905" y="224">D6</text><circle class="sp-anschluss" cx="900" cy="220" r="2.4"/><text class="sp-pin" x="905" y="249">D7</text><circle class="sp-anschluss" cx="900" cy="245" r="2.4"/><text class="sp-pin" x="970" y="264" text-anchor="middle">GND</text><circle class="sp-anschluss" cx="970" cy="270" r="2.4"/><text class="sp-pin" x="1035" y="219" text-anchor="end">D0</text><circle class="sp-anschluss" cx="1040" cy="215" r="2.4"/><text class="sp-pin" x="1035" y="254" text-anchor="end">D2</text><circle class="sp-anschluss" cx="1040" cy="250" r="2.4"/></g><g data-g="gps"><path class="sp-draht" d="M800 220 L900 220"/></g><g data-g="gps"><path class="sp-draht" d="M800 245 L900 245"/></g><g data-g="gps"><text class="sp-netz" x="812" y="213">senden →</text><text class="sp-netz" x="812" y="262">← empfangen</text></g><g data-g="gps"><path class="sp-draht" d="M900 195 H880 V180"/></g><g data-g="gps"><path class="sp-fahne" d="M880 180 L871 172 V156 H889 V172 Z"/><text class="sp-fahne-t" x="880" y="151" text-anchor="middle">3,3 V</text></g><g data-g="gps"><path class="sp-draht" d="M970 270 V280 M960 280 H980 M964 284 H976 M967.5 288 H972.5"/></g><g data-g="gps"><path class="sp-draht" d="M1040 215 L1065 215"/></g><g data-g="gps"><path class="sp-draht" d="M1065 215 V166.5 M1065 198.5 V150"/><rect class="sp-bauteil" x="1059" y="166.5" width="12" height="32"/><text class="sp-wert" x="1076" y="186.5">10 kΩ</text></g><g data-g="gps"><path class="sp-fahne" d="M1065 150 L1056 142 V126 H1074 V142 Z"/><text class="sp-fahne-t" x="1065" y="121" text-anchor="middle">3,3 V</text></g><g data-g="gps"><path class="sp-draht" d="M1040 250 L1120 250"/></g><g data-g="gps"><path class="sp-draht" d="M1120 250 V204.0 M1120 236.0 V190"/><rect class="sp-bauteil" x="1114" y="204.0" width="12" height="32"/><text class="sp-wert" x="1131" y="224.0">10 kΩ</text></g><g data-g="gps"><path class="sp-fahne" d="M1120 190 L1111 182 V166 H1129 V182 Z"/><text class="sp-fahne-t" x="1120" y="161" text-anchor="middle">3,3 V</text></g><g data-g="knopf"><path class="sp-draht" d="M800 300 L880 300"/></g><g data-g="knopf"><path class="sp-draht" d="M880 300 H890 M890 300 L918 288 M918 300 H935"/><circle class="sp-anschluss" cx="890" cy="300" r="2.4"/><circle class="sp-anschluss" cx="918" cy="300" r="2.4"/><path class="sp-draht" d="M898 282 H910 M904 282 V290"/><text class="sp-wert" x="872" y="322">Knopf</text></g><g data-g="knopf"><path class="sp-draht" d="M935 300 V310 M925 310 H945 M929 314 H941 M932.5 318 H937.5"/></g><g data-g="led"><path class="sp-draht" d="M800 350 H819.0 M851.0 350 H870"/><rect class="sp-bauteil" x="819.0" y="344" width="32" height="12"/><text class="sp-wert" x="835.0" y="339" text-anchor="middle">150 Ω</text></g><g data-g="led"><path class="sp-draht" d="M800 380 H819.0 M851.0 380 H870"/><rect class="sp-bauteil" x="819.0" y="374" width="32" height="12"/><text class="sp-wert" x="835.0" y="401" text-anchor="middle">150 Ω</text></g><g data-g="led"><path class="sp-draht" d="M870 350 H890 M870 380 H890"/><path class="sp-led" d="M890 342 V358 L906 350 Z"/><path class="sp-draht" d="M906 342 V358"/><path class="sp-led sp-gruen" d="M890 372 V388 L906 380 Z"/><path class="sp-draht" d="M906 372 V388"/><path class="sp-draht" d="M906 350 H922 V380 H906 M922 365 H945"/><circle class="sp-punkt" cx="922" cy="365" r="3.6"/><path class="sp-draht" d="M895 338 l6 -7 M900 340 l6 -7"/><text class="sp-wert" x="962" y="354">LED rot</text><text class="sp-wert" x="962" y="398">LED grün</text></g><g data-g="led"><path class="sp-draht" d="M945 365 V375 M935 375 H955 M939 379 H951 M942.5 383 H947.5"/></g><g data-g="motor"><path class="sp-draht" d="M800 460 H819.0 M851.0 460 H870"/><rect class="sp-bauteil" x="819.0" y="454" width="32" height="12"/><text class="sp-wert" x="835.0" y="449" text-anchor="middle">1 kΩ</text></g><g data-g="motor"><path class="sp-draht" d="M870 460 H890 M890 445 V475"/><path class="sp-draht" d="M890 452 L912 438 V422 H1080 V406 M890 468 L912 482 V505"/><path class="sp-draht" d="M912 482 l-8 -1 M912 482 l-3 -7"/><text class="sp-wert" x="922" y="500">BC337</text></g><g data-g="motor"><path class="sp-draht" d="M912 505 V515 M902 515 H922 M906 519 H918 M909.5 523 H914.5"/></g><g data-g="motor"><circle class="sp-bauteil" cx="1080" cy="390" r="16"/><text class="sp-name" x="1080" y="395" text-anchor="middle">M</text><text class="sp-wert" x="1060" y="372" text-anchor="end">Motor</text><path class="sp-draht" d="M1080 374 V358 H1130 V368 M1130 392 V422 H1080"/><circle class="sp-punkt" cx="1080" cy="358" r="3.6"/><circle class="sp-punkt" cx="1080" cy="422" r="3.6"/><path class="sp-led" d="M1122 392 L1138 392 L1130 376 Z"/><path class="sp-draht" d="M1122 374 H1138 M1130 374 V368"/><text class="sp-wert" x="1140" y="404">1N4148</text></g><g data-g="motor"><path class="sp-draht" d="M1080 358 V338"/></g><g data-g="motor"><path class="sp-fahne" d="M1080 338 L1071 330 V314 H1089 V330 Z"/><text class="sp-fahne-t" x="1080" y="309" text-anchor="middle">OUT</text></g><g data-g="rak"><path class="sp-draht" d="M800 565 H850 V548 M840 532 L850 548 L860 532 M850 548 V528"/><text class="sp-wert" x="866" y="552">LoRa-Antenne</text><text class="sp-sub" x="866" y="566">868 MHz</text></g><g data-g="prog"><path class="sp-draht" d="M652 590 V640 M684 590 V640 M716 590 V640 M752 590 V640 M804 640 V612 H822"/><circle class="sp-punkt" cx="752" cy="612" r="3.6"/><circle class="sp-punkt" cx="804" cy="612" r="3.6"/><rect class="sp-modul" x="636" y="640" width="192" height="34" rx="3"/><text class="sp-pin" x="652" y="661" text-anchor="middle">TX</text><text class="sp-pin" x="684" y="661" text-anchor="middle">RX</text><text class="sp-pin" x="716" y="661" text-anchor="middle">RST</text><text class="sp-pin" x="752" y="661" text-anchor="middle">BOOT0</text><text class="sp-pin" x="804" y="661" text-anchor="middle">GND</text><text class="sp-sub" x="732" y="694" text-anchor="middle">Programmier-Stecker (5 Stifte, zum USB-Adapter)</text></g><g data-g="prog"><path class="sp-draht" d="M752 612 H762.0 M794.0 612 H804"/><rect class="sp-bauteil" x="762.0" y="606" width="32" height="12"/><text class="sp-wert" x="778.0" y="601" text-anchor="middle">10 kΩ</text></g><g data-g="prog"><path class="sp-draht" d="M822 612 V622 M812 622 H832 M816 626 H828 M819.5 630 H824.5"/></g></svg></div>
+      <figcaption><span>Schaltplan des Prototyps. Masse-Zeichen und gleichnamige Fähnchen sind miteinander verbunden.</span><span class="wischen">← Bild zur Seite wischen →</span></figcaption>
+    </figure>
+    <ol class="s-liste" id="s-liste">
+      <li class="schritt" data-g="laden">
+        <p class="mono s-kopf">SCHRITT 1 VON 13</p>
+        <h3>Strom von der Ladebox</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd>Der Qi-Empfänger holt 5 V aus der Ladebox. Zwei Drähte gehen zum Lade-Modul: <strong>5V</strong> an <strong>VBUS</strong> und <strong>GND</strong> an <strong>GND</strong>.</dd>
+          <dt>WARUM</dt><dd>Das Lade-Modul braucht Strom von außen, um den Akku zu laden. Ohne Ladebox kommt hier einfach nichts an. GND ist der Rückweg zum Minus des Akkus (<a href="kapitel-03.html#t2">Kapitel 3, Thema 2</a>).</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd><strong>VBUS</strong> ist am Lade-Modul der Eingang für Strom von außen, nur dort darf die Ladespannung hinein. GND kommt an GND, weil alle Teile dasselbe Minus brauchen, sonst fließt kein Strom.</dd>
+          <dt>IN ECHT</dt><dd>Zwei Drähte: einer für Plus (5V), einer für Minus (GND).</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M80 14 V36 M66 36 H94 M72 42 H88 M77 48 H83"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Masse (GND)</strong>: Das gemeinsame Minus. Alle diese Zeichen sind miteinander verbunden.</figcaption></figure>
+      </li>
+<li class="schritt" data-g="akku" hidden>
+        <p class="mono s-kopf">SCHRITT 2 VON 13</p>
+        <h3>Der Akku, über den Akku-Messer</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd>Der Akku steckt im <strong>Akku-Messer</strong>. Seine zwei Akku-Stecker sind innen einfach miteinander verbunden. Vom zweiten geht ein kurzes Kabel zum Anschluss <strong>LIPO</strong> am Lade-Modul.</dd>
+          <dt>WARUM</dt><dd>So hängt der Akku-Messer direkt an den Akku-Leitungen und kann die Spannung des Akkus messen. Er weiß, wie sich LiPo-Akkus verhalten, und rechnet daraus aus, wie voll der Akku ungefähr ist. Den Wert holt sich das Funkmodul später über <span class="wort" data-wort="I2C" data-erklaerung="Eine Verbindung über zwei Leitungen (SDA und SCL), an der mehrere Teile mit eigener Adresse hängen.">I2C</span> (Schritt 10).</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd><strong>LIPO</strong> ist am Lade-Modul der einzige Anschluss für den Akku: Nur dort lädt es ihn und holt Strom aus ihm. Die beiden Stecker am Akku-Messer sind gleich, welcher wohin kommt, ist egal.</dd>
+          <dt>IN ECHT</dt><dd>Nur zwei Stecker, nichts zu löten. Vorher mit dem Multimeter prüfen, ob Rot wirklich Plus ist.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H64 M64 22 V58 M74 30 V50 M84 22 V58 M94 30 V50 M94 40 H140"/><text class="sp-wert" x="58" y="18">+</text></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Akku</strong>: Der Akku. Der lange Strich ist Plus, der kurze Minus.</figcaption></figure>
+      </li>
+<li class="schritt" data-g="ntc" hidden>
+        <p class="mono s-kopf">SCHRITT 3 VON 13</p>
+        <h3>Der Temperaturfühler</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd>Ein kleiner Temperaturfühler (<span class="wort" data-wort="NTC" data-erklaerung="Ein Temperaturfühler. Sein Widerstand wird kleiner, wenn es wärmer wird.">NTC</span>, 10 kΩ, Typ 103AT-2 mit B = 3435 K) kommt zwischen <strong>THERM</strong> und <strong>GND</strong> und wird an den Akku geklebt.</dd>
+          <dt>WARUM</dt><dd>Damit lädt das Lade-Modul nur zwischen 0 und 50 °C. In der Kälte zu laden würde den Akku beschädigen. Die Grenzen 0 und 50 °C gelten nur für genau diesen Fühler-Typ. Ein anderer NTC würde sie verschieben, darum beim Kauf genau auf 103AT-2 achten.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd>Nur an <strong>THERM</strong> misst das Lade-Modul die Temperatur. Es schickt einen kleinen Strom durch den Fühler zur <span class="wort" data-wort="Masse" data-erklaerung="Das gemeinsame Minus aller Teile, auf Englisch GND. Alle Masse-Zeichen im Plan sind miteinander verbunden.">Masse</span> und schaut, wie leicht er durchkommt. Darum muss das andere Bein an GND.</dd>
+          <dt>IN ECHT</dt><dd>Ein winziges Bauteil mit zwei Drähten. Vorher die Lötbrücke THERM am Lade-Modul trennen.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H64 M96 40 H140 M60 58 L100 22"/><rect class="sp-bauteil" x="64" y="34" width="32" height="12"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Temperaturfühler</strong>: Ein Widerstand mit Schrägstrich: Sein Wert ändert sich mit der Temperatur (NTC).</figcaption></figure>
+      </li>
+<li class="schritt" data-g="regler" hidden>
+        <p class="mono s-kopf">SCHRITT 4 VON 13</p>
+        <h3>3,3 V für alle Module</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd><strong>OUT</strong> vom Lade-Modul geht zum Eingang <strong>IN</strong> des Reglers. Aus seinem Ausgang <strong>OUT</strong> kommen gleichmäßige 3,3 V. Am Eingang und am Ausgang sitzt je ein <span class="wort" data-wort="Kondensator" data-erklaerung="Ein kleiner Zwischenspeicher für Strom. Er glättet die Spannung, wenn plötzlich viel Strom gebraucht wird.">Kondensator</span>.</dd>
+          <dt>WARUM</dt><dd>Am Lade-Modul kommen je nach Akku 3,3 bis 4,2 V heraus. Die Module vertragen aber nur etwa 3,6 V. Der Regler macht daraus immer 3,3 V. Die Kondensatoren halten die Spannung ruhig, wenn kurz viel Strom gebraucht wird. Je 1 µF ist genau das, was das Datenblatt des Reglers verlangt. Dazu kommen die Kondensatoren, die schon auf den Modulen sitzen: 10 µF am Ausgang OUT des Lade-Moduls und 10 µF am Funkmodul. Wie das funktioniert, steht in <a href="kapitel-03.html#t5">Kapitel 3, Thema 5</a>.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd>Der Regler hängt an <strong>OUT</strong> und nicht direkt am Akku. OUT liefert Strom aus dem Akku und in der Ladebox direkt vom Qi-Empfänger. So läuft der Chip beim Laden weiter, ohne den Akku zu belasten. VBUS ginge nicht, dort ist nur in der Ladebox Strom.</dd>
+          <dt>IN ECHT</dt><dd>Der Regler hat drei Beine. Flache Seite zu dir: links GND, Mitte IN, rechts OUT.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-fahne" d="M40 40 L48 31 H110 V49 H48 Z"/><text class="sp-fahne-t" x="79" y="44" text-anchor="middle">3,3 V</text><path class="sp-draht" d="M20 40 H40"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Fähnchen</strong>: Alle Fähnchen mit demselben Namen sind verbunden, auch ohne Linie dazwischen. So bleibt der Plan übersichtlich.</figcaption></figure>
+      </li>
+<li class="schritt" data-g="rak" hidden>
+        <p class="mono s-kopf">SCHRITT 5 VON 13</p>
+        <h3>Das Funkmodul bekommt Strom</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd>Der Anschluss <strong>3V3</strong> des Funkmoduls kommt an die 3,3 V, <strong>GND</strong> an die Masse. Dazu kommt die Antenne.</dd>
+          <dt>WARUM</dt><dd>Statt einer langen Linie vom Regler steht hier wieder ein 3,3-V-Fähnchen. Alle Fähnchen mit demselben Namen sind verbunden. So bleibt der Plan übersichtlich. Einen eigenen Puffer-Kondensator braucht das Funkmodul nicht: Auf dem RAK-Board sitzen laut dessen Schaltplan schon 10 µF und 100 nF direkt am Strom-Eingang.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd><strong>J5, Stift 9</strong> ist laut Datenblatt der Strom-Eingang des Funkmoduls. Der Stift 9 an J4 sieht gleich aus, ist aber bei älteren Boards (VerB) ein normaler <span class="wort" data-wort="Pin" data-erklaerung="Ein einzelner Anschluss an einem Chip oder Modul, zum Beispiel PA4.">Pin</span> (PA8). Darum immer J5.</dd>
+          <dt>IN ECHT</dt><dd>Auf der Platine gibt es eine 3,3-V-Leiste. Von dort ein Draht zu J5, Stift 9. Die Antenne wird nur eingesteckt.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 60 H80 V40 M64 18 L80 40 L96 18 M80 40 V12"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Antenne</strong>: Die Antenne für den Funk.</figcaption></figure>
+      </li>
+<li class="schritt" data-g="knopf" hidden>
+        <p class="mono s-kopf">SCHRITT 6 VON 13</p>
+        <h3>Der Knopf</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd>Der Knopf kommt zwischen <strong>PA4</strong> und <strong>GND</strong>.</dd>
+          <dt>WARUM</dt><dd>Im Funkmodul hält ein eingebauter Widerstand (ein <span class="wort" data-wort="Pull-up" data-erklaerung="Ein Widerstand, der eine Leitung auf HIGH hält, solange nichts anderes sie nach unten zieht.">Pull-up</span>) PA4 auf 3,3 V. Drückt man, verbindet der Knopf PA4 mit GND, die Spannung fällt auf 0. Das merkt die Firmware.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd>Für den Knopf ginge fast jeder normale Pin. <strong>PA4</strong> haben wir gewählt, weil er auf J5 direkt neben den anderen benutzten Pins liegt und weil die Firmware ihn dort erwartet. Wer einen anderen Pin nimmt, muss auch die Firmware ändern.</dd>
+          <dt>IN ECHT</dt><dd>Beim Kauf darauf achten: „Schließer“ (englisch NO) und „tastend“, nicht „rastend“. Viele 25-mm-Knöpfe haben mehr als zwei Anschlüsse: C, NO, NC und oft zwei für eine eingebaute Leuchte. Wir brauchen nur C und NO. Welcher der beiden wohin kommt, ist egal.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H60 M60 40 L96 26 M96 40 H140 M72 22 H86 M79 22 V31"/><circle class="sp-anschluss" cx="60" cy="40" r="3"/><circle class="sp-anschluss" cx="96" cy="40" r="3"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Knopf</strong>: Verbindet die beiden Seiten, solange man drückt.</figcaption></figure>
+      </li>
+<li class="schritt" data-g="led" hidden>
+        <p class="mono s-kopf">SCHRITT 7 VON 13</p>
+        <h3>Die LED</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd>Rot hängt über einen Widerstand (150 Ω) an <strong>PA5</strong>, Grün über einen zweiten an <strong>PA6</strong>. Das gemeinsame Minus der LED kommt an GND.</dd>
+          <dt>WARUM</dt><dd>Vorne sieht man nur einen runden Lichtpunkt. Dahinter sitzt diese eine LED mit zwei Farben, so zeigt der Punkt Grün, Rot oder Gelb. Ohne Widerstand würde zu viel Strom fließen, und die LED brennt durch. Mit 150 Ω fließen geschätzt etwa 9 mA, das sollte hell genug sein. Genau rechnen wir, wenn das Datenblatt da ist. Leuchten Rot und Grün zusammen, sieht man Gelb.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd>Auch hier ginge jeder normale Pin, der als Ausgang schalten kann. <strong>PA5</strong> und <strong>PA6</strong> liegen auf J5 nebeneinander, das gibt kurze Drähte. Die Firmware schaltet Rot an PA5 und Grün an PA6.</dd>
+          <dt>IN ECHT</dt><dd>Die LED hat drei Beine. Eines davon ist das gemeinsame Minus, die <span class="wort" data-wort="Kathode" data-erklaerung="Das Minus-Bein einer LED oder Diode. Bei der Diode ist es die Seite mit dem Ring.">Kathode</span>. Welches, prüfen wir im Datenblatt der LED, nicht raten. Mit dem Dioden-Test am Multimeter findest du heraus, welches Bein Rot ist.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H70 M86 30 V50 M86 40 H140"/><path class="sp-led" d="M70 30 V50 L86 40 Z"/><path class="sp-draht" d="M74 26 l6 -8 M80 28 l6 -8"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>LED</strong>: Leuchtet, wenn Strom in Pfeilrichtung fließt. Der Strich ist das Minus (Kathode).</figcaption></figure>
+      </li>
+<li class="schritt" data-g="motor" hidden>
+        <p class="mono s-kopf">SCHRITT 8 VON 13</p>
+        <h3>Der Vibrationsmotor</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd><strong>PA7</strong> schaltet über einen Widerstand (1 kΩ) einen <span class="wort" data-wort="Transistor" data-erklaerung="Ein elektronischer Schalter. Ein kleiner Strom an der Basis schaltet einen großen Strom zwischen Kollektor und Emitter.">Transistor</span>. Der Transistor schaltet den Motor. Der Motor hängt an OUT, über ihm sitzt eine Diode.</dd>
+          <dt>WARUM</dt><dd>Der Motor braucht mehr Strom, als ein Pin des Funkmoduls liefern darf. Darum schaltet der Pin nur den Transistor, und der Transistor den Motor, wie ein Relais. Geht der Motor aus, entsteht ein kurzer Spannungsstoß. Die Diode fängt ihn ab, darum heißt sie <span class="wort" data-wort="Freilaufdiode" data-erklaerung="Die Diode über dem Motor. Sie fängt den Spannungsstoß ab, der entsteht, wenn der Motor plötzlich ausgeschaltet wird.">Freilaufdiode</span>.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd><strong>PA7</strong> ist der nächste freie Pin auf J5 und in der Firmware als Motor-Pin festgelegt. Der Motor hängt an OUT und nicht an 3,3 V, weil der Regler nur wenig Strom liefern kann und der Motor beim Anlaufen viel braucht.</dd>
+          <dt>IN ECHT</dt><dd>Transistor BC337, flache Seite zu dir: links Kollektor (zum Motor), Mitte Basis (zum Widerstand), rechts Emitter (an GND). Der Ring der Diode zeigt zum Plus des Motors.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H60 M60 25 V55 M60 32 L84 18 V8 M60 48 L84 62 V72 M84 62 l-8 -1 M84 62 l-3 -7"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Transistor</strong>: Ein Schalter, den das Funkmodul mit wenig Strom umlegt. Damit schaltet es den Motor.</figcaption></figure>
+      </li>
+<li class="schritt" data-g="gps" hidden>
+        <p class="mono s-kopf">SCHRITT 9 VON 13</p>
+        <h3>Das GPS</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd><strong>PB6</strong> geht zu <strong>D6</strong>, <strong>PB7</strong> zu <strong>D7</strong>. Dazu 3,3 V und GND. D0 und D2 kommen über je 10 kΩ an 3,3 V.</dd>
+          <dt>WARUM</dt><dd>Das Funkmodul und das GPS sprechen <span class="wort" data-wort="seriell" data-erklaerung="Daten werden Zeichen für Zeichen über eine Leitung geschickt. Eine Leitung zum Senden, eine zum Empfangen.">seriell</span> über zwei Leitungen: eine zum Senden, eine zum Empfangen. Was das eine sendet, muss das andere empfangen, darum geht es über Kreuz. D0 und D2 müssen laut Seeed auf 3,3 V (HIGH) liegen, sonst geht das GPS in einen Fehlerzustand und findet keine Position. Die zwei Widerstände erledigen das.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd><strong>PB6</strong> und <strong>PB7</strong> sind die einzigen Pins mit der seriellen Schnittstelle UART1 (laut Datenblatt). Nur diese Pins können die Daten vom GPS selbstständig empfangen. Am GPS-Modul ist D6 der Eingang und D7 der Ausgang, darum PB6 (senden) an D6 und PB7 (empfangen) an D7.</dd>
+          <dt>IN ECHT</dt><dd>Fünf Drähte und zwei Widerstände. Sind PB6 und PB7 vertauscht, kommt keine Position an. Kaputt geht dabei nichts.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H64 M96 40 H140"/><rect class="sp-bauteil" x="64" y="34" width="32" height="12"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Widerstand</strong>: Bremst den Strom. Die Zahl daneben sagt, wie stark (Ω).</figcaption></figure>
+      </li>
+<li class="schritt" data-g="i2c" hidden>
+        <p class="mono s-kopf">SCHRITT 10 VON 13</p>
+        <h3>Die zwei Sensoren</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd>Akku-Messer und Bewegungssensor hängen beide an denselben zwei Leitungen: <strong>SDA</strong> an <strong>PA11</strong> und <strong>SCL</strong> an <strong>PA12</strong>. Dazu je 3,3 V und GND.</dd>
+          <dt>WARUM</dt><dd>Das ist I2C, die „Straße mit Hausnummern“ aus Kapitel 3. Jedes Teil hat seine eigene Adresse, so weiß es, wann es gemeint ist. Achte im Plan auf die Punkte: Wo ein Punkt ist, sind die Leitungen verbunden. Wo sie sich ohne Punkt kreuzen, nicht.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd><strong>PA11</strong> und <strong>PA12</strong> sind laut Datenblatt die Pins für I2C. Nur dort kann das Funkmodul I2C von selbst. SDA kommt immer an SDA und SCL an SCL, Daten an Daten, Takt an Takt.</dd>
+          <dt>IN ECHT</dt><dd>Pro Sensor vier Drähte: 3,3 V, GND, SDA, SCL.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H140 M80 10 V70"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Kreuzung</strong>: Ohne Punkt: die Drähte laufen nur übereinander und sind NICHT verbunden.</figcaption></figure>
+      </li>
+<li class="schritt" data-g="meldung" hidden>
+        <p class="mono s-kopf">SCHRITT 11 VON 13</p>
+        <h3>Meldungen vom Lade-Modul</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd><strong>PGOOD</strong> geht über 1 kΩ an <strong>PA13</strong>, <strong>CHG</strong> über 1 kΩ an <strong>PA14</strong>.</dd>
+          <dt>WARUM</dt><dd>So weiß der Chip, ob er in der Ladebox steht (PGOOD) und ob er gerade lädt (CHG). Die beiden Meldungen können ihre Leitung nur auf GND ziehen, nicht selbst auf HIGH. Für HIGH braucht es einen Pull-up: Den schaltet die Firmware im Funkmodul ein (INPUT_PULLUP an PA13 und PA14). Die 1-kΩ-Widerstände sind nur ein Schutz für die Pins, kein Pull-up. PA13 und PA14 sind eigentlich die <span class="wort" data-wort="SWD" data-erklaerung="Zwei Pins zum Programmieren und Fehlersuchen. Bei uns sind sie mit den Meldungen vom Lade-Modul belegt.">SWD</span>-Pins zum Programmieren. Weil wir sie hier brauchen, programmieren wir über den eigenen Stecker im nächsten Schritt.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd><strong>PA13</strong> und <strong>PA14</strong> waren die letzten freien Pins auf den Steckleisten. Alle anderen sind schon belegt oder haben eine feste Aufgabe. Der Nachteil: Man kann über sie nicht mehr per SWD programmieren, darum gibt es den eigenen Stecker.</dd>
+          <dt>IN ECHT</dt><dd>Zwei Drähte, in jedem ein Widerstand.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H64 M96 40 H140"/><rect class="sp-bauteil" x="64" y="34" width="32" height="12"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Widerstand</strong>: Bremst den Strom. Die Zahl daneben sagt, wie stark (Ω).</figcaption></figure>
+      </li>
+<li class="schritt" data-g="prog" hidden>
+        <p class="mono s-kopf">SCHRITT 12 VON 13</p>
+        <h3>Der Stecker zum Programmieren</h3>
+        <dl class="s-teile">
+          <dt>NEU IM PLAN</dt><dd>Fünf Stifte innen im Chip: TX (PA2), RX (PA3), RST, BOOT0 und GND. Zwischen BOOT0 und GND sitzt ein Widerstand mit 10 kΩ.</dd>
+          <dt>WARUM</dt><dd>Daran kommt der USB-Adapter, wenn die Firmware aufgespielt wird (Kapitel 14). Im Betrieb ist hier nichts angesteckt. Der Widerstand hält BOOT0 sicher auf 0 V: Ohne ihn hängt der Anschluss „in der Luft“, und das Funkmodul könnte beim Einschalten zufällig in den Programmier-Modus starten statt die Firmware zu laden. Wie eine Tür ohne Feder, die von selbst aufgehen kann. Auf dem RAK-Board ist dieser Widerstand nicht drauf, das zeigt sein Schaltplan. An RST dagegen fehlt nichts: Dort hat das RAK-Board schon einen Widerstand (10 kΩ nach 3,3 V) und einen kleinen Kondensator.</dd>
+          <dt>WARUM DIESER ANSCHLUSS</dt><dd><strong>PA2</strong> und <strong>PA3</strong> sind laut Datenblatt die Schnittstelle für Firmware-Updates (UART2). <strong>BOOT0</strong> sagt dem Funkmodul beim Start, dass jetzt eine neue Firmware kommt, <strong>RST</strong> startet es neu. Am USB-Adapter wird über Kreuz gesteckt: TX an RX und RX an TX. Zum Programmieren legt man BOOT0 kurz auf 3,3 V, der 10-kΩ-Widerstand stört dabei nicht.</dd>
+          <dt>IN ECHT</dt><dd>Eine kleine Stiftleiste mit fünf Stiften, dazu der Widerstand. Der USB-Adapter muss auf 3,3 V gestellt sein, nie auf 5 V.</dd>
+        </dl>
+        <figure class="s-zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H140 M80 40 V70"/><circle class="sp-punkt" cx="80" cy="40" r="4"/></svg><figcaption><span class="mono">ZEICHEN</span> <strong>Punkt</strong>: Hier treffen sich Drähte und sind verbunden.</figcaption></figure>
+      </li>
+<li class="schritt" data-g="alle" hidden>
+        <p class="mono s-kopf">SCHRITT 13 VON 13</p>
+        <h3>Fertig: der ganze Schaltplan</h3>
+        <p>Jetzt ist alles beisammen. So sieht der Schaltplan des Prototyps aus. Mit „Zurück“ kannst du jeden Schritt noch einmal ansehen, oder ganz von vorne beginnen.</p>
+      </li>
+
+    </ol>
+    <div class="s-steuer">
+      <button class="schalter" type="button" data-schritt="-1">← Zurück</button>
+      <button class="schalter voll" type="button" data-schritt="1">Weiter →</button>
+    </div>
+    <details class="genauer">
+      <summary>Alle Zeichen auf einen Blick</summary>
+      <div class="zeichen-raster"><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H140"/></svg><figcaption><strong>Draht</strong> Eine Leitung. Was mit einer Linie verbunden ist, ist elektrisch verbunden.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H140 M80 40 V70"/><circle class="sp-punkt" cx="80" cy="40" r="4"/></svg><figcaption><strong>Punkt</strong> Hier treffen sich Drähte und sind verbunden.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H140 M80 10 V70"/></svg><figcaption><strong>Kreuzung</strong> Ohne Punkt: die Drähte laufen nur übereinander und sind NICHT verbunden.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M80 14 V36 M66 36 H94 M72 42 H88 M77 48 H83"/></svg><figcaption><strong>Masse (GND)</strong> Das gemeinsame Minus. Alle diese Zeichen sind miteinander verbunden.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-fahne" d="M40 40 L48 31 H110 V49 H48 Z"/><text class="sp-fahne-t" x="79" y="44" text-anchor="middle">3,3 V</text><path class="sp-draht" d="M20 40 H40"/></svg><figcaption><strong>Fähnchen</strong> Alle Fähnchen mit demselben Namen sind verbunden, auch ohne Linie dazwischen. So bleibt der Plan übersichtlich.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H64 M96 40 H140"/><rect class="sp-bauteil" x="64" y="34" width="32" height="12"/></svg><figcaption><strong>Widerstand</strong> Bremst den Strom. Die Zahl daneben sagt, wie stark (Ω).</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H76 M84 40 H140 M76 26 V54 M84 26 V54"/></svg><figcaption><strong>Kondensator</strong> Ein kleiner Zwischenspeicher. Glättet die Spannung.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H70 M86 30 V50 M86 40 H140"/><path class="sp-led" d="M70 30 V50 L86 40 Z"/><path class="sp-draht" d="M74 26 l6 -8 M80 28 l6 -8"/></svg><figcaption><strong>LED</strong> Leuchtet, wenn Strom in Pfeilrichtung fließt. Der Strich ist das Minus (Kathode).</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H70 M86 30 V50 M86 40 H140"/><path class="sp-led" d="M70 30 V50 L86 40 Z"/></svg><figcaption><strong>Diode</strong> Lässt Strom nur in eine Richtung durch. Der Strich ist der Ring auf dem Bauteil.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H60 M60 25 V55 M60 32 L84 18 V8 M60 48 L84 62 V72 M84 62 l-8 -1 M84 62 l-3 -7"/></svg><figcaption><strong>Transistor</strong> Ein Schalter, den das Funkmodul mit wenig Strom umlegt. Damit schaltet es den Motor.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H60 M60 40 L96 26 M96 40 H140 M72 22 H86 M79 22 V31"/><circle class="sp-anschluss" cx="60" cy="40" r="3"/><circle class="sp-anschluss" cx="96" cy="40" r="3"/></svg><figcaption><strong>Knopf</strong> Verbindet die beiden Seiten, solange man drückt.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H64 M64 22 V58 M74 30 V50 M84 22 V58 M94 30 V50 M94 40 H140"/><text class="sp-wert" x="58" y="18">+</text></svg><figcaption><strong>Akku</strong> Der Akku. Der lange Strich ist Plus, der kurze Minus.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 60 H80 V40 M64 18 L80 40 L96 18 M80 40 V12"/></svg><figcaption><strong>Antenne</strong> Die Antenne für den Funk.</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H64 M96 40 H140 M60 58 L100 22"/><rect class="sp-bauteil" x="64" y="34" width="32" height="12"/></svg><figcaption><strong>Temperaturfühler</strong> Ein Widerstand mit Schrägstrich: Sein Wert ändert sich mit der Temperatur (NTC).</figcaption></figure><figure class="bild zeichen"><svg viewBox="0 0 160 80" aria-hidden="true"><path class="sp-draht" d="M20 40 H62 M98 40 H140"/><circle class="sp-bauteil" cx="80" cy="40" r="18"/><text class="sp-name" x="80" y="45" text-anchor="middle">M</text></svg><figcaption><strong>Motor</strong> Der Vibrationsmotor.</figcaption></figure></div>
+    </details>
+    <details class="genauer">
+      <summary>Genauer: Ströme nachgerechnet</summary>
+      <p><strong>LED:</strong> Durch jede Farbe fließen etwa 8 bis 9 mA. So gerechnet: Der Pin liefert 3,3 V. Die LED braucht selbst etwa 2 V (bei Rot und Grün üblich, Datenblatt unserer LED noch offen). Am Widerstand bleiben 3,3 V − 2 V = 1,3 V. Strom = Spannung durch Widerstand: 1,3 V ÷ 150 Ω ≈ 0,0087 A ≈ 8,7 mA. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+      <p><strong>Motor:</strong> In die Basis des Transistors fließen etwa 2,6 mA. So gerechnet: 3,3 V minus etwa 0,7 V, die der Transistor selbst braucht, sind 2,6 V. 2,6 V ÷ 1000 Ω = 2,6 mA. Damit der Transistor ganz durchschaltet, rechnet man mit einer Faustregel: Der Motorstrom sollte höchstens 10- bis 20-mal so groß sein wie der Basisstrom. Wir rechnen vorsichtig mit 10-mal. Mit 2,6 mA reicht das also sicher für etwa 26 mA Motorstrom. Kleine Vibrationsmotoren brauchen beim Anlaufen oft mehr. Darum messen wir den echten Anlaufstrom. Braucht er mehr als etwa 25 mA, nehmen wir statt 1 kΩ einen Widerstand mit 470 Ω. Dann fließen etwa 5,5 mA in die Basis (2,6 V ÷ 470 Ω). Vorsichtig gerechnet reicht das für etwa 55 mA Motorstrom. Für den Pin sind 5,5 mA noch in Ordnung: Laut Datenblatt des Funkchips darf ein Pin bis 8 mA liefern. Braucht der Motor mehr als etwa 55 mA, rechnen wir neu. <span class="stempel s-geschaetzt">Geschätzt</span></p>
+    </details>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-pins">
+    <header>
+      <span class="mono">NACHSCHLAGEN</span>
+      <h2 id="h-pins">Alle Anschlüsse des Funkmoduls</h2>
+    </header>
+    <div class="text">
+      <p>Das Funkmodul RAK3272S hat zwei Reihen mit je 9 Stiften. Jede Reihe ist eine <span class="wort" data-wort="Steckleiste" data-erklaerung="Eine Reihe von Metallstiften am Modul. Beim RAK3272S heißen die zwei Reihen J4 und J5, die Stifte sind durchnummeriert.">Steckleiste</span>: J5 und J4. Hier steht jeder Stift, den wir benutzen. Die Namen und Nummern kommen aus dem Datenblatt von RAK, die Belegung aus unserer Firmware. <span class="stempel s-fest">Fest</span></p>
+    </div>
+    <table class="tabelle">
+      <thead><tr><th>Pin</th><th>Steckleiste</th><th>Aufgabe</th><th>geht zu</th></tr></thead>
+      <tbody><tr><th><code>3V3</code></th><td data-label="STECKLEISTE">J5, Stift 9</td><td data-label="AUFGABE">Strom hinein (3,3 V)</td><td data-label="GEHT ZU">Regler OUT <span class=hinweis-klein>Nur diesen 3V3 nehmen.</span></td></tr><tr><th><code>GND</code></th><td data-label="STECKLEISTE">J5, Stift 7</td><td data-label="AUFGABE">Masse</td><td data-label="GEHT ZU">gemeinsame Masse</td></tr><tr><th><code>PB6</code></th><td data-label="STECKLEISTE">J5, Stift 6</td><td data-label="AUFGABE">senden zum GPS</td><td data-label="GEHT ZU">GPS D6</td></tr><tr><th><code>PB7</code></th><td data-label="STECKLEISTE">J5, Stift 5</td><td data-label="AUFGABE">empfangen vom GPS</td><td data-label="GEHT ZU">GPS D7</td></tr><tr><th><code>PA4</code></th><td data-label="STECKLEISTE">J5, Stift 4</td><td data-label="AUFGABE">Knopf</td><td data-label="GEHT ZU">Knopf, anderes Bein an GND <span class=hinweis-klein>Pull-up ist im Chip eingeschaltet.</span></td></tr><tr><th><code>PA5</code></th><td data-label="STECKLEISTE">J5, Stift 3</td><td data-label="AUFGABE">LED rot</td><td data-label="GEHT ZU">150 Ω, dann LED rot</td></tr><tr><th><code>PA6</code></th><td data-label="STECKLEISTE">J5, Stift 2</td><td data-label="AUFGABE">LED grün</td><td data-label="GEHT ZU">150 Ω, dann LED grün</td></tr><tr><th><code>PA7</code></th><td data-label="STECKLEISTE">J5, Stift 1</td><td data-label="AUFGABE">Motor</td><td data-label="GEHT ZU">1 kΩ, dann Basis vom BC337</td></tr><tr><th><code>BOOT0</code></th><td data-label="STECKLEISTE">J5, Stift 8</td><td data-label="AUFGABE">Programmieren</td><td data-label="GEHT ZU">Programmier-Stecker</td></tr><tr><th><code>PA11</code></th><td data-label="STECKLEISTE">J4, Stift 1</td><td data-label="AUFGABE">SDA (Daten)</td><td data-label="GEHT ZU">Akku-Messer und Bewegungssensor SDA</td></tr><tr><th><code>PA12</code></th><td data-label="STECKLEISTE">J4, Stift 2</td><td data-label="AUFGABE">SCL (Takt)</td><td data-label="GEHT ZU">Akku-Messer und Bewegungssensor SCL</td></tr><tr><th><code>RST</code></th><td data-label="STECKLEISTE">J4, Stift 3</td><td data-label="AUFGABE">Neustart</td><td data-label="GEHT ZU">Programmier-Stecker</td></tr><tr><th><code>GND</code></th><td data-label="STECKLEISTE">J4, Stift 4</td><td data-label="AUFGABE">Masse</td><td data-label="GEHT ZU">Programmier-Stecker GND</td></tr><tr><th><code>PA13</code></th><td data-label="STECKLEISTE">J4, Stift 5</td><td data-label="AUFGABE">Meldung „Strom da“</td><td data-label="GEHT ZU">1 kΩ, dann Lade-Modul PGOOD <span class=hinweis-klein>LOW = steht in der Ladebox.</span></td></tr><tr><th><code>PA14</code></th><td data-label="STECKLEISTE">J4, Stift 6</td><td data-label="AUFGABE">Meldung „lädt“</td><td data-label="GEHT ZU">1 kΩ, dann Lade-Modul CHG <span class=hinweis-klein>LOW = lädt gerade.</span></td></tr><tr><th><code>PA2</code></th><td data-label="STECKLEISTE">J4, Stift 7</td><td data-label="AUFGABE">senden zum Computer</td><td data-label="GEHT ZU">Programmier-Stecker TX</td></tr><tr><th><code>PA3</code></th><td data-label="STECKLEISTE">J4, Stift 8</td><td data-label="AUFGABE">empfangen vom Computer</td><td data-label="GEHT ZU">Programmier-Stecker RX</td></tr><tr><th><code>J4 Stift 9</code></th><td data-label="STECKLEISTE">J4, Stift 9</td><td data-label="AUFGABE">NICHT benutzen</td><td data-label="GEHT ZU">frei lassen <span class=hinweis-klein>Bei älteren Boards (VerB) ist das PA8, nicht 3V3.</span></td></tr></tbody>
+    </table>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-achtung">
+    <header>
+      <span class="mono">BEVOR GELÖTET WIRD</span>
+      <h2 id="h-achtung">Sechs Fallen</h2>
+    </header>
+    <ol class="rechnung">
+      <li><strong>Nur J5, Stift 9 für 3,3 V.</strong> An J4 Stift 9 steht zwar auch 3V3, aber bei älteren Boards (Version VerB) ist das ein normaler Pin (PA8). Also immer J5 nehmen. <span class="stempel s-fest">Fest</span></li>
+      <li><strong>Akku-Polung messen.</strong> Vor dem Einstecken mit dem Multimeter prüfen, ob Rot wirklich Plus ist. Ein verkehrt gesteckter Akku zerstört das Lade-Modul sofort. <span class="stempel s-fest">Fest</span></li>
+      <li><strong>Transistor richtig herum.</strong> BC337 mit der flachen Seite zu dir, Beine nach unten: links Kollektor, Mitte Basis, rechts Emitter. Der Emitter kommt an GND. <span class="stempel s-fest">Fest</span></li>
+      <li><strong>Diode richtig herum.</strong> Der Ring der 1N4148 zeigt zum Plus des Motors, also zu OUT. Falsch herum macht sie einen Kurzschluss, sobald der Motor läuft. <span class="stempel s-fest">Fest</span></li>
+      <li><strong>GPS über Kreuz.</strong> PB6 (senden) an D6, PB7 (empfangen) an D7. Sind die beiden vertauscht, kommt keine Position an, kaputt geht aber nichts. <span class="stempel s-fest">Fest</span></li>
+      <li><strong>USB-Adapter auf 3,3 V.</strong> Viele Adapter haben einen Schalter für 5 V oder 3,3 V. Mit 5 V ist das Funkmodul sofort kaputt. Vor dem ersten Anstecken den Schalter prüfen. <span class="stempel s-fest">Fest</span></li>
+    </ol>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-woerter">
+    <header>
+      <span class="mono">NACHSCHLAGEN</span>
+      <h2 id="h-woerter">Wörter in diesem Kapitel</h2>
+    </header>
+    <div class="text"><p>Alle Fachwörter dieses Kapitels. Im Text kannst du auf ein orange gepunktetes Wort tippen, dann erscheint die Erklärung direkt dort.</p></div>
+    <dl class="woerter"><div><dt>Freilaufdiode</dt><dd>Die Diode über dem Motor. Sie fängt den Spannungsstoß ab, der entsteht, wenn der Motor plötzlich ausgeschaltet wird.</dd></div><div><dt>I2C</dt><dd>Eine Verbindung über zwei Leitungen (SDA und SCL), an der mehrere Teile mit eigener Adresse hängen.</dd></div><div><dt>Kathode</dt><dd>Das Minus-Bein einer LED oder Diode. Bei der Diode ist es die Seite mit dem Ring.</dd></div><div><dt>Kondensator</dt><dd>Ein kleiner Zwischenspeicher für Strom. Er glättet die Spannung, wenn plötzlich viel Strom gebraucht wird.</dd></div><div><dt>Masse</dt><dd>Das gemeinsame Minus aller Teile, auf Englisch GND. Alle Masse-Zeichen im Plan sind miteinander verbunden.</dd></div><div><dt>NTC</dt><dd>Ein Temperaturfühler. Sein Widerstand wird kleiner, wenn es wärmer wird.</dd></div><div><dt>Pin</dt><dd>Ein einzelner Anschluss an einem Chip oder Modul, zum Beispiel PA4.</dd></div><div><dt>Pull-up</dt><dd>Ein Widerstand, der eine Leitung auf HIGH hält, solange nichts anderes sie nach unten zieht.</dd></div><div><dt>Schaltplan</dt><dd>Eine Zeichnung, die zeigt, welcher Anschluss mit welchem Anschluss verbunden ist. Wie die Teile wirklich liegen, zeigt sie nicht.</dd></div><div><dt>seriell</dt><dd>Daten werden Zeichen für Zeichen über eine Leitung geschickt. Eine Leitung zum Senden, eine zum Empfangen.</dd></div><div><dt>Steckleiste</dt><dd>Eine Reihe von Metallstiften am Modul. Beim RAK3272S heißen die zwei Reihen J4 und J5, die Stifte sind durchnummeriert.</dd></div><div><dt>SWD</dt><dd>Zwei Pins zum Programmieren und Fehlersuchen. Bei uns sind sie mit den Meldungen vom Lade-Modul belegt.</dd></div><div><dt>Transistor</dt><dd>Ein elektronischer Schalter. Ein kleiner Strom an der Basis schaltet einen großen Strom zwischen Kollektor und Emitter.</dd></div></dl>
+  </section>
+
+  <section class="abschnitt" id="ergebnis" aria-labelledby="h-ergebnis">
+    <header>
+      <span class="mono">KURZFASSUNG</span>
+      <h2 id="h-ergebnis">Das Ergebnis</h2>
+    </header>
+    <div class="ergebnis">
+      <ul>
+        <li>Energie: Qi-Empfänger → Lade-Modul → Regler → 3,3 V für alle Module. Der Akku hängt über den Akku-Messer am Lade-Modul.</li>
+        <li>Akku-Messer und Bewegungssensor teilen sich zwei Leitungen (SDA, SCL), das GPS hat eine eigene serielle Leitung.</li>
+        <li>Knopf an PA4, LED an PA5 und PA6, Motor über einen Transistor an PA7, Meldungen vom Lade-Modul an PA13 und PA14.</li>
+        <li>Alle Pin-Nummern sind mit dem Datenblatt von RAK und mit der Firmware abgeglichen.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-offen">
+    <header>
+      <span class="mono">NOCH NICHT GEKLÄRT</span>
+      <h2 id="h-offen">Was noch offen ist</h2>
+    </header>
+    <ul class="offen-liste">
+      <li><strong>Knopf 25 mm.</strong> Beim Kauf einen tastenden Schließer nehmen. Er wird an C und NO angeschlossen. Hat er eine eingebaute Leuchte, bleibt die unbenutzt.</li>
+      <li><strong>Widerstand vor dem Transistor.</strong> Anlaufstrom des Motors messen. Über etwa 25 mA: 470 Ω statt 1 kΩ. Über etwa 55 mA: neu rechnen.</li>
+      <li><strong>Spannung am Motor.</strong> Wichtig: Der Motor hängt an OUT, nicht an den gleichmäßigen 3,3 V. An OUT liegen je nach Akku 3,3 bis 4,2 V. Unser Motor ist für etwa 3 V gebaut. Im Datenblatt des Motors nachsehen, ob er bis 4,2 V aushält. Den Strom zu messen reicht dafür nicht: Ein Motor kann den richtigen Strom haben und trotzdem zu viel Spannung bekommen. (In der Ladebox sind es bis 4,4 V, dort vibriert der Chip aber nie.)</li>
+      <li><strong>Regler bei fast leerem Akku.</strong> Der Regler braucht am Eingang etwas mehr als 3,3 V, laut Datenblatt bei 250 mA etwa 0,18 V mehr (bei unserem kleineren Strom weniger). Ist der Akku bei 3,30 V, kommen also nur noch etwa 3,1 bis 3,2 V heraus. Die Module laufen laut ihren Datenblättern auch damit noch (GPS bis 2,7 V, Funkmodul bis 1,8 V). Trotzdem messen: Was liegt an der 3,3-V-Leiste, wenn der Akku bei 3,3 V ist und das Funkmodul sendet? Danach die Grenzen 3,45 V und 3,30 V in der Firmware bestätigen oder anpassen (Kapitel 9).</li>
+      <li><strong>Diode 1N4148.</strong> Erst endgültig festlegen, wenn der echte Motor da ist und sein Strom gemessen ist.</li>
+      <li><strong>Temperaturfühler.</strong> Genau den Typ 10 kΩ, 103AT-2 (B = 3435 K) kaufen, sonst stimmen die Ladegrenzen nicht.</li>
+      <li><strong>LED und Motor.</strong> Datenblatt der LED lesen und Motorstrom messen, dann die Rechnungen oben mit echten Zahlen wiederholen.</li>
+      <li><strong>Eigene Platine für den fertigen Chip.</strong> Dieser Plan gilt für den Prototyp mit fertigen Modulen. Für den fertigen Chip wird später ein Schaltplan mit den einzelnen Chips gezeichnet.</li>
+    </ul>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="h-quellen">
+    <header>
+      <span class="mono">NACHWEISE</span>
+      <h2 id="h-quellen">Quellen</h2>
+    </header>
+    <ol class="quellen">
+      <li><a href="https://docs.rakwireless.com/product-categories/wisduo/rak3272s-breakout-board/datasheet/">RAK3272S Datenblatt</a>: Belegung von J4 und J5, Hinweis zu VerB (PA8); Schaltplan des Boards: kein Widerstand an BOOT0, 10 µF + 100 nF an 3V3</li>
+      <li><a href="https://learn.adafruit.com/adafruit-bq24074-universal-usb-dc-solar-charger-breakout/pinouts">Adafruit Anleitung BQ24074</a>: PGOOD und CHG ziehen auf GND, OUT höchstens 4,4 V, THERM-Brücke</li>
+      <li><a href="https://wiki.seeedstudio.com/get_start_l76k_gnss/">Seeed Wiki L76K</a>: serielle Anschlüsse D6 und D7, 9600 Baud; D0 und D2 müssen auf HIGH, sonst Fehlerzustand</li>
+      <li><a href="https://learn.adafruit.com/adafruit-max17048-lipoly-liion-fuel-gauge-and-battery-monitor/pinouts">Adafruit Anleitung MAX17048</a> und <a href="https://learn.adafruit.com/adafruit-lis3dh-triple-axis-accelerometer-breakout/pinouts">LIS3DH</a>: Anschlüsse, Pull-ups auf dem Modul</li>
+      <li><a href="https://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf">Microchip Datenblatt MCP1700</a>: Beine GND, IN, OUT; je 1 µF; Dropout etwa 0,18 V bei 250 mA (nach Angabe der Prüf-KI, Download hier gesperrt)</li>
+      <li>onsemi Datenblatt BC337: Beine Kollektor, Basis, Emitter (nach Angabe der Prüf-KI, Download hier gesperrt)</li>
+      <li>Firmware <code>skitag_chip.ino</code>: Pins PA4–PA7, PA13, PA14, PB6, PB7, PA11, PA12, Pull-ups</li>
+      <li>Bisheriger Test-Bauplan <code>material/test-bauplan.html</code>: Verdrahtungs-Tabelle</li>
+    </ol>
+  </section>
+
+  <nav class="blaettern" aria-label="Blättern">
+    <a href="kapitel-06.html"><span class="mono">ZURÜCK</span><strong>06 Entscheidungen</strong></a>
+    <div class="weiter"><span class="mono">WEITER · KOMMT NOCH</span><strong>08 Die Platine</strong></div>
+  </nav>
+
+  <footer class="fuss">
+    <span>SkiTag · Werkstattbuch · Blatt 07</span>
+    <span>2026</span>
+  </footer>
+</div>

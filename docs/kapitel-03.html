@@ -514,6 +514,22 @@
       <summary>Genauer: Woher kommen die 3,3 V beim offenen Knopf?</summary>
       <p>Im Funkmodul ist ein Widerstand eingebaut, der den Pin auf 3,3 V „hochzieht“, solange nichts anderes passiert. Er heißt <span class="wort">Pull-up</span>. Drückt man den Knopf, gewinnt die direkte Verbindung zu GND, und der Pin fällt auf 0 V. <span class="stempel s-fest">Fest</span></p>
     </details>
+    <details class="genauer">
+      <summary>Genauer: Pull-up und Pull-down, wie das mit dem Widerstand geht</summary>
+      <p><strong>Ein Pin darf nie „in der Luft“ hängen.</strong> Ein Eingang, an dem nichts angeschlossen ist, hat keine feste Spannung. Schon die Störungen vom Funkmodul daneben reichen, dass er zufällig mal 0 V und mal 3,3 V liest. Darum bekommt jeder Eingang einen Widerstand, der ihm sagt, wo er in Ruhe hingehört.</p>
+      <p><strong>Der Trick:</strong> Durch einen Eingang fließt so gut wie kein Strom. Fließt kein Strom durch den Widerstand, fällt an ihm auch keine Spannung ab (Thema 3). In Ruhe ist der Widerstand also wie ein Draht, und der Pin hat einfach die Spannung von dem, womit der Widerstand verbunden ist.</p>
+      <ul>
+        <li><strong>Pull-up:</strong> Widerstand zwischen Pin und 3,3 V. In Ruhe liest der Pin 3,3 V (HIGH). So ist es beim Knopf: Der Widerstand sitzt schon im Funkmodul und hat etwa 40 kΩ.</li>
+        <li><strong>Pull-down:</strong> Widerstand zwischen Pin und GND. In Ruhe liest der Pin 0 V (LOW). So ist es beim Anschluss BOOT0 im Schaltplan, dort löten wir 10 kΩ nach GND.</li>
+      </ul>
+      <p><strong>Wenn jemand drückt:</strong> Der Knopf verbindet den Pin direkt mit GND. Jetzt liegt die ganze Spannung am Widerstand, denn er ist das einzige Teil auf dem Weg von 3,3 V nach GND, das bremst. Der Pin folgt dem Knopf und liest 0 V. Dabei fließt nur ein winziger Strom: 3,3 V ÷ 40 000 Ω ≈ 0,08 mA. Lässt man los, fließt wieder nichts, und der Pin geht auf 3,3 V zurück. Beim Pull-down ist es spiegelverkehrt: Legt man 3,3 V an, liest der Pin HIGH, und 3,3 V ÷ 10 000 Ω = 0,33 mA fließen durch den Widerstand nach GND. <span class="stempel s-fest">Fest</span></p>
+      <p><strong>Warum ein Widerstand und nicht ein Draht?</strong> Ein Draht würde den Pin auch festhalten. Aber beim Drücken wären dann 3,3 V direkt mit GND verbunden, ein Kurzschluss. Der Widerstand lässt das Drücken zu und begrenzt den Strom dabei auf die paar Zehntel Milliampere. Der genaue Wert ist deshalb nicht wichtig, 10 kΩ ist üblich.</p>
+      <div class="merke">
+        <span class="mono">MERKE</span>
+        <p>Der Widerstand gibt den Ruhezustand vor. Wer drückt, gewinnt. Der Widerstand sorgt nur dafür, dass dabei kein Kurzschluss entsteht.</p>
+      </div>
+      <p>Im Chip kommt das oft vor: Knopf (Pull-up im Funkmodul), BOOT0 (Pull-down), die Meldungen PGOOD und CHG vom Lade-Modul (Pull-up im Funkmodul) und zwei Anschlüsse am GPS (Pull-up mit 10 kΩ). Alles in Kapitel 7.</p>
+    </details>
 
     <div class="text">
       <p><strong>b) Zwei Drähte für mehrere Sensoren.</strong> Bewegungssensor und Akku-Messer hängen an denselben zwei Drähten. Damit das Funkmodul weiß, wen es gerade fragt, hat jeder Sensor eine eigene Nummer, wie eine Hausnummer. Zwei Teile an derselben Straße dürfen deshalb nie dieselbe Nummer haben. Laut Firmware sind es bei uns 0x18 und 0x36, das passt. Ob die gekauften Module wirklich diese Nummern haben, prüfen wir in Kapitel 5. Dazu kommen, wie bei jedem Modul, die Drähte für 3,3 V und GND. Diese Verbindung heißt <span class="wort">I2C</span> (sprich „I-Quadrat-C“).</p>
@@ -626,7 +642,11 @@
     </details>
     <details class="genauer">
       <summary>Genauer: Wovor schützt die Diode?</summary>
-      <p>Im Motor steckt eine Drahtspule. Wenn man den Motor ausschaltet, erzeugt die Spule ganz kurz eine Spannung in die falsche Richtung. Die Diode leitet diese Spitze ab, bevor sie den Transistor beschädigt. Unser Transistor heißt BC337, die Diode 1N4148. Zwischen Funkmodul und Transistor sitzt ein Widerstand mit 1 kΩ (1000 Ω), damit nicht zu viel Strom aus dem Pin fließt. Ob Transistor, Widerstand und Diode zu unserem Motor passen, hängt davon ab, wie viel Strom der Motor braucht, besonders beim Anlaufen. Das rechnen wir in Kapitel 5 nach. <span class="stempel s-entschieden">Entschieden</span></p>
+      <p><strong>Die Spule ist ein Schwungrad für Strom.</strong> Im Motor steckt eine Drahtspule. Solange Strom durch sie fließt, speichert sie „Schwung“ in ihrem Magnetfeld, wie ein schweres Rad, das sich dreht. Schaltet der Transistor ab, ist der Weg nach GND plötzlich dicht. Die Spule will den Strom aber in dieselbe Richtung weiterschieben. Dafür wird sie für einen Moment selbst zur Stromquelle: Wo der Strom herauskommt (unten), ist jetzt ihr Plus, oben ihr Minus. Weil das sehr schnell geht, entsteht dabei eine hohe Spannungsspitze, oft weit über 40 V, nur für Sekundenbruchteile.</p>
+      <p><strong>Ohne Diode</strong> hat dieser Strom keinen Weg. Die Spannung steigt, bis sie sich irgendwo durchzwängt, meist durch den geschlossenen Transistor. Jedes Ausschalten ist ein Schlag, irgendwann ist er kaputt.</p>
+      <p><strong>Mit Diode</strong> gibt es einen kleinen Kreis: unten aus der Spule heraus, durch die Diode nach oben, oben wieder in die Spule hinein. Dort läuft der Strom in Tausendstel Sekunden aus, wie ein Rad, das von allein ausrollt. Darum heißt sie <span class="wort">Freilaufdiode</span>. In den Akku fließt dabei nichts: Der Kreis über den Akku ist durch den zugeschalteten Transistor unterbrochen.</p>
+      <p><strong>Richtung:</strong> Im Betrieb drückt der Akku von oben nach unten durch den Motor, für die Diode ist das Sperrrichtung, sie tut nichts. Beim Ausschalten zeigt der Druck außen am Motor von unten nach oben, Durchlassrichtung, die Diode macht auf. Darum muss der Ring der Diode (ihr Minus) zum Plus des Motors zeigen. Falsch herum leitet sie im Betrieb und macht einen Kurzschluss.</p>
+      <p>Die Diode leitet diese Spitze also ab, bevor sie den Transistor beschädigt. Unser Transistor heißt BC337, die Diode 1N4148. Zwischen Funkmodul und Transistor sitzt ein Widerstand mit 1 kΩ (1000 Ω), damit nicht zu viel Strom aus dem Pin fließt. Ob Transistor, Widerstand und Diode zu unserem Motor passen, hängt davon ab, wie viel Strom der Motor braucht, besonders beim Anlaufen. Das rechnen wir in Kapitel 5 nach. <span class="stempel s-entschieden">Entschieden</span></p>
     </details>
   </section>
 
